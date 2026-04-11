@@ -856,52 +856,78 @@ updateNav();
 
 // ─── CANVAS DRAWING ───
 const ctxMap = {};
-let drawing = null;
 
 function getModuleColor(el) {
   const page = el.closest('.mod1, .mod2, .mod3');
-  if (!page) return '#222';
+  if (!page) return '#1a1a1a';
   if (page.classList.contains('mod1')) return '#cc7700';
   if (page.classList.contains('mod2')) return '#1e8a39';
   if (page.classList.contains('mod3')) return '#005fcc';
-  return '#222';
+  return '#1a1a1a';
+}
+
+function fillWhite(ctx, el) {
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, el.width, el.height);
 }
 
 function initCanvas(id) {
   const el = document.getElementById(id);
   if (!el || ctxMap[id]) return;
+
+  // Definir largura real do canvas
   const pw = el.parentElement.getBoundingClientRect().width || el.parentElement.offsetWidth || 300;
   el.width = pw > 10 ? pw : 300;
+
   const ctx = el.getContext('2d');
+
+  // Fundo branco explícito (evita fundo preto em tablets)
+  fillWhite(ctx, el);
+
+  // Configurar traço
   ctx.strokeStyle = getModuleColor(el);
   ctx.lineWidth = 4;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctxMap[id] = ctx;
 
-  function pos(e) {
+  let isDrawing = false;
+
+  function getPos(e) {
     const r = el.getBoundingClientRect();
     const sx = el.width / r.width;
     const sy = el.height / r.height;
-    const src = e.touches ? e.touches[0] : e;
-    return { x: (src.clientX - r.left) * sx, y: (src.clientY - r.top) * sy };
+    return { x: (e.clientX - r.left) * sx, y: (e.clientY - r.top) * sy };
   }
-  function start(e) { e.preventDefault(); drawing = id; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
-  function move(e)  { if (drawing !== id) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
-  function stop()   { if (drawing === id) { drawing = null; ctx.beginPath(); } }
 
-  el.addEventListener('pointerdown', start);
-  el.addEventListener('pointermove', move);
-  el.addEventListener('pointerup', stop);
-  el.addEventListener('pointerleave', stop);
-  el.addEventListener('touchstart', start, { passive: false });
-  el.addEventListener('touchmove',  move,  { passive: false });
-  el.addEventListener('touchend',   stop);
+  // Usar apenas Pointer Events (funciona com dedo, caneta e mouse)
+  el.addEventListener('pointerdown', function(e) {
+    e.preventDefault();
+    isDrawing = true;
+    el.setPointerCapture(e.pointerId);
+    const p = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+  });
+
+  el.addEventListener('pointermove', function(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+  });
+
+  el.addEventListener('pointerup',     function() { isDrawing = false; ctx.beginPath(); });
+  el.addEventListener('pointercancel', function() { isDrawing = false; ctx.beginPath(); });
 }
 
 function clr(id) {
   const ctx = ctxMap[id];
-  if (ctx) { const el = document.getElementById(id); ctx.clearRect(0, 0, el.width, el.height); }
+  const el  = document.getElementById(id);
+  if (ctx && el) fillWhite(ctx, el); // apaga com branco, não transparente
 }
 
 function initPageCanvases(pageId) {
@@ -931,9 +957,4 @@ function toggleFruit(el) { el.classList.toggle('selected'); }
     const stone = document.createElement('div');
     stone.style.cssText = `
       width:38px;height:38px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      font-size:14px;font-weight:bold;flex-shrink:0;
-      background:${isHighlight ? '#FF9500' : '#ffe0a0'};
-      color:${isHighlight ? 'white' : '#cc6600'};
-      border:2px solid #FF9500;
-      box-shadow:
+      display:flex;align-items:center;justify-con
