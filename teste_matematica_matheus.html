@@ -858,13 +858,22 @@ updateNav();
 const ctxMap = {};
 let drawing = null;
 
+function getModuleColor(el) {
+  const page = el.closest('.mod1, .mod2, .mod3');
+  if (!page) return '#222';
+  if (page.classList.contains('mod1')) return '#cc7700';
+  if (page.classList.contains('mod2')) return '#1e8a39';
+  if (page.classList.contains('mod3')) return '#005fcc';
+  return '#222';
+}
+
 function initCanvas(id) {
   const el = document.getElementById(id);
   if (!el || ctxMap[id]) return;
   const pw = el.parentElement.getBoundingClientRect().width || el.parentElement.offsetWidth || 300;
   el.width = pw > 10 ? pw : 300;
   const ctx = el.getContext('2d');
-  ctx.strokeStyle = '#111';
+  ctx.strokeStyle = getModuleColor(el);
   ctx.lineWidth = 3;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
@@ -927,16 +936,4 @@ function toggleFruit(el) { el.classList.toggle('selected'); }
       background:${isHighlight ? '#FF9500' : '#ffe0a0'};
       color:${isHighlight ? 'white' : '#cc6600'};
       border:2px solid #FF9500;
-      box-shadow:0 2px 4px rgba(0,0,0,0.15);
-    `;
-    stone.textContent = n;
-    wrap.appendChild(stone);
-    if (n < 24) {
-      const arr = document.createElement('div');
-      arr.style.cssText = 'font-size:14px;color:#FF9500;align-self:center;flex-shrink:0;';
-      arr.textContent = '→';
-      wrap.appendChild(arr);
-    }
-  });
-})();
-</scr
+      box-shadow:0 2px 4px rgba(0,0,0,
