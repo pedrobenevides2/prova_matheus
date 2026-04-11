@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste de Matemática – Matheus | pH (Teclado)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #f0f4ff; font-size: 18px; }
+
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+
+.mod1 { --c: #FF9500; --cl: #FFF4E0; --cd: #cc7700; }
+.mod2 { --c: #34C759; --cl: #E6F9EB; --cd: #1e8a39; }
+.mod3 { --c: #007AFF; --cl: #E0EEFF; --cd: #005fcc; }
+
+/* CAPA */
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg, #6a11cb 0%, #2575fc 100%); color: white; text-align: center; gap: 20px; padding: 40px 24px 100px; }
+.cover-emoji { font-size: 80px; animation: bounce 1.5s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+.cover h1 { font-size: 42px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 22px; opacity: 0.9; }
+.cover .school { font-size: 16px; opacity: 0.7; }
+.btn-start { background: #FFD60A; color: #000; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+
+/* CABEÇALHO DA PÁGINA */
+.ph { background: var(--c); color: white; border-radius: 18px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 24px; font-weight: bold; }
+.ph-sub { font-size: 16px; opacity: 0.85; }
+
+/* CARD DE QUESTÃO */
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 32px; height: 32px; font-size: 17px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 26px; color: #222; line-height: 1.6; }
+.qtxt strong { color: var(--cd); }
+
+/* ÁREA DE RESPOSTA (CANVAS) */
+.ans { display: block; width: 100%; margin-top: 8px; border: 2.5px dashed var(--c); border-radius: 12px; background: #ffffff; padding: 12px 14px; font-size: 24px; font-family: inherit; color: var(--cd); resize: none; outline: none; min-height: 64px; line-height: 1.5; }
+.ans:focus { border-style: solid; box-shadow: 0 0 0 3px var(--cl); }
+.ans-sm { min-height: 50px; font-size: 22px; }
+.cbtn { display: none; }
+
+/* CAIXA DE DICA */
+.tip { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; font-size: 24px; color: #333; }
+.tip strong { color: var(--cd); }
+
+/* TABELAS */
+table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+th { background: var(--c); color: white; padding: 10px 8px; font-size: 22px; text-align: center; }
+td { border: 2px solid #eee; padding: 8px 6px; text-align: center; font-size: 22px; vertical-align: middle; }
+.tdf { background: var(--cl); }
+
+/* MATERIAL DOURADO */
+.mdr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+.mdg { display: flex; align-items: flex-end; gap: 3px; flex-wrap: wrap; }
+.dez { width: 16px; height: 96px; background: #FFD700; border: 2px solid #B8860B; border-radius: 3px; display: flex; flex-direction: column; justify-content: space-between; padding: 2px; flex-shrink: 0; }
+.dez span { display: block; width: 100%; height: 7px; background: #FFF8DC; border-bottom: 1px solid #DAA520; }
+.dez span:last-child { border-bottom: none; }
+.uni { width: 16px; height: 16px; background: #FFD700; border: 2px solid #B8860B; border-radius: 2px; flex-shrink: 0; }
+.ops { font-size: 28px; font-weight: bold; color: var(--c); padding: 0 4px; align-self: center; }
+
+/* CORRIDA DE ORDINAIS */
+.race { display: flex; align-items: flex-end; gap: 8px; background: linear-gradient(to right,#e8f4ff,#f0ffe8); border-radius: 12px; padding: 14px 10px 10px; margin: 10px 0; overflow-x: auto; }
+.racer { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 54px; }
+.ri { font-size: 28px; }
+.rb { width: 38px; border-radius: 5px 5px 0 0; }
+.rn { font-size: 14px; font-weight: bold; color: #333; }
+.rp { font-size: 16px; font-weight: bold; }
+
+/* CALENDÁRIO */
+.cal th { font-size: 14px; padding: 7px 3px; }
+.cal td { font-size: 16px; padding: 7px 3px; height: 36px; }
+.cal-h { background: var(--c) !important; color: white; border-radius: 50%; font-weight: bold; }
+.cal-w { color: #e74c3c; }
+
+/* GRID MESES */
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+.mitem { display: flex; align-items: center; gap: 8px; }
+.mnum { background: var(--c); color: white; border-radius: 50%; width: 28px; height: 28px; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* FRUTAS */
+.fgrid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin: 8px 0; }
+.fi { font-size: 28px; text-align: center; padding: 5px; border-radius: 8px; border: 2.5px solid #ddd; cursor: pointer; touch-action: manipulation; transition: background 0.15s, border-color 0.15s; }
+.fi.sel { background: #FFE566; border-color: #FF9500; }
+
+/* BOTÕES DE ESCOLHA */
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.cbtn2 { display: flex; align-items: center; gap: 12px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 13px 16px; font-size: 24px; font-family: inherit; cursor: pointer; touch-action: manipulation; text-align: left; transition: all 0.15s; }
+.cbtn2.sel { background: var(--cl); border-color: var(--c); font-weight: bold; }
+.cltr { background: var(--c); color: white; border-radius: 50%; width: 34px; height: 34px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* RÓTULO DE SEÇÃO */
+.slbl { font-size: 22px; font-weight: bold; color: var(--cd); background: var(--cl); border-radius: 8px; padding: 6px 12px; display: inline-block; margin-bottom: 6px; }
+
+/* DIVISOR */
+.div { border: none; border-top: 2px dashed #e0e0e0; margin: 14px 0; }
+
+/* PÁGINA FINAL */
+.final { min-height: 100vh; background: linear-gradient(145deg,#11998e 0%,#38ef7d 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.final h1 { font-size: 44px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+.chklist { background: rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 22px; text-align: left; font-size: 19px; line-height: 2.1; width: 100%; max-width: 400px; }
+
+/* BARRA DE NAVEGAÇÃO */
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #007AFF; color: white; border: none; border-radius: 25px; padding: 12px 24px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.back { background: #8E8E93; }
+.nbtn:disabled { background: #C7C7CC; }
+.ninfo { text-align: center; font-size: 15px; color: #555; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div class="cover-emoji">📐✏️🔢</div>
+    <h1>Meu Teste de<br>Matemática!</h1>
+    <p class="sub">Olá, <strong>Matheus</strong>! 👋<br>Vamos ver o que você aprendeu?</p>
+    <p class="school">Colégio pH • 1º Bimestre 2026</p>
+    <button class="btn-start" onclick="goTo(1)">Vamos Começar! 🚀</button>
+  </div>
+</div>
+
+<!-- PÁGINA 1 – ANTECESSOR, SUCESSOR E RETA NUMÉRICA -->
+<div class="page mod1" id="p1">
+  <div class="ph"><div class="ph-badge">1</div><div><div class="ph-sub">Módulo 1</div><div class="ph-title">Antecessor e Sucessor</div></div></div>
+
+  <div class="card">
+    <span class="qnum">1</span><span class="qtxt">Observe a trilha e responda:</span>
+    <div style="overflow-x:auto;padding:12px 4px;margin:8px 0;">
+      <div id="trilha1" style="display:flex;align-items:center;gap:4px;flex-wrap:nowrap;min-width:360px;"></div>
+    </div>
+    <p class="qtxt" style="margin:8px 0 4px;"><strong>A)</strong> Qual número está <strong>imediatamente antes</strong> do 19?</p>
+    <textarea class="ans" id="c1a" placeholder="✏️ Escreva aqui"></textarea>
+    <p class="qtxt" style="margin:10px 0 4px;"><strong>B)</strong> Qual número vem <strong>logo depois</strong> do 19?</p>
+    <textarea class="ans" id="c1b" placeholder="✏️ Escreva aqui"></textarea>
+  </div>
+
+  <div class="card">
+    <span class="qnum">2</span><span class="qtxt">Complete a tabela com o <strong>antecessor</strong> e o <strong>sucessor</strong>:</span>
+    <table>
+      <tr><th>ANTECESSOR</th><th>NÚMERO</th><th>SUCESSOR</th></tr>
+      <tr>
+        <td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c2a" placeholder="✏️ Escreva aqui..."></textarea></td>
+        <td style="font-size:24px;font-weight:bold;color:var(--c);">32</td>
+        <td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c2b" placeholder="✏️ Escreva aqui..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c2c" placeholder="✏️ Escreva aqui..."></textarea></td>
+        <td style="font-size:24px;font-weight:bold;color:var(--c);">47</td>
+        <td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c2d" placeholder="✏️ Escreva aqui..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c2e" placeholder="✏️ Escreva aqui..."></textarea></td>
+        <td style="font-size:24px;font-weight:bold;color:var(--c);">28</td>
+        <td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c2f" placeholder="✏️ Escreva aqui..."></textarea></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="qnum">3</span><span class="qtxt">Observe a reta numérica e responda:</span>
+    <div style="overflow-x:auto;padding:8px 0;margin:8px 0;">
+      <svg width="360" height="62" viewBox="0 0 360 62" style="display:block;">
+        <line x1="10" y1="28" x2="350" y2="28" stroke="#FF9500" stroke-width="3"/>
+        <polygon points="350,28 340,23 340,33" fill="#FF9500"/>
+        <polygon points="10,28 20,23 20,33" fill="#FF9500"/>
+        <line x1="20" y1="21" x2="20" y2="35" stroke="#FF9500" stroke-width="2"/><text x="20" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">33</text>
+        <line x1="56" y1="21" x2="56" y2="35" stroke="#FF9500" stroke-width="2"/><text x="56" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">34</text>
+        <line x1="92" y1="21" x2="92" y2="35" stroke="#FF9500" stroke-width="2"/><text x="92" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">35</text>
+        <line x1="128" y1="21" x2="128" y2="35" stroke="#FF9500" stroke-width="2"/><text x="128" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">36</text>
+        <circle cx="164" cy="28" r="13" fill="#FF9500"/>
+        <text x="164" y="33" text-anchor="middle" font-size="13" fill="white" font-weight="bold" font-family="Arial">37</text>
+        <line x1="200" y1="21" x2="200" y2="35" stroke="#FF9500" stroke-width="2"/><text x="200" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">38</text>
+        <line x1="236" y1="21" x2="236" y2="35" stroke="#FF9500" stroke-width="2"/><text x="236" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">39</text>
+        <line x1="272" y1="21" x2="272" y2="35" stroke="#FF9500" stroke-width="2"/><text x="272" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">40</text>
+        <line x1="308" y1="21" x2="308" y2="35" stroke="#FF9500" stroke-width="2"/><text x="308" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">41</text>
+        <line x1="344" y1="21" x2="344" y2="35" stroke="#FF9500" stroke-width="2"/><text x="344" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">42</text>
+      </svg>
+    </div>
+    <p class="qtxt" style="margin:6px 0 3px;"><strong>A)</strong> Qual o <strong>menor</strong> número desta reta?</p>
+    <textarea class="ans" id="c3a" placeholder="✏️ Escreva aqui..."></textarea>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>B)</strong> Qual número está <strong>antes</strong> do 37?</p>
+    <textarea class="ans" id="c3b" placeholder="✏️ Escreva aqui..."></textarea>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>C)</strong> Qual número vem <strong>depois</strong> do 37?</p>
+    <textarea class="ans" id="c3c" placeholder="✏️ Escreva aqui..."></textarea>
+  </div>
+</div>
+
+<!-- PÁGINA 2 – NÚMEROS ORDINAIS -->
+<div class="page mod1" id="p2">
+  <div class="ph"><div class="ph-badge">1</div><div><div class="ph-sub">Módulo 1</div><div class="ph-title">Números Ordinais até 50</div></div></div>
+
+  <div class="card">
+    <span class="qnum">4</span><span class="qtxt">Veja a fila e responda:</span>
+    <div class="race">
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:60px;background:#E74C3C;"></div><div class="rn">ANA</div><div class="rp" style="color:#E74C3C;">1ª</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:50px;background:#E67E22;"></div><div class="rn">JOÃO</div><div class="rp" style="color:#E67E22;">2º</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:40px;background:#F1C40F;"></div><div class="rn">LUCIA</div><div class="rp" style="color:#d4ac0d;">3ª</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:32px;background:#2ECC71;"></div><div class="rn">PEDRO</div><div class="rp" style="color:#27ae60;">4º</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:24px;background:#3498DB;"></div><div class="rn">SOFIA</div><div class="rp" style="color:#2980b9;">5ª</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:16px;background:#9B59B6;"></div><div class="rn">MARCO</div><div class="rp" style="color:#8e44ad;">6º</div></div>
+    </div>
+    <p class="qtxt" style="margin:6px 0 4px;"><strong>A)</strong> Quem é a <strong>primeira</strong> da fila?</p>
+    <textarea class="ans" id="c4a" placeholder="✏️ Escreva aqui..."></textarea>
+    <p class="qtxt" style="margin:10px 0 4px;"><strong>B)</strong> Em que posição está Pedro? Toque na resposta correta:</p>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g4b')"><span class="cltr">A</span>2º lugar</button>
+      <button class="cbtn2" onclick="pick(this,'g4b')"><span class="cltr">B</span>4º lugar</button>
+      <button class="cbtn2" onclick="pick(this,'g4b')"><span class="cltr">C</span>6º lugar</button>
+    </div>
+    <p class="qtxt" style="margin:8px 0 4px;"><strong>C)</strong> Quem está na <strong>3ª posição</strong>?</p>
+    <textarea class="ans" id="c4c" placeholder="✏️ Escreva aqui..."></textarea>
+  </div>
+
+  <div class="card">
+    <span class="qnum">5</span><span class="qtxt">Escreva o nome de cada número ordinal:</span>
+    <table>
+      <tr><th>Número</th><th>Nome do ordinal</th></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">8º</td><td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c5a" placeholder="✏️ Escreva aqui..."></textarea></td></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">10º</td><td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c5b" placeholder="✏️ Escreva aqui..."></textarea></td></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">20º</td><td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c5c" placeholder="✏️ Escreva aqui..."></textarea></td></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">30º</td><td class="tdf" style="padding:2px;"><textarea class="ans ans-sm" id="c5d" placeholder="✏️ Escreva aqui..."></textarea></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- PÁGINA 3 – ADIÇÃO COM MATERIAL DOURADO -->
+<div class="page mod2" id="p3">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Módulo 2</div><div class="ph-title">Adição com Material Dourado</div></div></div>
+  <div class="tip">💡 <strong>Lembre-se:</strong> Barrinhas = dezenas (10) • Cubinhos = unidades (1)</div>
+
+  <div class="card">
+    <span class="qnum">6</span><span class="qtxt">Observe o material dourado e complete a adição:</span>
+
+    <p class="slbl" style="margin-top:10px;">A) 24 + 13 = ?</p>
+    <div class="mdr">
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div><div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">+</span>
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">=</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;">
+      <textarea class="ans" id="c6a" placeholder="✏️ Resposta" style="flex:1;min-width:100px;"></textarea>
+      <table style="width:110px;flex-shrink:0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c6ad" placeholder="?" style="width:100%;text-align:center;"></td><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c6au" placeholder="?" style="width:100%;text-align:center;"></td></tr></table>
+    </div>
+
+    <hr class="div">
+    <p class="slbl">B) 31 + 26 = ?</p>
+    <div class="mdr">
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div>
+      </div>
+      <span class="ops">+</span>
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div><div class="uni"></div><div class="uni"></div><div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">=</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;">
+      <textarea class="ans" id="c6b" placeholder="✏️ Resposta" style="flex:1;min-width:100px;"></textarea>
+      <table style="width:110px;flex-shrink:0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c6bd" placeholder="?" style="width:100%;text-align:center;"></td><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c6bu" placeholder="?" style="width:100%;text-align:center;"></td></tr></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">7</span><span class="qtxt">Uma turma de <strong>24 crianças</strong> e <strong>12 adultos</strong> foram ao planetário. Quantas pessoas foram ao todo?</span>
+    <textarea class="ans" id="c7" placeholder="✏️ Conta e resposta"></textarea>
+  </div>
+</div>
+
+<!-- PÁGINA 4 – SUBTRAÇÃO COM MATERIAL DOURADO -->
+<div class="page mod2" id="p4">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Módulo 2</div><div class="ph-title">Subtração com Material Dourado</div></div></div>
+  <div class="tip">💡 <strong>Lembre-se:</strong> Desenhe o material e risque o que foi tirado!</div>
+
+  <div class="card">
+    <span class="qnum">8</span><span class="qtxt">Calcule cada subtração. Desenhe o material e escreva no quadro de ordens:</span>
+
+    <p class="slbl" style="margin-top:10px;">A) 35 – 12 = ?</p>
+    <textarea class="ans" id="c8a" placeholder="✏️ Desenhe e calcule"></textarea>
+    <table style="width:110px;margin:6px 0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c8ad" placeholder="?" style="width:100%;text-align:center;"></td><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c8au" placeholder="?" style="width:100%;text-align:center;"></td></tr></table>
+
+    <hr class="div">
+    <p class="slbl">B) 47 – 24 = ?</p>
+    <textarea class="ans" id="c8b" placeholder="✏️ Desenhe e calcule"></textarea>
+    <table style="width:110px;margin:6px 0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c8bd" placeholder="?" style="width:100%;text-align:center;"></td><td class="tdf" style="padding:1px;"><input type="text" class="ans ans-sm" id="c8bu" placeholder="?" style="width:100%;text-align:center;"></td></tr></table>
+  </div>
+
+  <div class="card">
+    <span class="qnum">9</span><span class="qtxt">No ônibus havia <strong>32 crianças</strong>. Na primeira parada desceram <strong>13 crianças</strong>. Quantas ficaram?</span>
+    <textarea class="ans" id="c9" placeholder="✏️ Conta e resposta"></textarea>
+  </div>
+</div>
+
+<!-- PÁGINA 5 – SITUAÇÕES-PROBLEMA E DÚZIA -->
+<div class="page mod2" id="p5">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Módulo 2</div><div class="ph-title">Situações-Problema e Dúzia</div></div></div>
+
+  <div class="card">
+    <span class="qnum">10</span><span class="qtxt">Leia, marque a operação e calcule:</span>
+
+    <div style="background:#FFF8DC;border-radius:10px;padding:12px;margin:8px 0;">
+      <p class="qtxt">🌟 <strong>Problema A:</strong> Lúcia encontrou <strong>37 estrelas</strong> e depois mais <strong>15</strong>. Quantas ao total?</p>
+    </div>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g10a')"><span class="cltr">+</span>37 + 15 (adição)</button>
+      <button class="cbtn2" onclick="pick(this,'g10a')"><span class="cltr">–</span>37 – 15 (subtração)</button>
+    </div>
+    <textarea class="ans" id="c10a" placeholder="✏️ Calcule e escreva a resposta"></textarea>
+
+    <hr class="div">
+    <div style="background:#E8F8E8;border-radius:10px;padding:12px;margin:8px 0;">
+      <p class="qtxt">🎳 <strong>Problema B:</strong> Havia <strong>15 pinos</strong> no boliche. Júlio derrubou <strong>8</strong>. Quantos sobraram?</p>
+    </div>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g10b')"><span class="cltr">+</span>15 + 8 (adição)</button>
+      <button class="cbtn2" onclick="pick(this,'g10b')"><span class="cltr">–</span>15 – 8 (subtração)</button>
+    </div>
+    <textarea class="ans" id="c10b" placeholder="✏️ Calcule e escreva a resposta"></textarea>
+  </div>
+
+  <div class="card">
+    <div class="tip">🍊 <strong>1 dúzia = 12 &nbsp;|&nbsp; Meia dúzia = 6</strong></div>
+    <span class="qnum">11</span><span class="qtxt">Toque nas frutas para selecionar a quantidade pedida:</span>
+
+    <p class="slbl" style="margin-top:10px;">A) Selecione MEIA DÚZIA de maçãs 🍎</p>
+    <div class="fgrid">
+      <span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span>
+      <span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span>
+      <span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span>
+      <span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span><span class="fi" onclick="tf(this)">🍎</span>
+    </div>
+
+    <p class="slbl" style="margin-top:10px;">B) Selecione UMA DÚZIA de morangos 🍓</p>
+    <div class="fgrid">
+      <span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span>
+      <span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span>
+      <span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span>
+      <span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span>
+      <span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span><span class="fi" onclick="tf(this)">🍓</span>
+      <span class="fi" onclick="tf(this)">🍓</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">12</span><span class="qtxt">João comprou <strong>meia dúzia de rosas</strong> e <strong>meia dúzia de margaridas</strong>. Quantas flores ao todo?</span>
+    <textarea class="ans" id="c12" placeholder="✏️ Conta e resposta"></textarea>
+  </div>
+</div>
+
+<!-- PÁGINA 6 – MESES DO ANO -->
+<div class="page mod3" id="p6">
+  <div class="ph"><div class="ph-badge">3</div><div><div class="ph-sub">Módulo 3</div><div class="ph-title">Calendário: Os Meses do Ano</div></div></div>
+
+  <div class="card">
+    <span class="qnum">13</span><span class="qtxt">Escreva os <strong>12 meses do ano</strong> em ordem:</span>
+    <div class="mgrid" style="margin-top:10px;">
+      <div class="mitem"><div class="mnum">1</div><textarea class="ans" id="m1" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">7</div><textarea class="ans" id="m7" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">2</div><textarea class="ans" id="m2" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">8</div><textarea class="ans" id="m8" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">3</div><textarea class="ans" id="m3" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">9</div><textarea class="ans" id="m9" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">4</div><textarea class="ans" id="m4" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">10</div><textarea class="ans" id="m10" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">5</div><textarea class="ans" id="m5" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">11</div><textarea class="ans" id="m11" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">6</div><textarea class="ans" id="m6" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+      <div class="mitem"><div class="mnum">12</div><textarea class="ans" id="m12" placeholder="✏️ Escreva aqui..." style="flex:1;min-width:100px;"></textarea></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">14</span><span class="qtxt">Estamos em <strong>abril</strong>. Tadeu vai viajar daqui a <strong>3 meses</strong>. Em que mês ele vai viajar?</span>
+    <textarea class="ans" id="c14" placeholder="✏️ Escreva o mês"></textarea>
+  </div>
+
+  <div class="card">
+    <span class="qnum">15</span><span class="qtxt">Ana vai ao médico a cada <strong>6 meses</strong>. Ela foi em <strong>janeiro</strong>. Em que mês ela deve retornar?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">A</span>Março</button>
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">B</span>Junho</button>
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">C</span>Julho</button>
+    </div>
+  </div>
+</div>
+
+<!-- PÁGINA 7 – DIAS DA SEMANA -->
+<div class="page mod3" id="p7">
+  <div class="ph"><div class="ph-badge">3</div><div><div class="ph-sub">Módulo 3</div><div class="ph-title">Dias da Semana e Horas</div></div></div>
+
+  <div class="card">
+    <span class="qnum">16</span><span class="qtxt">Veja o calendário de <strong>maio de 2026</strong> e responda:</span>
+    <div style="overflow-x:auto;margin:10px 0;">
+      <table class="cal" style="min-width:280px;">
+        <tr><th class="cal-w">Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th class="cal-w">Sáb</th></tr>
+        <tr><td class="cal-w"></td><td></td><td></td><td></td><td></td><td>1</td><td class="cal-w">2</td></tr>
+        <tr><td class="cal-w">3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td class="cal-w">9</td></tr>
+        <tr><td class="cal-w">10</td><td>11</td><td>12</td><td class="cal-h">13</td><td>14</td><td>15</td><td class="cal-w">16</td></tr>
+        <tr><td class="cal-w">17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td class="cal-w">23</td></tr>
+        <tr><td class="cal-w">24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td class="cal-w">30</td></tr>
+        <tr><td class="cal-w">31</td><td></td><td></td><td></td><td></td><td></td><td class="cal-w"></td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:#888;margin-bottom:8px;">🔵 = hoje (dia 13 – quarta-feira)</p>
+
+    <p class="qtxt" style="margin:6px 0 3px;"><strong>A)</strong> Em que dia da semana maio <strong>começa</strong>?</p>
+    <textarea class="ans" id="c16a" placeholder="✏️ Escreva aqui..."></textarea>
+
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>B)</strong> Quantos <strong>sábados</strong> tem em maio?</p>
+    <textarea class="ans" id="c16b" placeholder="✏️ Escreva aqui..."></textarea>
+
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>C)</strong> Se hoje é quarta-feira dia 13, qual é o dia de <strong>amanhã</strong>?</p>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g16c')"><span class="cltr">A</span>Terça-feira, dia 12</button>
+      <button class="cbtn2" onclick="pick(this,'g16c')"><span class="cltr">B</span>Quinta-feira, dia 14</button>
+      <button class="cbtn2" onclick="pick(this,'g16c')"><span class="cltr">C</span>Sexta-feira, dia 15</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">17</span><span class="qtxt">Complete as frases (hoje = quarta-feira, dia 13):</span>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>A)</strong> Ontem foi ___________, dia ___.</p>
+    <textarea class="ans" id="c17a" placeholder="✏️ Escreva aqui..."></textarea>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>B)</strong> O dia antes de sexta-feira é ___________.</p>
+    <textarea class="ans" id="c17b" placeholder="✏️ Escreva aqui..."></textarea>
+  </div>
+
+  <div class="card">
+    <span class="qnum">18</span><span class="qtxt">Um dia tem quantas horas?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">A</span>12 horas</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">B</span>24 horas</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">C</span>60 horas</button>
+    </div>
+  </div>
+</div>
+
+<!-- PÁGINA FINAL -->
+<div class="page" id="p8">
+  <div class="final">
+    <div style="font-size:80px;animation:bounce 1.5s infinite alternate;">🏆⭐🎉</div>
+    <h1>Parabéns,<br>Matheus!</h1>
+    <p style="font-size:22px;opacity:0.9;">Você terminou o teste!<br>Muito bem! 👏👏👏</p>
+    <div class="chklist">
+      <p>📐 Reta Numérica ✅</p>
+      <p>🔢 Antecessor e Sucessor ✅</p>
+      <p>🥇 Números Ordinais ✅</p>
+      <p>➕ Adição com Material Dourado ✅</p>
+      <p>➖ Subtração com Material Dourado ✅</p>
+      <p>🧩 Situações-Problema ✅</p>
+      <p>🍎 Dúzia e Meia Dúzia ✅</p>
+      <p>📅 Meses do Ano ✅</p>
+      <p>📆 Dias da Semana e Horas ✅</p>
+    </div>
+    <button class="btn-start" onclick="goTo(0)" style="background:#FFD60A;">Fazer de novo 🔄</button>
+  </div>
+</div>
+
+<!-- BARRA DE NAVEGAÇÃO -->
+<div class="nav" id="nav">
+  <button class="nbtn back" id="btnBack" onclick="prev()">← Voltar</button>
+  <div class="ninfo" id="ninfo"></div>
+  <button class="nbtn" id="btnNext" onclick="next()">Próximo →</button>
+</div>
+
+<script>
+// ── NAVEGAÇÃO ──
+var PAGES = ['p0','p1','p2','p3','p4','p5','p6','p7','p8'];
+var NAMES = ['Capa','Antecessor e Sucessor','Números Ordinais','Adição','Subtração','Situações & Dúzia','Meses do Ano','Dias da Semana','Fim'];
+var cur = 0;
+
+function goTo(n) {
+  document.getElementById(PAGES[cur]).classList.remove('active');
+  cur = n;
+  var pg = document.getElementById(PAGES[cur]);
+  pg.classList.add('active');
+  pg.scrollTop = 0;
+  updateNav();
+  setTimeout(function(){ initPage(PAGES[cur]); }, 100);
+}
+function next() { if (cur < PAGES.length - 1) goTo(cur + 1); }
+function prev() { if (cur > 0) goTo(cur - 1); }
+
+function updateNav() {
+  var nav = document.getElementById('nav');
+  if (cur === 0 || cur === PAGES.length - 1) { nav.style.display = 'none'; return; }
+  nav.style.display = 'flex';
+  document.getElementById('btnBack').disabled = (cur <= 1);
+  document.getElementById('btnNext').textContent = (cur === PAGES.length - 2) ? 'Finalizar 🎉' : 'Próximo →';
+  document.getElementById('ninfo').innerHTML = 'Página ' + cur + ' de ' + (PAGES.length - 2) + '<br><small>' + NAMES[cur] + '</small>';
+}
+updateNav();
+
+// ── LIMPAR CAMPO DE TEXTO ──
+function clr(id) {
+  var el = document.getElementById(id);
+  if (el) { el.value = ''; el.focus(); }
+}
+
+
+// ── MÚLTIPLA ESCOLHA ──
+function pick(btn, group) {
+  document.querySelectorAll('[onclick*="' + group + '"]').forEach(function(b){ b.classList.remove('sel'); });
+  btn.classList.add('sel');
+}
+
+// ── FRUTAS ──
+function tf(el) { el.classList.toggle('sel'); }
+
+// ── TRILHA NUMÉRICA ──
+(function() {
+  var wrap = document.getElementById('trilha1');
+  if (!wrap) return;
+  var nums = [15,16,17,18,19,20,21,22,23,24];
+  nums.forEach(function(n) {
+    var hl = (n === 19);
+    var stone = document.createElement('div');
+    stone.style.cssText = 'width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:bold;flex-shrink:0;background:' + (hl ? '#FF9500' : '#ffe0a0') + ';color:' + (hl ? 'white' : '#cc6600') + ';border:2px solid #FF9500;box-shadow:0 2px 4px rgba(0,0,0,0.15);';
+    stone.textContent = n;
+    wrap.appendChild(stone);
+    if (n < 24) {
+      var arr = document.createElement('div');
+      arr.style.cssText = 'font-size:14px;color:#FF9500;align-self:center;flex-shrink:0;';
+      arr.textContent = '→';
+      wrap.appendChild(arr);
+    }
+  });
+})();
+</script>
+</body>
+</html>
