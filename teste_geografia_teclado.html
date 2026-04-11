@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teste de Geografia - Matheus</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;min-height:100vh}
+.page{display:none;min-height:100vh;padding:20px;flex-direction:column;align-items:center}
+.page.active{display:flex}
+.mod2{--c:#FF6B35;--cl:#FFF0E8;--cd:#cc4400}
+.mod3{--c:#007AFF;--cl:#E6F0FF;--cd:#005fcc}
+.mod4{--c:#8B5CF6;--cl:#F0EBFF;--cd:#6d28d9}
+.card{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:700px;box-shadow:0 2px 12px rgba(0,0,0,0.08);margin-bottom:16px}
+.hdr{background:var(--c);color:#fff;border-radius:16px;padding:20px 24px;width:100%;max-width:700px;margin-bottom:16px;display:flex;align-items:center;gap:16px}
+.mnum{font-size:48px;font-weight:900;opacity:0.9}
+.mtxt{font-size:22px;font-weight:700}
+.msub{font-size:16px;opacity:0.9}
+.qn{font-size:26px;font-weight:700;color:#1a1a1a;margin-bottom:14px;line-height:1.4}
+.tip{font-size:22px;color:#555;margin-bottom:12px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.cbtn2{display:block;width:100%;text-align:left;padding:14px 18px;font-size:24px;font-family:inherit;border:2.5px solid #ddd;border-radius:12px;background:#fafafa;cursor:pointer;transition:all 0.2s;font-weight:500}
+.cbtn2.sel{background:var(--cl);border-color:var(--c);color:var(--cd);font-weight:700}
+.cbtn2:hover{background:var(--cl);border-color:var(--c)}
+.vfrow{display:flex;gap:12px;margin-top:8px}
+.vfbtn{flex:1;padding:14px;font-size:22px;font-weight:700;font-family:inherit;border:2.5px solid #ddd;border-radius:12px;background:#fafafa;cursor:pointer;transition:all 0.2s}
+.vfbtn.sel-v{background:#e8f9ec;border-color:#1e8a39;color:#1e8a39}
+.vfbtn.sel-f{background:#fde8e8;border-color:#cc2200;color:#cc2200}
+.ans{width:100%;padding:14px;font-size:24px;font-family:inherit;border:2.5px dashed var(--c);border-radius:12px;resize:vertical;min-height:70px;background:#ffffff;color:#1a1a1a;line-height:1.4}
+.ans:focus{outline:none;border-style:solid;border-color:var(--cd)}
+.nav{display:flex;gap:12px;width:100%;max-width:700px;margin-top:8px;margin-bottom:24px}
+.nbtn{flex:1;padding:16px;font-size:20px;font-weight:700;font-family:inherit;border:none;border-radius:14px;cursor:pointer;transition:all 0.2s}
+.nbtn.back{background:#e0e0e0;color:#333}
+.nbtn.next{background:var(--c);color:#fff}
+.nbtn:hover{opacity:0.9;transform:translateY(-1px)}
+.prog{width:100%;max-width:700px;background:#e0e0e0;border-radius:99px;height:8px;margin-bottom:16px}
+.progb{height:8px;border-radius:99px;background:var(--c);transition:width 0.4s}
+.cover{background:linear-gradient(135deg,#FF6B35 0%,#8B5CF6 100%);min-height:100vh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.cover h1{font-size:42px;font-weight:900;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.2);margin-bottom:8px}
+.cover h2{font-size:28px;color:rgba(255,255,255,0.9);margin-bottom:32px}
+.cover .emoji{font-size:72px;margin-bottom:24px}
+.startbtn{background:#fff;color:#FF6B35;font-size:24px;font-weight:800;padding:18px 48px;border:none;border-radius:99px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);transition:all 0.2s}
+.final{background:linear-gradient(135deg,#34C759 0%,#007AFF 100%);min-height:100vh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.final h1{font-size:40px;font-weight:900;color:#fff;margin-bottom:16px}
+.final p{font-size:24px;color:rgba(255,255,255,0.9)}
+.final .emoji{font-size:80px;margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<div class="page active" id="p0">
+<div class="cover">
+<div class="emoji">&#127968;</div>
+<h1>Teste de Geografia</h1>
+<h2>Matheus &ndash; Col&eacute;gio pH</h2>
+<br>
+<button class="startbtn" onclick="goTo('p1')">Vamos Come&ccedil;ar! &#128640;</button>
+</div>
+</div>
+
+<div class="page mod2" id="p1">
+<div class="hdr"><div class="mnum">2</div><div><div class="mtxt">O Seu Bairro</div><div class="msub">Caracter&iacute;sticas do Bairro</div></div></div>
+<div class="prog"><div class="progb" style="width:20%"></div></div>
+
+<div class="card">
+<div class="qn">1. Em qual tipo de bairro geralmente h&aacute; mais f&aacute;bricas?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q1')">A) Residencial</button>
+<button class="cbtn2" onclick="sel(this,'q1')">B) Comercial</button>
+<button class="cbtn2" onclick="sel(this,'q1')">C) Industrial</button>
+<button class="cbtn2" onclick="sel(this,'q1')">D) Rural</button>
+</div></div>
+
+<div class="card">
+<div class="qn">2. O que &eacute; um bairro misto?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q2')">A) Um bairro que s&oacute; tem casas</button>
+<button class="cbtn2" onclick="sel(this,'q2')">B) Um bairro que tem apenas com&eacute;rcios</button>
+<button class="cbtn2" onclick="sel(this,'q2')">C) Um bairro com casas, com&eacute;rcios e outros servi&ccedil;os</button>
+<button class="cbtn2" onclick="sel(this,'q2')">D) Um bairro que s&oacute; tem f&aacute;bricas</button>
+</div></div>
+
+<div class="card">
+<div class="qn">3. De dia, as ruas dos bairros comerciais ficam cheias de gente indo trabalhar.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q3','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q3','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">4. &Agrave; noite, as lojas dos bairros comerciais ficam abertas e cheias de pessoas.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q4','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q4','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">5. Nas &aacute;reas rurais, as pessoas geralmente plantam e criam animais.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q5','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q5','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="nav">
+<button class="nbtn back" onclick="goTo('p0')">&#8592; Voltar</button>
+<button class="nbtn next" onclick="goTo('p2')">Pr&oacute;ximo &#8594;</button>
+</div>
+</div>
+
+<div class="page mod2" id="p2">
+<div class="hdr"><div class="mnum">2</div><div><div class="mtxt">O Seu Bairro</div><div class="msub">Meio Ambiente e Coleta Seletiva</div></div></div>
+<div class="prog"><div class="progb" style="width:40%"></div></div>
+
+<div class="card">
+<div class="qn">6. O que prejudica a qualidade da &aacute;gua dos rios e lagos?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q6')">A) Plantar &aacute;rvores nas margens</button>
+<button class="cbtn2" onclick="sel(this,'q6')">B) Jogar lixo nos rios</button>
+<button class="cbtn2" onclick="sel(this,'q6')">C) Construir parques</button>
+<button class="cbtn2" onclick="sel(this,'q6')">D) Andar de bicicleta</button>
+</div></div>
+
+<div class="card">
+<div class="qn">7. Como se chama a separa&ccedil;&atilde;o correta do lixo em casa?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q7')">A) Aterro sanit&aacute;rio</button>
+<button class="cbtn2" onclick="sel(this,'q7')">B) Lixo org&acirc;nico</button>
+<button class="cbtn2" onclick="sel(this,'q7')">C) Coleta seletiva</button>
+<button class="cbtn2" onclick="sel(this,'q7')">D) Descarte industrial</button>
+</div></div>
+
+<div class="card">
+<div class="qn">8. O lixo recicl&aacute;vel deve ser misturado com o lixo org&acirc;nico.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q8','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q8','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">9. A fuma&ccedil;a dos carros e f&aacute;bricas causa polui&ccedil;&atilde;o do ar.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q9','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q9','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">10. Cite dois materiais que podem ser reciclados:</div>
+<textarea class="ans" id="q10" placeholder="Escreva aqui..."></textarea>
+</div>
+
+<div class="card">
+<div class="qn">11. O que &eacute; um aterro sanit&aacute;rio?</div>
+<textarea class="ans" id="q11" placeholder="Escreva aqui..."></textarea>
+</div>
+
+<div class="nav">
+<button class="nbtn back" onclick="goTo('p1')">&#8592; Voltar</button>
+<button class="nbtn next" onclick="goTo('p3')">Pr&oacute;ximo &#8594;</button>
+</div>
+</div>
+
+<div class="page mod3" id="p3">
+<div class="hdr"><div class="mnum">3</div><div><div class="mtxt">A Hist&oacute;ria do Bairro</div><div class="msub">Migra&ccedil;&atilde;o e Transforma&ccedil;&otilde;es</div></div></div>
+<div class="prog"><div class="progb" style="width:60%"></div></div>
+
+<div class="card">
+<div class="qn">12. O que &eacute; migra&ccedil;&atilde;o?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q12')">A) Construir monumentos no bairro</button>
+<button class="cbtn2" onclick="sel(this,'q12')">B) Sair do lugar onde mora para viver em outro local</button>
+<button class="cbtn2" onclick="sel(this,'q12')">C) Cuidar dos animais no campo</button>
+<button class="cbtn2" onclick="sel(this,'q12')">D) Estudar a hist&oacute;ria dos bairros</button>
+</div></div>
+
+<div class="card">
+<div class="qn">13. Como chamamos as pessoas que v&ecirc;m de outros pa&iacute;ses para morar no nosso bairro?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q13')">A) Vizinhos</button>
+<button class="cbtn2" onclick="sel(this,'q13')">B) Moradores</button>
+<button class="cbtn2" onclick="sel(this,'q13')">C) Imigrantes</button>
+<button class="cbtn2" onclick="sel(this,'q13')">D) Turistas</button>
+</div></div>
+
+<div class="card">
+<div class="qn">14. Os bairros nunca mudam com o passar do tempo.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q14','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q14','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">15. Os imigrantes podem deixar marcas na paisagem do bairro, como monumentos e templos.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q15','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q15','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">16. Constru&ccedil;&otilde;es antigas ajudam a contar a hist&oacute;ria do bairro.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q16','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q16','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">17. Como podemos descobrir a hist&oacute;ria do nosso bairro? D&ecirc; um exemplo.</div>
+<textarea class="ans" id="q17" placeholder="Escreva aqui..."></textarea>
+</div>
+
+<div class="nav">
+<button class="nbtn back" onclick="goTo('p2')">&#8592; Voltar</button>
+<button class="nbtn next" onclick="goTo('p4')">Pr&oacute;ximo &#8594;</button>
+</div>
+</div>
+
+<div class="page mod4" id="p4">
+<div class="hdr"><div class="mnum">4</div><div><div class="mtxt">Os Seus Vizinhos</div><div class="msub">Vizinhan&ccedil;a e Conviv&ecirc;ncia</div></div></div>
+<div class="prog"><div class="progb" style="width:80%"></div></div>
+
+<div class="card">
+<div class="qn">18. O que &eacute; vizinhan&ccedil;a?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q18')">A) Apenas as pessoas que moram na mesma casa</button>
+<button class="cbtn2" onclick="sel(this,'q18')">B) As &aacute;reas e pessoas pr&oacute;ximas &agrave; nossa casa</button>
+<button class="cbtn2" onclick="sel(this,'q18')">C) Somente os amigos da escola</button>
+<button class="cbtn2" onclick="sel(this,'q18')">D) As pessoas que trabalham no mesmo lugar</button>
+</div></div>
+
+<div class="card">
+<div class="qn">19. Por que &eacute; importante respeitar os h&aacute;bitos e costumes dos nossos vizinhos?</div>
+<div class="opts">
+<button class="cbtn2" onclick="sel(this,'q19')">A) Porque todos os h&aacute;bitos s&atilde;o iguais</button>
+<button class="cbtn2" onclick="sel(this,'q19')">B) Porque isso ajuda a promover a boa conviv&ecirc;ncia</button>
+<button class="cbtn2" onclick="sel(this,'q19')">C) Porque somos obrigados por lei</button>
+<button class="cbtn2" onclick="sel(this,'q19')">D) Porque os h&aacute;bitos nunca mudam</button>
+</div></div>
+
+<div class="card">
+<div class="qn">20. Para viver bem em grupo, devemos seguir as regras de conviv&ecirc;ncia.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q20','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q20','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">21. Todos os vizinhos t&ecirc;m os mesmos costumes e tradi&ccedil;&otilde;es.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q21','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q21','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">22. A vizinhan&ccedil;a &eacute; formada pelas &aacute;reas pr&oacute;ximas &agrave; nossa casa.</div>
+<div class="tip">Verdadeiro (V) ou Falso (F)?</div>
+<div class="vfrow">
+<button class="vfbtn" onclick="vf(this,'q22','V')">V &ndash; Verdadeiro</button>
+<button class="vfbtn" onclick="vf(this,'q22','F')">F &ndash; Falso</button>
+</div></div>
+
+<div class="card">
+<div class="qn">23. Cite um grupo do qual voc&ecirc; faz parte e uma regra desse grupo:</div>
+<textarea class="ans" id="q23" placeholder="Escreva aqui..."></textarea>
+</div>
+
+<div class="card">
+<div class="qn">24. O que voc&ecirc; pode fazer para viver bem com seus vizinhos?</div>
+<textarea class="ans" id="q24" placeholder="Escreva aqui..."></textarea>
+</div>
+
+<div class="nav">
+<button class="nbtn back" onclick="goTo('p3')">&#8592; Voltar</button>
+<button class="nbtn next" onclick="goTo('p5')">Finalizar &#10003;</button>
+</div>
+</div>
+
+<div class="page" id="p5">
+<div class="final">
+<div class="emoji">&#127881;</div>
+<h1>Parab&eacute;ns, Matheus!</h1>
+<p>Voc&ecirc; terminou o teste de Geografia!</p>
+<br><br>
+<p style="font-size:20px;color:rgba(255,255,255,0.8)">Col&eacute;gio pH &ndash; 1&ordm; Bimestre</p>
+</div>
+</div>
+
+<script>
+function goTo(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function sel(btn,grp){var pg=btn.closest('.page');pg.querySelectorAll('[onclick*="'+grp+'"]').forEach(function(b){b.classList.remove('sel');});btn.classList.add('sel');}
+function vf(btn,grp,val){var card=btn.closest('.card');card.querySelectorAll('.vfbtn').forEach(function(b){b.classList.remove('sel-v','sel-f');});btn.classList.add(val==='V'?'sel-v':'sel-f');}
+</script>
+</body>
+</html>
