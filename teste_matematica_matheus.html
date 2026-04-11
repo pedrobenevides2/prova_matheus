@@ -81,7 +81,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
 }
 .canvas-wrap canvas {
   display: block; width: 100%; cursor: crosshair;
-  touch-action: none;
+  touch-action: none; background: #ffffff;
 }
 .canvas-hint {
   position: absolute; top: 5px; left: 10px;
@@ -874,7 +874,7 @@ function initCanvas(id) {
   el.width = pw > 10 ? pw : 300;
   const ctx = el.getContext('2d');
   ctx.strokeStyle = getModuleColor(el);
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 4;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctxMap[id] = ctx;
@@ -936,4 +936,4 @@ function toggleFruit(el) { el.classList.toggle('selected'); }
       background:${isHighlight ? '#FF9500' : '#ffe0a0'};
       color:${isHighlight ? 'white' : '#cc6600'};
       border:2px solid #FF9500;
-      box-shadow:0 2px 4px rgba(0,0,0,
+      box-shadow:
