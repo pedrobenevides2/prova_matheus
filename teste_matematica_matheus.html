@@ -6,7 +6,7 @@
 <title>Teste de Matemática – Matheus | pH</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #f0f4ff; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #f0f4ff; font-size: 18px; }
 
 /* ───── PAGE SYSTEM ───── */
 .page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
@@ -26,9 +26,9 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
 }
 .cover-emoji { font-size: 72px; animation: bounce 1.5s infinite alternate; }
 @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
-.cover h1 { font-size: 34px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
-.cover .sub { font-size: 17px; opacity: 0.9; }
-.cover .school { font-size: 13px; opacity: 0.7; margin-top: -8px; }
+.cover h1 { font-size: 42px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 22px; opacity: 0.9; }
+.cover .school { font-size: 16px; opacity: 0.7; margin-top: -8px; }
 .btn-start {
   background: #FFD60A; color: #000; border: none; border-radius: 30px;
   padding: 16px 44px; font-size: 20px; font-family: inherit; font-weight: bold;
@@ -48,8 +48,8 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
   width: 48px; height: 48px; font-size: 22px; font-weight: bold;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.ph-title { font-size: 19px; font-weight: bold; }
-.ph-sub { font-size: 12px; opacity: 0.85; }
+.ph-title { font-size: 24px; font-weight: bold; }
+.ph-sub { font-size: 16px; opacity: 0.85; }
 
 /* ───── QUESTION CARD ───── */
 .card {
@@ -63,7 +63,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
   width: 28px; height: 28px; font-size: 15px; font-weight: bold;
   margin-right: 6px; flex-shrink: 0;
 }
-.qtxt { font-size: 15px; color: #222; line-height: 1.55; }
+.qtxt { font-size: 20px; color: #222; line-height: 1.6; }
 .qtxt strong { color: var(--cd); }
 .qrow { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px; }
 
@@ -85,7 +85,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
 }
 .canvas-hint {
   position: absolute; top: 5px; left: 10px;
-  font-size: 11px; color: #aaa; pointer-events: none;
+  font-size: 14px; color: #aaa; pointer-events: none;
 }
 .btn-clear {
   position: absolute; top: 5px; right: 5px;
@@ -97,7 +97,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
 /* ───── TIP BOX ───── */
 .tip {
   background: var(--cl); border: 2px solid var(--c); border-radius: 12px;
-  padding: 10px 14px; margin-bottom: 12px; font-size: 14px; color: #333;
+  padding: 12px 16px; margin-bottom: 12px; font-size: 18px; color: #333;
 }
 .tip strong { color: var(--cd); }
 
@@ -107,12 +107,12 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sa
 /* ───── TABLES ───── */
 table { width: 100%; border-collapse: collapse; margin: 8px 0; }
 th {
-  background: var(--c); color: white; padding: 8px 6px;
-  font-size: 13px; text-align: center;
+  background: var(--c); color: white; padding: 10px 8px;
+  font-size: 17px; text-align: center;
 }
 td {
-  border: 2px solid #eee; padding: 6px; text-align: center;
-  font-size: 14px; vertical-align: middle;
+  border: 2px solid #eee; padding: 8px 6px; text-align: center;
+  font-size: 18px; vertical-align: middle;
 }
 .td-fill { background: var(--cl); }
 
@@ -146,12 +146,12 @@ td {
 .racer { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 52px; }
 .racer-icon { font-size: 26px; }
 .racer-bar { width: 36px; border-radius: 5px 5px 0 0; }
-.racer-name { font-size: 11px; font-weight: bold; color: #333; }
-.racer-pos { font-size: 13px; font-weight: bold; }
+.racer-name { font-size: 14px; font-weight: bold; color: #333; }
+.racer-pos { font-size: 16px; font-weight: bold; }
 
 /* ───── CALENDAR ───── */
-.cal-table th { font-size: 11px; padding: 5px 2px; }
-.cal-table td { font-size: 13px; padding: 6px 2px; height: 32px; }
+.cal-table th { font-size: 14px; padding: 7px 3px; }
+.cal-table td { font-size: 16px; padding: 7px 3px; height: 36px; }
 .cal-today { background: var(--c) !important; color: white; border-radius: 50%; font-weight: bold; }
 .cal-weekend { color: #e74c3c; }
 
@@ -179,14 +179,14 @@ td {
 .choice-btn {
   display: flex; align-items: center; gap: 10px;
   background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px;
-  padding: 10px 14px; font-size: 14px; font-family: inherit;
+  padding: 13px 16px; font-size: 19px; font-family: inherit;
   cursor: pointer; touch-action: manipulation; text-align: left;
   transition: all 0.15s;
 }
 .choice-btn:active, .choice-btn.selected { background: var(--cl); border-color: var(--c); font-weight: bold; }
 .choice-letter {
   background: var(--c); color: white; border-radius: 50%;
-  width: 26px; height: 26px; font-size: 14px; font-weight: bold;
+  width: 34px; height: 34px; font-size: 18px; font-weight: bold;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 
@@ -198,11 +198,11 @@ td {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 16px; padding: 40px 24px 100px;
 }
-.final h1 { font-size: 36px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+.final h1 { font-size: 44px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
 .checklist {
   background: rgba(255,255,255,0.2); border-radius: 16px;
-  padding: 16px 20px; text-align: left; font-size: 15px; line-height: 2;
-  width: 100%; max-width: 360px;
+  padding: 16px 20px; text-align: left; font-size: 19px; line-height: 2;
+  width: 100%; max-width: 400px;
 }
 
 /* ───── NAVIGATION BAR ───── */
@@ -219,15 +219,15 @@ td {
 }
 .nav-btn.back { background: #8E8E93; }
 .nav-btn:disabled { background: #C7C7CC; }
-.nav-info { text-align: center; font-size: 13px; color: #555; line-height: 1.4; }
+.nav-info { text-align: center; font-size: 15px; color: #555; line-height: 1.4; }
 
 /* ───── DIVIDER ───── */
 .divider { border: none; border-top: 2px dashed #e0e0e0; margin: 12px 0; }
 
 /* ───── SECTION LABEL ───── */
 .sec-label {
-  font-size: 13px; font-weight: bold; color: var(--cd);
-  background: var(--cl); border-radius: 8px; padding: 4px 10px;
+  font-size: 17px; font-weight: bold; color: var(--cd);
+  background: var(--cl); border-radius: 8px; padding: 6px 12px;
   display: inline-block; margin-bottom: 6px;
 }
 </style>
@@ -939,6 +939,4 @@ function toggleFruit(el) { el.classList.toggle('selected'); }
     }
   });
 })();
-</script>
-</body>
-</html>
+</scr
