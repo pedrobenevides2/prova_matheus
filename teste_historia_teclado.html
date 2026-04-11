@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste de Historia - Matheus | pH</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: "Comic Sans MS", "Chalkboard SE", "Arial Rounded MT Bold", cursive; background: #f0f4ff; font-size: 18px; }
+
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+
+.mod1 { --c: #FF6B35; --cl: #FFF0EB; --cd: #cc4400; }
+.mod2 { --c: #007AFF; --cl: #E0EEFF; --cd: #005fcc; }
+.mod3 { --c: #8B5CF6; --cl: #F3EEFF; --cd: #6d28d9; }
+.mod4 { --c: #34C759; --cl: #E6F9EB; --cd: #1e8a39; }
+
+/* CAPA */
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg, #c0392b 0%, #e74c3c 50%, #f39c12 100%); color: white; text-align: center; gap: 20px; padding: 40px 24px 100px; }
+.cover-emoji { font-size: 80px; animation: bounce 1.5s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+.cover h1 { font-size: 38px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 22px; opacity: 0.9; }
+.cover .school { font-size: 16px; opacity: 0.7; }
+.btn-start { background: #FFD60A; color: #000; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+
+/* CABECALHO */
+.ph { background: var(--c); color: white; border-radius: 18px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 24px; font-weight: bold; }
+.ph-sub { font-size: 15px; opacity: 0.85; }
+
+/* CARD */
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 32px; height: 32px; font-size: 17px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 22px; color: #222; line-height: 1.6; }
+.qtxt strong { color: var(--cd); }
+
+/* AREAS DE RESPOSTA */
+.ans { display: block; width: 100%; margin-top: 8px; border: 2.5px dashed var(--c); border-radius: 12px; background: #ffffff; padding: 12px 14px; font-size: 22px; font-family: inherit; color: var(--cd); resize: none; outline: none; min-height: 60px; line-height: 1.5; }
+.ans:focus { border-style: solid; box-shadow: 0 0 0 3px var(--cl); }
+
+/* DICA */
+.tip { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; font-size: 21px; color: #333; }
+.tip strong { color: var(--cd); }
+
+/* TABELAS */
+table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+th { background: var(--c); color: white; padding: 10px 8px; font-size: 20px; text-align: center; }
+td { border: 2px solid #eee; padding: 8px 6px; text-align: center; font-size: 20px; vertical-align: middle; }
+.tdf { background: var(--cl); }
+.tdinp { padding: 2px; background: var(--cl); }
+
+/* BOTOES DE ESCOLHA */
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.cbtn2 { display: flex; align-items: center; gap: 12px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 13px 16px; font-size: 21px; font-family: inherit; cursor: pointer; touch-action: manipulation; text-align: left; transition: all 0.15s; width: 100%; }
+.cbtn2.sel { background: var(--cl); border-color: var(--c); font-weight: bold; }
+.cltr { background: var(--c); color: white; border-radius: 50%; width: 34px; height: 34px; min-width: 34px; font-size: 17px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* VERDADEIRO/FALSO */
+.vf-row { display: flex; gap: 8px; margin: 6px 0; align-items: flex-start; }
+.vf-txt { font-size: 20px; color: #333; flex: 1; line-height: 1.4; padding-top: 2px; }
+.vf-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.vfbtn { border: 2.5px solid #ddd; border-radius: 10px; padding: 6px 14px; font-size: 17px; font-family: inherit; cursor: pointer; background: #f5f5f5; touch-action: manipulation; transition: all 0.15s; }
+.vfbtn.sel-v { background: #d4edda; border-color: #28a745; color: #155724; font-weight: bold; }
+.vfbtn.sel-f { background: #f8d7da; border-color: #dc3545; color: #721c24; font-weight: bold; }
+
+/* LINHA DO TEMPO / FASES */
+.timeline { display: flex; align-items: center; gap: 6px; margin: 10px 0; flex-wrap: wrap; justify-content: center; }
+.fase { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.fase-emoji { font-size: 36px; }
+.fase-label { font-size: 14px; font-weight: bold; color: var(--cd); text-align: center; max-width: 70px; }
+.fase-arrow { font-size: 22px; color: var(--c); align-self: center; margin-bottom: 20px; }
+
+/* ROTULO */
+.slbl { font-size: 20px; font-weight: bold; color: var(--cd); background: var(--cl); border-radius: 8px; padding: 6px 12px; display: inline-block; margin: 8px 0 4px; }
+
+/* DIVISOR */
+.div { border: none; border-top: 2px dashed #e0e0e0; margin: 14px 0; }
+
+/* MAPA MENTAL */
+.mmap { background: var(--cl); border: 2px solid var(--c); border-radius: 14px; padding: 14px; margin: 8px 0; }
+.mmap-center { background: var(--c); color: white; border-radius: 20px; padding: 8px 16px; font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 10px; }
+.mmap-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.mmap-item { background: white; border: 2px solid var(--c); border-radius: 10px; padding: 6px 12px; font-size: 17px; color: var(--cd); font-weight: bold; }
+
+/* PALAVRAS PARA COMPLETAR */
+.word-bank { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+.word-tag { background: var(--c); color: white; border-radius: 20px; padding: 5px 14px; font-size: 18px; font-weight: bold; }
+
+/* FINAL */
+.final { min-height: 100vh; background: linear-gradient(145deg, #c0392b 0%, #e74c3c 50%, #f39c12 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.final h1 { font-size: 42px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+.chklist { background: rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 22px; text-align: left; font-size: 19px; line-height: 2.2; width: 100%; max-width: 420px; }
+
+/* NAVEGACAO */
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #007AFF; color: white; border: none; border-radius: 25px; padding: 12px 24px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.back { background: #8E8E93; }
+.nbtn:disabled { background: #C7C7CC; }
+.ninfo { text-align: center; font-size: 15px; color: #555; line-height: 1.4; }
+
+/* INPUT INLINE */
+.iinp { border: none; border-bottom: 2.5px solid var(--c); font-size: 20px; font-family: inherit; color: var(--cd); font-weight: bold; background: transparent; outline: none; width: 120px; text-align: center; padding: 2px 4px; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div class="cover-emoji">📖🏛️⏰</div>
+    <h1>Meu Teste de<br>Historia!</h1>
+    <p class="sub">Ola, <strong>Matheus</strong>! 👋<br>Vamos ver o que voce aprendeu?</p>
+    <p class="school">Colegio pH • 1 Bimestre 2026</p>
+    <button class="btn-start" onclick="goTo(1)">Vamos Comecar! 🚀</button>
+  </div>
+</div>
+
+<!-- PAGINA 1 – MODULO 1: O TEMPO PASSA -->
+<div class="page mod1" id="p1">
+  <div class="ph"><div class="ph-badge">1</div><div><div class="ph-sub">Modulo 1</div><div class="ph-title">O Tempo Passa</div></div></div>
+
+  <div class="card">
+    <span class="qnum">1</span><span class="qtxt">A cada ano completamos mais um <strong>ano de vida</strong>. Veja os bolos abaixo e responda:</span>
+    <div style="display:flex;gap:16px;justify-content:center;margin:14px 0;flex-wrap:wrap;">
+      <div style="text-align:center;"><div style="font-size:48px;">🎂</div><div style="font-size:28px;font-weight:bold;color:var(--cd);">7</div><div style="font-size:16px;color:#666;">anos</div></div>
+      <div style="text-align:center;"><div style="font-size:48px;">🎂</div><div style="font-size:28px;font-weight:bold;color:var(--cd);">18</div><div style="font-size:16px;color:#666;">anos</div></div>
+      <div style="text-align:center;"><div style="font-size:48px;">🎂</div><div style="font-size:28px;font-weight:bold;color:var(--cd);">29</div><div style="font-size:16px;color:#666;">anos</div></div>
+    </div>
+    <p class="qtxt"><strong>A)</strong> Qual bolo pertence a uma <strong>crianca</strong>?</p>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g1a')"><span class="cltr">A</span>O bolo de 7 anos</button>
+      <button class="cbtn2" onclick="pick(this,'g1a')"><span class="cltr">B</span>O bolo de 18 anos</button>
+      <button class="cbtn2" onclick="pick(this,'g1a')"><span class="cltr">C</span>O bolo de 29 anos</button>
+    </div>
+    <p class="qtxt" style="margin-top:10px;"><strong>B)</strong> Se uma crianca nasceu em <strong>dezembro de 2015</strong>, quantos anos ela tinha em <strong>2024</strong>?</p>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g1b')"><span class="cltr">A</span>7 anos</button>
+      <button class="cbtn2" onclick="pick(this,'g1b')"><span class="cltr">B</span>8 anos</button>
+      <button class="cbtn2" onclick="pick(this,'g1b')"><span class="cltr">C</span>9 anos</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">2</span><span class="qtxt">Numere as <strong>fases da vida</strong> na ordem correta (1 = primeiro, 5 = ultimo):</span>
+    <table style="margin-top:10px;">
+      <tr><th>Fase</th><th>Ordem</th></tr>
+      <tr><td>👴 Idoso</td><td class="tdinp"><input type="number" min="1" max="5" class="iinp" id="ord1" placeholder="?"></td></tr>
+      <tr><td>👶 Bebe</td><td class="tdinp"><input type="number" min="1" max="5" class="iinp" id="ord2" placeholder="?"></td></tr>
+      <tr><td>🧒 Crianca</td><td class="tdinp"><input type="number" min="1" max="5" class="iinp" id="ord3" placeholder="?"></td></tr>
+      <tr><td>👩 Adulto</td><td class="tdinp"><input type="number" min="1" max="5" class="iinp" id="ord4" placeholder="?"></td></tr>
+      <tr><td>🧑 Adolescente</td><td class="tdinp"><input type="number" min="1" max="5" class="iinp" id="ord5" placeholder="?"></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="qnum">3</span><span class="qtxt">Leia cada frase. Ela e <strong>Verdadeira (V)</strong> ou <strong>Falsa (F)</strong>?</span>
+    <div style="margin-top:10px;">
+      <div class="vf-row">
+        <span class="vf-txt">Antes de nos tornarmos adultos, nao podemos estudar.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf3a','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf3a','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">A adolescencia e uma fase de crescimento com muitas mudancas no corpo.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf3b','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf3b','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">As pessoas idosas nao tem nada importante a nos ensinar.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf3c','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf3c','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Durante a infancia, as criancas dependem dos adultos para muitas atividades.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf3d','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf3d','F')">F</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">4</span><span class="qtxt">O que acontece com o nosso corpo quando vamos da infancia para a <strong>adolescencia</strong>?</span>
+    <textarea class="ans" id="q4" placeholder="Escreva sua resposta aqui..." rows="2"></textarea>
+  </div>
+</div>
+
+<!-- PAGINA 2 – MODULO 2: TEMPO DA NATUREZA E CALENDARIOS -->
+<div class="page mod2" id="p2">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Modulo 2</div><div class="ph-title">Marcadores do Tempo</div></div></div>
+  <div class="tip">💡 <strong>Lembre-se:</strong> Antes dos relogios e calendarios, as pessoas usavam a <strong>natureza</strong> para marcar o tempo!</div>
+
+  <div class="card">
+    <span class="qnum">5</span><span class="qtxt">O <strong>sol</strong> e uma das formas mais antigas de perceber a passagem do tempo. Qual fenomeno natural marca o inicio de um novo dia?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">A</span>🌙 O nascer da lua</button>
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">B</span>🌅 O nascer do sol</button>
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">C</span>⭐ O aparecer das estrelas</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">6</span><span class="qtxt">A lua tambem ajuda a marcar o tempo. Quantas <strong>fases da lua</strong> existem?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">A</span>2 fases</button>
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">B</span>3 fases</button>
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">C</span>4 fases</button>
+    </div>
+    <p class="qtxt" style="margin-top:10px;"><strong>Escreva os nomes das fases da lua:</strong></p>
+    <textarea class="ans" id="q6b" placeholder="Escreva os nomes das 4 fases..." rows="2"></textarea>
+  </div>
+
+  <div class="card">
+    <span class="qnum">7</span><span class="qtxt">Como os primeiros seres humanos criaram os <strong>calendarios</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">A</span>Observando os fenomenos da natureza (sol, lua, estacoes)</button>
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">B</span>Usando relogios digitais muito antigos</button>
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">C</span>Copiando o calendario de outros paises</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">8</span><span class="qtxt">Complete com as palavras do quadro:</span>
+    <div class="word-bank"><span class="word-tag">365</span><span class="word-tag">12</span><span class="word-tag">4</span><span class="word-tag">semanas</span><span class="word-tag">meses</span></div>
+    <p class="qtxt" style="margin-top:8px;">Um ano tem <input class="iinp" id="q8a" placeholder="___"> dias e e dividido em <input class="iinp" id="q8b" placeholder="___"> <input class="iinp" style="width:150px;" id="q8c" placeholder="_______">.</p>
+    <p class="qtxt" style="margin-top:8px;">Um ano tem <input class="iinp" id="q8d" placeholder="___"> estacoes do ano.</p>
+  </div>
+
+  <div class="card">
+    <span class="qnum">9</span><span class="qtxt">Leia cada frase. Ela e <strong>Verdadeira (V)</strong> ou <strong>Falsa (F)</strong>?</span>
+    <div style="margin-top:10px;">
+      <div class="vf-row">
+        <span class="vf-txt">O calendario de frutas mostra as melhores epocas para encontrar cada fruta.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf9a','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf9a','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Os ciclos da natureza ajudaram os povos a saber quando plantar e colher.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf9b','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf9b','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Todos os meses do ano tem 30 dias.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf9c','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf9c','F')">F</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGINA 3 – MODULO 2: O TEMPO DO RELOGIO -->
+<div class="page mod2" id="p3">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Modulo 2</div><div class="ph-title">O Tempo do Relogio</div></div></div>
+
+  <div class="card">
+    <span class="qnum">10</span><span class="qtxt">Um dia tem quantas <strong>horas</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">A</span>12 horas</button>
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">B</span>24 horas</button>
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">C</span>60 horas</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">11</span><span class="qtxt">Os relogios foram criados ao longo do tempo. Numere do <strong>mais antigo (1)</strong> ao <strong>mais moderno (4)</strong>:</span>
+    <table style="margin-top:10px;">
+      <tr><th>Tipo de Relogio</th><th>Ordem</th></tr>
+      <tr><td>💻 Relogio digital (celular)</td><td class="tdinp"><input type="number" min="1" max="4" class="iinp" id="rel1" placeholder="?"></td></tr>
+      <tr><td>⚙️ Relogio mecanico (de pulso)</td><td class="tdinp"><input type="number" min="1" max="4" class="iinp" id="rel2" placeholder="?"></td></tr>
+      <tr><td>☀️ Relogio de sol (gnomon)</td><td class="tdinp"><input type="number" min="1" max="4" class="iinp" id="rel3" placeholder="?"></td></tr>
+      <tr><td>💧 Relogio de agua (ampulheta)</td><td class="tdinp"><input type="number" min="1" max="4" class="iinp" id="rel4" placeholder="?"></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="qnum">12</span><span class="qtxt">Sobre o <strong>ano bissexto</strong>, podemos afirmar que:</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g12')"><span class="cltr">A</span>Acontece a cada dois anos</button>
+      <button class="cbtn2" onclick="pick(this,'g12')"><span class="cltr">B</span>Fevereiro tem 28 dias e o ano tem 365 dias</button>
+      <button class="cbtn2" onclick="pick(this,'g12')"><span class="cltr">C</span>Fevereiro tem 29 dias e o ano tem 366 dias</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">13</span><span class="qtxt">Para que servem os <strong>relogios</strong> no nosso dia a dia? Cite um exemplo:</span>
+    <textarea class="ans" id="q13" placeholder="Escreva sua resposta aqui..." rows="2"></textarea>
+  </div>
+
+  <div class="card">
+    <span class="qnum">14</span><span class="qtxt">Leia cada frase. Ela e <strong>Verdadeira (V)</strong> ou <strong>Falsa (F)</strong>?</span>
+    <div style="margin-top:10px;">
+      <div class="vf-row">
+        <span class="vf-txt">Os primeiros relogios foram criados a partir dos ciclos da natureza.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf14a','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf14a','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Os relogios sao usados somente por povos que vivem em aldeias.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf14b','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf14b','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">O relogio torna a contagem do tempo mais facil.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf14c','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf14c','F')">F</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGINA 4 – MODULO 3: HISTORIAS COMPARTILHADAS -->
+<div class="page mod3" id="p4">
+  <div class="ph"><div class="ph-badge">3</div><div><div class="ph-sub">Modulo 3</div><div class="ph-title">Historias Compartilhadas</div></div></div>
+  <div class="tip">📸 <strong>Lembre-se:</strong> Fotografias e cartas sao formas de guardar e compartilhar historias!</div>
+
+  <div class="card">
+    <span class="qnum">15</span><span class="qtxt">Nas cartas, quem e o <strong>remetente</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">A</span>A pessoa que <strong>recebe</strong> a carta</button>
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">B</span>A pessoa que <strong>escreve e envia</strong> a carta</button>
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">C</span>O carteiro que entrega a carta</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">16</span><span class="qtxt">Quando as pessoas enviavam uma carta antigamente, o que elas esperavam receber de volta?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">A</span>Um telefonema</button>
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">B</span>Um e-mail</button>
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">C</span>Uma carta de volta</button>
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">D</span>Um audio</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">17</span><span class="qtxt">Para que servem as <strong>fotografias</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">A</span>Apenas para decorar paredes</button>
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">B</span>Para registrar e guardar memorias e momentos importantes</button>
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">C</span>Somente para postar nas redes sociais</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">18</span><span class="qtxt">Gabriela e sua irma Luiza visitaram o tio Antonio e a tia Simone e tiraram uma foto. Por que eles decidiram tirar essa fotografia?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">A</span>Porque estavam felizes e quiseram registrar o momento</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">B</span>Porque o bolo na foto era o aniversario da tia Simone</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">C</span>Porque costumam fotografar todos os dias as refeicoes em familia</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">19</span><span class="qtxt">Leia cada frase. Ela e <strong>Verdadeira (V)</strong> ou <strong>Falsa (F)</strong>?</span>
+    <div style="margin-top:10px;">
+      <div class="vf-row">
+        <span class="vf-txt">Cartas antigas sao documentos que nos ajudam a conhecer o passado.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf19a','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf19a','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Antigamente havia maquinas fotograficas em todo lugar, por isso as pessoas se comunicavam como fazem hoje.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf19b','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf19b','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Fotografias em familia podem registrar tradicoes importantes.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf19c','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf19c','F')">F</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">20</span><span class="qtxt">Cite <strong>duas formas</strong> diferentes de compartilhar historias com pessoas que estao longe:</span>
+    <textarea class="ans" id="q20" placeholder="Escreva aqui..." rows="2"></textarea>
+  </div>
+</div>
+
+<!-- PAGINA 5 – MODULO 4: MEMORIAS FAMILIARES -->
+<div class="page mod4" id="p5">
+  <div class="ph"><div class="ph-badge">4</div><div><div class="ph-sub">Modulo 4</div><div class="ph-title">Memorias Familiares</div></div></div>
+  <div class="tip">👴👵 <strong>Lembre-se:</strong> As pessoas mais velhas da familia guardam historias e memorias muito importantes!</div>
+
+  <div class="card">
+    <span class="qnum">21</span><span class="qtxt">Quem pode nos contar historias sobre o <strong>passado da familia</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g21')"><span class="cltr">A</span>Somente os professores</button>
+      <button class="cbtn2" onclick="pick(this,'g21')"><span class="cltr">B</span>As pessoas adultas e idosas da familia (avos, bisavos)</button>
+      <button class="cbtn2" onclick="pick(this,'g21')"><span class="cltr">C</span>Apenas os irmaos mais novos</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">22</span><span class="qtxt">Quando as pessoas adultas e idosas nos contam uma historia, devemos:</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g22')"><span class="cltr">A</span>Ignorar</button>
+      <button class="cbtn2" onclick="pick(this,'g22')"><span class="cltr">B</span>Gritar</button>
+      <button class="cbtn2" onclick="pick(this,'g22')"><span class="cltr">C</span>Escutar</button>
+      <button class="cbtn2" onclick="pick(this,'g22')"><span class="cltr">D</span>Dormir</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">23</span><span class="qtxt">Ha cerca de 100 anos, como era a <strong>vida das familias brasileiras</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g23')"><span class="cltr">A</span>As familias eram menores e moravam nas grandes cidades</button>
+      <button class="cbtn2" onclick="pick(this,'g23')"><span class="cltr">B</span>As familias eram maiores e a maioria vivia no campo</button>
+      <button class="cbtn2" onclick="pick(this,'g23')"><span class="cltr">C</span>Todas as familias tinham televisao e geladeira</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">24</span><span class="qtxt">A partir dos anos 1950, o que era considerado um <strong>luxo</strong> nas familias?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g24')"><span class="cltr">A</span>Ter celular e internet</button>
+      <button class="cbtn2" onclick="pick(this,'g24')"><span class="cltr">B</span>Ter radio e televisao</button>
+      <button class="cbtn2" onclick="pick(this,'g24')"><span class="cltr">C</span>Ter bicicleta e patins</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">25</span><span class="qtxt">Complete as frases usando as palavras do quadro:</span>
+    <div class="word-bank"><span class="word-tag">fotografias</span><span class="word-tag">anos</span><span class="word-tag">idosas</span><span class="word-tag">familia</span><span class="word-tag">historias</span></div>
+    <div style="margin-top:12px;">
+      <p class="qtxt">A) As pessoas _____________ contam muitas _____________ sobre o passado.</p>
+      <textarea class="ans" id="q25a" placeholder="Escreva as palavras corretas..." rows="1" style="min-height:50px;"></textarea>
+      <p class="qtxt" style="margin-top:8px;">B) As _____________ podem registrar momentos felizes vividos em _____________.</p>
+      <textarea class="ans" id="q25b" placeholder="Escreva as palavras corretas..." rows="1" style="min-height:50px;"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">26</span><span class="qtxt">Leia cada frase. Ela e <strong>Verdadeira (V)</strong> ou <strong>Falsa (F)</strong>?</span>
+    <div style="margin-top:10px;">
+      <div class="vf-row">
+        <span class="vf-txt">Ao longo do tempo, as familias brasileiras foram mudando seus habitos.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf26a','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf26a','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">Ha 100 anos, a maioria das familias brasileiras vivia nas cidades.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf26b','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf26b','F')">F</button>
+        </div>
+      </div>
+      <div class="vf-row">
+        <span class="vf-txt">As fotografias da familia ajudam a conhecer e lembrar o passado.</span>
+        <div class="vf-btns">
+          <button class="vfbtn" onclick="vf(this,'vf26c','V')">V</button>
+          <button class="vfbtn" onclick="vf(this,'vf26c','F')">F</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">27</span><span class="qtxt">Cite <strong>uma mudanca</strong> que aconteceu na sua familia ao longo dos anos (pode perguntar para seus avos ou pais!):</span>
+    <textarea class="ans" id="q27" placeholder="Escreva aqui..." rows="2"></textarea>
+  </div>
+</div>
+
+<!-- PAGINA FINAL -->
+<div class="page" id="p6">
+  <div class="final">
+    <div style="font-size:80px;animation:bounce 1.5s infinite alternate;">🏆⭐🎉</div>
+    <h1>Parabens,<br>Matheus!</h1>
+    <p style="font-size:22px;opacity:0.9;">Voce terminou o teste de Historia!<br>Muito bem! 👏👏👏</p>
+    <div class="chklist">
+      <p>⏰ O Tempo Passa ✅</p>
+      <p>🌅 Tempo da Natureza ✅</p>
+      <p>📅 A Invencao dos Calendarios ✅</p>
+      <p>🕐 O Tempo do Relogio ✅</p>
+      <p>📸 Fotografias que Contam Historias ✅</p>
+      <p>✉️ Cartas e Historias Compartilhadas ✅</p>
+      <p>👨‍👩‍👧 Historia da Familia ✅</p>
+      <p>🏡 Mudancas nos Habitos Familiares ✅</p>
+    </div>
+    <button class="btn-start" onclick="goTo(0)">Fazer de novo 🔄</button>
+  </div>
+</div>
+
+<!-- NAVEGACAO -->
+<div class="nav" id="nav">
+  <button class="nbtn back" id="btnBack" onclick="prev()">← Voltar</button>
+  <div class="ninfo" id="ninfo"></div>
+  <button class="nbtn" id="btnNext" onclick="next()">Proximo →</button>
+</div>
+
+<script>
+var PAGES = ["p0","p1","p2","p3","p4","p5","p6"];
+var NAMES = ["Capa","O Tempo Passa","Tempo da Natureza","O Relogio","Historias Compartilhadas","Memorias Familiares","Fim"];
+var cur = 0;
+
+function goTo(n) {
+  document.getElementById(PAGES[cur]).classList.remove("active");
+  cur = n;
+  var pg = document.getElementById(PAGES[cur]);
+  pg.classList.add("active");
+  pg.scrollTop = 0;
+  updateNav();
+}
+function next() { if (cur < PAGES.length - 1) goTo(cur + 1); }
+function prev() { if (cur > 0) goTo(cur - 1); }
+
+function updateNav() {
+  var nav = document.getElementById("nav");
+  if (cur === 0 || cur === PAGES.length - 1) { nav.style.display = "none"; return; }
+  nav.style.display = "flex";
+  document.getElementById("btnBack").disabled = (cur <= 1);
+  document.getElementById("btnNext").textContent = (cur === PAGES.length - 2) ? "Finalizar 🎉" : "Proximo →";
+  document.getElementById("ninfo").innerHTML = "Pagina " + cur + " de " + (PAGES.length - 2) + "<br><small>" + NAMES[cur] + "</small>";
+}
+updateNav();
+
+function pick(btn, group) {
+  document.querySelectorAll("[onclick*=\"" + group + "\"]").forEach(function(b){ b.classList.remove("sel"); });
+  btn.classList.add("sel");
+}
+
+function vf(btn, group, val) {
+  var btns = document.querySelectorAll("[onclick*=\"" + group + "\"]");
+  btns.forEach(function(b){ b.classList.remove("sel-v","sel-f"); });
+  btn.classList.add(val === "V" ? "sel-v" : "sel-f");
+}
+</script>
+</body>
+</html>
