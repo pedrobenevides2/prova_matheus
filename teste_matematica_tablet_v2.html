@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Teste de Matematica v2 - Matheus | pH (Tablet)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #f0f4ff; font-size: 18px; }
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+.mod1 { --c: #FF9500; --cl: #FFF4E0; --cd: #cc7700; }
+.mod2 { --c: #34C759; --cl: #E6F9EB; --cd: #1e8a39; }
+.mod3 { --c: #007AFF; --cl: #E0EEFF; --cd: #005fcc; }
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg, #cb116a 0%, #fc2575 100%); color: white; text-align: center; gap: 20px; padding: 40px 24px 100px; }
+.cover-emoji { font-size: 80px; animation: bounce 1.5s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+.cover h1 { font-size: 42px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 22px; opacity: 0.9; }
+.cover .school { font-size: 16px; opacity: 0.7; }
+.btn-start { background: #FFD60A; color: #000; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+.ph { background: var(--c); color: white; border-radius: 18px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 24px; font-weight: bold; }
+.ph-sub { font-size: 16px; opacity: 0.85; }
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 32px; height: 32px; font-size: 17px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 26px; color: #222; line-height: 1.6; }
+.qtxt strong { color: var(--cd); }
+.cw { position: relative; margin-top: 8px; border: 2.5px dashed var(--c); border-radius: 12px; overflow: hidden; background: #ffffff; touch-action: none; }
+.cw canvas { display: block; width: 100%; touch-action: none; background: #ffffff; cursor: crosshair; }
+.cbtn { position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.95); border: 1.5px solid #ddd; border-radius: 8px; padding: 4px 10px; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; z-index: 10; }
+.tip { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; font-size: 24px; color: #333; }
+.tip strong { color: var(--cd); }
+table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+th { background: var(--c); color: white; padding: 10px 8px; font-size: 22px; text-align: center; }
+td { border: 2px solid #eee; padding: 8px 6px; text-align: center; font-size: 22px; vertical-align: middle; }
+.tdf { background: var(--cl); }
+.mdr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+.mdg { display: flex; align-items: flex-end; gap: 3px; flex-wrap: wrap; }
+.dez { width: 16px; height: 96px; background: #FFD700; border: 2px solid #B8860B; border-radius: 3px; display: flex; flex-direction: column; justify-content: space-between; padding: 2px; flex-shrink: 0; }
+.dez span { display: block; width: 100%; height: 7px; background: #FFF8DC; border-bottom: 1px solid #DAA520; }
+.dez span:last-child { border-bottom: none; }
+.uni { width: 16px; height: 16px; background: #FFD700; border: 2px solid #B8860B; border-radius: 2px; flex-shrink: 0; }
+.ops { font-size: 28px; font-weight: bold; color: var(--c); padding: 0 4px; align-self: center; }
+.race { display: flex; align-items: flex-end; gap: 8px; background: linear-gradient(to right,#e8f4ff,#f0ffe8); border-radius: 12px; padding: 14px 10px 10px; margin: 10px 0; overflow-x: auto; }
+.racer { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 54px; }
+.ri { font-size: 28px; }
+.rb { width: 38px; border-radius: 5px 5px 0 0; }
+.rn { font-size: 14px; font-weight: bold; color: #333; }
+.rp { font-size: 16px; font-weight: bold; }
+.cal th { font-size: 14px; padding: 7px 3px; }
+.cal td { font-size: 16px; padding: 7px 3px; height: 36px; }
+.cal-h { background: var(--c) !important; color: white; border-radius: 50%; font-weight: bold; }
+.cal-w { color: #e74c3c; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+.mitem { display: flex; align-items: center; gap: 8px; }
+.mnum { background: var(--c); color: white; border-radius: 50%; width: 28px; height: 28px; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.fgrid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin: 8px 0; }
+.fi { font-size: 28px; text-align: center; padding: 5px; border-radius: 8px; border: 2.5px solid #ddd; cursor: pointer; touch-action: manipulation; transition: background 0.15s; }
+.fi.sel { background: #FFE566; border-color: #FF9500; }
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.cbtn2 { display: flex; align-items: center; gap: 12px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 13px 16px; font-size: 24px; font-family: inherit; cursor: pointer; touch-action: manipulation; text-align: left; transition: all 0.15s; }
+.cbtn2.sel { background: var(--cl); border-color: var(--c); font-weight: bold; }
+.cltr { background: var(--c); color: white; border-radius: 50%; width: 34px; height: 34px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.slbl { font-size: 22px; font-weight: bold; color: var(--cd); background: var(--cl); border-radius: 8px; padding: 6px 12px; display: inline-block; margin-bottom: 6px; }
+.div { border: none; border-top: 2px dashed #e0e0e0; margin: 14px 0; }
+.final { min-height: 100vh; background: linear-gradient(145deg,#11998e 0%,#38ef7d 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.final h1 { font-size: 44px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+.chklist { background: rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 22px; text-align: left; font-size: 19px; line-height: 2.1; width: 100%; max-width: 400px; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #007AFF; color: white; border: none; border-radius: 25px; padding: 12px 24px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.back { background: #8E8E93; }
+.nbtn:disabled { background: #C7C7CC; }
+.ninfo { text-align: center; font-size: 15px; color: #555; line-height: 1.4; }
+.v2tag { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 14px; font-size: 14px; font-weight: bold; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div class="v2tag">VERSAO 2 ✏️</div>
+    <div class="cover-emoji">📐✏️🔢</div>
+    <h1>Meu Teste de<br>Matematica!</h1>
+    <p class="sub">Ola, <strong>Matheus</strong>! 👋<br>Use a caneta e boa sorte!</p>
+    <p class="school">Colegio pH &bull; 1&ordm; Bimestre 2026</p>
+    <button class="btn-start" onclick="goTo(1)">Vamos Comecar! 🚀</button>
+  </div>
+</div>
+
+<!-- PAG 1 -->
+<div class="page mod1" id="p1">
+  <div class="ph"><div class="ph-badge">1</div><div><div class="ph-sub">Modulo 1</div><div class="ph-title">Antecessor e Sucessor</div></div></div>
+
+  <div class="card">
+    <span class="qnum">1</span><span class="qtxt">Observe a trilha e responda:</span>
+    <div style="overflow-x:auto;padding:12px 4px;margin:8px 0;">
+      <div id="trilha1" style="display:flex;align-items:center;gap:4px;flex-wrap:nowrap;min-width:360px;"></div>
+    </div>
+    <p class="qtxt" style="margin:8px 0 4px;"><strong>A)</strong> Qual numero esta <strong>imediatamente antes</strong> do 25?</p>
+    <div class="cw"><canvas id="cc1a" height="70"></canvas><button class="cbtn" onclick="clrC('cc1a')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:10px 0 4px;"><strong>B)</strong> Qual numero vem <strong>logo depois</strong> do 25?</p>
+    <div class="cw"><canvas id="cc1b" height="70"></canvas><button class="cbtn" onclick="clrC('cc1b')">🗑 Limpar</button></div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">2</span><span class="qtxt">Complete a tabela com o <strong>antecessor</strong> e o <strong>sucessor</strong>:</span>
+    <table>
+      <tr><th>ANTECESSOR</th><th>NUMERO</th><th>SUCESSOR</th></tr>
+      <tr>
+        <td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc2a" height="60"></canvas><button class="cbtn" onclick="clrC('cc2a')">🗑</button></div></td>
+        <td style="font-size:24px;font-weight:bold;color:var(--c);">45</td>
+        <td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc2b" height="60"></canvas><button class="cbtn" onclick="clrC('cc2b')">🗑</button></div></td>
+      </tr>
+      <tr>
+        <td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc2c" height="60"></canvas><button class="cbtn" onclick="clrC('cc2c')">🗑</button></div></td>
+        <td style="font-size:24px;font-weight:bold;color:var(--c);">63</td>
+        <td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc2d" height="60"></canvas><button class="cbtn" onclick="clrC('cc2d')">🗑</button></div></td>
+      </tr>
+      <tr>
+        <td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc2e" height="60"></canvas><button class="cbtn" onclick="clrC('cc2e')">🗑</button></div></td>
+        <td style="font-size:24px;font-weight:bold;color:var(--c);">17</td>
+        <td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc2f" height="60"></canvas><button class="cbtn" onclick="clrC('cc2f')">🗑</button></div></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="qnum">3</span><span class="qtxt">Observe a reta numerica (numero destacado = 52) e responda:</span>
+    <div style="overflow-x:auto;padding:8px 0;margin:8px 0;">
+      <svg width="360" height="62" viewBox="0 0 360 62" style="display:block;">
+        <line x1="10" y1="28" x2="350" y2="28" stroke="#FF9500" stroke-width="3"/>
+        <polygon points="350,28 340,23 340,33" fill="#FF9500"/>
+        <polygon points="10,28 20,23 20,33" fill="#FF9500"/>
+        <line x1="20" y1="21" x2="20" y2="35" stroke="#FF9500" stroke-width="2"/><text x="20" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">48</text>
+        <line x1="56" y1="21" x2="56" y2="35" stroke="#FF9500" stroke-width="2"/><text x="56" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">49</text>
+        <line x1="92" y1="21" x2="92" y2="35" stroke="#FF9500" stroke-width="2"/><text x="92" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">50</text>
+        <line x1="128" y1="21" x2="128" y2="35" stroke="#FF9500" stroke-width="2"/><text x="128" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">51</text>
+        <circle cx="164" cy="28" r="13" fill="#FF9500"/>
+        <text x="164" y="33" text-anchor="middle" font-size="13" fill="white" font-weight="bold" font-family="Arial">52</text>
+        <line x1="200" y1="21" x2="200" y2="35" stroke="#FF9500" stroke-width="2"/><text x="200" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">53</text>
+        <line x1="236" y1="21" x2="236" y2="35" stroke="#FF9500" stroke-width="2"/><text x="236" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">54</text>
+        <line x1="272" y1="21" x2="272" y2="35" stroke="#FF9500" stroke-width="2"/><text x="272" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">55</text>
+        <line x1="308" y1="21" x2="308" y2="35" stroke="#FF9500" stroke-width="2"/><text x="308" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">56</text>
+        <line x1="344" y1="21" x2="344" y2="35" stroke="#FF9500" stroke-width="2"/><text x="344" y="52" text-anchor="middle" font-size="13" fill="#333" font-family="Arial">57</text>
+      </svg>
+    </div>
+    <p class="qtxt" style="margin:6px 0 3px;"><strong>A)</strong> Qual o <strong>menor</strong> numero desta reta?</p>
+    <div class="cw"><canvas id="cc3a" height="70"></canvas><button class="cbtn" onclick="clrC('cc3a')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>B)</strong> Qual numero esta <strong>antes</strong> do 52?</p>
+    <div class="cw"><canvas id="cc3b" height="70"></canvas><button class="cbtn" onclick="clrC('cc3b')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>C)</strong> Qual numero vem <strong>depois</strong> do 52?</p>
+    <div class="cw"><canvas id="cc3c" height="70"></canvas><button class="cbtn" onclick="clrC('cc3c')">🗑 Limpar</button></div>
+  </div>
+</div>
+
+<!-- PAG 2 -->
+<div class="page mod1" id="p2">
+  <div class="ph"><div class="ph-badge">1</div><div><div class="ph-sub">Modulo 1</div><div class="ph-title">Numeros Ordinais ate 50</div></div></div>
+  <div class="card">
+    <span class="qnum">4</span><span class="qtxt">Veja a fila e responda:</span>
+    <div class="race">
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:60px;background:#E74C3C;"></div><div class="rn">ANA</div><div class="rp" style="color:#E74C3C;">1&ordf;</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:50px;background:#E67E22;"></div><div class="rn">JOAO</div><div class="rp" style="color:#E67E22;">2&ordm;</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:40px;background:#F1C40F;"></div><div class="rn">LUCIA</div><div class="rp" style="color:#d4ac0d;">3&ordf;</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:32px;background:#2ECC71;"></div><div class="rn">PEDRO</div><div class="rp" style="color:#27ae60;">4&ordm;</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:24px;background:#3498DB;"></div><div class="rn">SOFIA</div><div class="rp" style="color:#2980b9;">5&ordf;</div></div>
+      <div style="font-size:20px;align-self:center;color:#aaa;">→</div>
+      <div class="racer"><div class="ri">🧒</div><div class="rb" style="height:16px;background:#9B59B6;"></div><div class="rn">MARCO</div><div class="rp" style="color:#8e44ad;">6&ordm;</div></div>
+    </div>
+    <p class="qtxt" style="margin:6px 0 4px;"><strong>A)</strong> Quem e o <strong>segundo</strong> da fila?</p>
+    <div class="cw"><canvas id="cc4a" height="70"></canvas><button class="cbtn" onclick="clrC('cc4a')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:10px 0 4px;"><strong>B)</strong> Em que posicao esta Sofia?</p>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g4b')"><span class="cltr">A</span>3&ordf; lugar</button>
+      <button class="cbtn2" onclick="pick(this,'g4b')"><span class="cltr">B</span>5&ordf; lugar</button>
+      <button class="cbtn2" onclick="pick(this,'g4b')"><span class="cltr">C</span>6&ordm; lugar</button>
+    </div>
+    <p class="qtxt" style="margin:8px 0 4px;"><strong>C)</strong> Quem esta na <strong>4&ordf; posicao</strong>?</p>
+    <div class="cw"><canvas id="cc4c" height="70"></canvas><button class="cbtn" onclick="clrC('cc4c')">🗑 Limpar</button></div>
+  </div>
+  <div class="card">
+    <span class="qnum">5</span><span class="qtxt">Escreva o nome de cada ordinal com a caneta:</span>
+    <table>
+      <tr><th>Numero</th><th>Nome do ordinal</th></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">5&ordm;</td><td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc5a" height="60"></canvas><button class="cbtn" onclick="clrC('cc5a')">🗑</button></div></td></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">9&ordm;</td><td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc5b" height="60"></canvas><button class="cbtn" onclick="clrC('cc5b')">🗑</button></div></td></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">15&ordm;</td><td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc5c" height="60"></canvas><button class="cbtn" onclick="clrC('cc5c')">🗑</button></div></td></tr>
+      <tr><td style="font-size:22px;font-weight:bold;">30&ordm;</td><td class="tdf" style="padding:2px;"><div class="cw"><canvas id="cc5d" height="60"></canvas><button class="cbtn" onclick="clrC('cc5d')">🗑</button></div></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- PAG 3: Adicao -->
+<div class="page mod2" id="p3">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Modulo 2</div><div class="ph-title">Adicao com Material Dourado</div></div></div>
+  <div class="tip">💡 <strong>Lembre-se:</strong> Barrinhas = dezenas (10) &bull; Cubinhos = unidades (1)</div>
+  <div class="card">
+    <span class="qnum">6</span><span class="qtxt">Observe o material dourado e calcule:</span>
+    <p class="slbl" style="margin-top:10px;">A) 32 + 15 = ?</p>
+    <div class="mdr">
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">+</span>
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div><div class="uni"></div><div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">=</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="flex:1;min-width:120px;"><div class="cw"><canvas id="cc6a" height="80"></canvas><button class="cbtn" onclick="clrC('cc6a')">🗑 Limpar</button></div></div>
+      <table style="width:100px;flex-shrink:0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc6ad" height="58"></canvas><button class="cbtn" onclick="clrC('cc6ad')">🗑</button></div></td><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc6au" height="58"></canvas><button class="cbtn" onclick="clrC('cc6au')">🗑</button></div></td></tr></table>
+    </div>
+    <hr class="div">
+    <p class="slbl">B) 42 + 23 = ?</p>
+    <div class="mdr">
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">+</span>
+      <div class="mdg">
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="dez"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="uni"></div><div class="uni"></div><div class="uni"></div>
+      </div>
+      <span class="ops">=</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="flex:1;min-width:120px;"><div class="cw"><canvas id="cc6b" height="80"></canvas><button class="cbtn" onclick="clrC('cc6b')">🗑 Limpar</button></div></div>
+      <table style="width:100px;flex-shrink:0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc6bd" height="58"></canvas><button class="cbtn" onclick="clrC('cc6bd')">🗑</button></div></td><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc6bu" height="58"></canvas><button class="cbtn" onclick="clrC('cc6bu')">🗑</button></div></td></tr></table>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">7</span><span class="qtxt">Em uma festa havia <strong>35 criancas</strong> e <strong>24 adultos</strong>. Quantas pessoas ao todo?</span>
+    <div class="cw"><canvas id="cc7" height="90"></canvas><button class="cbtn" onclick="clrC('cc7')">🗑 Limpar</button></div>
+  </div>
+</div>
+
+<!-- PAG 4: Subtracao -->
+<div class="page mod2" id="p4">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Modulo 2</div><div class="ph-title">Subtracao com Material Dourado</div></div></div>
+  <div class="tip">💡 <strong>Lembre-se:</strong> Desenhe o material e risque o que foi tirado!</div>
+  <div class="card">
+    <span class="qnum">8</span><span class="qtxt">Calcule e escreva no quadro de ordens:</span>
+    <p class="slbl" style="margin-top:10px;">A) 48 &ndash; 23 = ?</p>
+    <div class="cw"><canvas id="cc8a" height="90"></canvas><button class="cbtn" onclick="clrC('cc8a')">🗑 Limpar</button></div>
+    <table style="width:110px;margin:6px 0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc8ad" height="58"></canvas><button class="cbtn" onclick="clrC('cc8ad')">🗑</button></div></td><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc8au" height="58"></canvas><button class="cbtn" onclick="clrC('cc8au')">🗑</button></div></td></tr></table>
+    <hr class="div">
+    <p class="slbl">B) 56 &ndash; 31 = ?</p>
+    <div class="cw"><canvas id="cc8b" height="90"></canvas><button class="cbtn" onclick="clrC('cc8b')">🗑 Limpar</button></div>
+    <table style="width:110px;margin:6px 0;"><tr><th>D</th><th>U</th></tr><tr><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc8bd" height="58"></canvas><button class="cbtn" onclick="clrC('cc8bd')">🗑</button></div></td><td class="tdf" style="padding:1px;"><div class="cw"><canvas id="cc8bu" height="58"></canvas><button class="cbtn" onclick="clrC('cc8bu')">🗑</button></div></td></tr></table>
+  </div>
+  <div class="card">
+    <span class="qnum">9</span><span class="qtxt">No parque havia <strong>43 passarinhos</strong>. De repente <strong>16 voaram</strong>. Quantos ficaram?</span>
+    <div class="cw"><canvas id="cc9" height="90"></canvas><button class="cbtn" onclick="clrC('cc9')">🗑 Limpar</button></div>
+  </div>
+</div>
+
+<!-- PAG 5: Situacoes e Duzia -->
+<div class="page mod2" id="p5">
+  <div class="ph"><div class="ph-badge">2</div><div><div class="ph-sub">Modulo 2</div><div class="ph-title">Situacoes-Problema e Duzia</div></div></div>
+  <div class="card">
+    <span class="qnum">10</span><span class="qtxt">Leia, marque a operacao e calcule:</span>
+    <div style="background:#FFF8DC;border-radius:10px;padding:12px;margin:8px 0;">
+      <p class="qtxt">🚀 <strong>Problema A:</strong> Carla coletou <strong>28 figurinhas</strong> e ganhou mais <strong>16</strong>. Quantas ela tem agora?</p>
+    </div>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g10a')"><span class="cltr">+</span>28 + 16 (adicao)</button>
+      <button class="cbtn2" onclick="pick(this,'g10a')"><span class="cltr">&ndash;</span>28 &ndash; 16 (subtracao)</button>
+    </div>
+    <div class="cw"><canvas id="cc10a" height="90"></canvas><button class="cbtn" onclick="clrC('cc10a')">🗑 Limpar</button></div>
+    <hr class="div">
+    <div style="background:#E8F8E8;border-radius:10px;padding:12px;margin:8px 0;">
+      <p class="qtxt">🌿 <strong>Problema B:</strong> Havia <strong>23 flores</strong> no vaso. Marcos colheu <strong>9</strong>. Quantas restaram?</p>
+    </div>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g10b')"><span class="cltr">+</span>23 + 9 (adicao)</button>
+      <button class="cbtn2" onclick="pick(this,'g10b')"><span class="cltr">&ndash;</span>23 &ndash; 9 (subtracao)</button>
+    </div>
+    <div class="cw"><canvas id="cc10b" height="90"></canvas><button class="cbtn" onclick="clrC('cc10b')">🗑 Limpar</button></div>
+  </div>
+  <div class="card">
+    <div class="tip">🍊 <strong>1 duzia = 12 &nbsp;|&nbsp; Meia duzia = 6</strong></div>
+    <span class="qnum">11</span><span class="qtxt">Toque nas frutas para selecionar a quantidade pedida:</span>
+    <p class="slbl" style="margin-top:10px;">A) Selecione MEIA DUZIA de laranjas 🍊</p>
+    <div class="fgrid">
+      <span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span>
+      <span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span>
+      <span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span>
+      <span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span><span class="fi" onclick="tf(this)">🍊</span>
+    </div>
+    <p class="slbl" style="margin-top:10px;">B) Selecione UMA DUZIA de uvas 🍇</p>
+    <div class="fgrid">
+      <span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span>
+      <span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span>
+      <span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span>
+      <span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span>
+      <span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span><span class="fi" onclick="tf(this)">🍇</span>
+      <span class="fi" onclick="tf(this)">🍇</span>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">12</span><span class="qtxt">Maria comprou <strong>meia duzia de peras</strong> e <strong>meia duzia de bananas</strong>. Quantas frutas ao todo?</span>
+    <div class="cw"><canvas id="cc12" height="90"></canvas><button class="cbtn" onclick="clrC('cc12')">🗑 Limpar</button></div>
+  </div>
+</div>
+
+<!-- PAG 6: Meses -->
+<div class="page mod3" id="p6">
+  <div class="ph"><div class="ph-badge">3</div><div><div class="ph-sub">Modulo 3</div><div class="ph-title">Calendario: Os Meses do Ano</div></div></div>
+  <div class="card">
+    <span class="qnum">13</span><span class="qtxt">Escreva os <strong>12 meses do ano</strong> em ordem:</span>
+    <div class="mgrid" style="margin-top:10px;">
+      <div class="mitem"><div class="mnum">1</div><div class="cw" style="flex:1;"><canvas id="cm1" height="58"></canvas><button class="cbtn" onclick="clrC('cm1')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">7</div><div class="cw" style="flex:1;"><canvas id="cm7" height="58"></canvas><button class="cbtn" onclick="clrC('cm7')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">2</div><div class="cw" style="flex:1;"><canvas id="cm2" height="58"></canvas><button class="cbtn" onclick="clrC('cm2')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">8</div><div class="cw" style="flex:1;"><canvas id="cm8" height="58"></canvas><button class="cbtn" onclick="clrC('cm8')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">3</div><div class="cw" style="flex:1;"><canvas id="cm3" height="58"></canvas><button class="cbtn" onclick="clrC('cm3')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">9</div><div class="cw" style="flex:1;"><canvas id="cm9" height="58"></canvas><button class="cbtn" onclick="clrC('cm9')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">4</div><div class="cw" style="flex:1;"><canvas id="cm4" height="58"></canvas><button class="cbtn" onclick="clrC('cm4')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">10</div><div class="cw" style="flex:1;"><canvas id="cm10" height="58"></canvas><button class="cbtn" onclick="clrC('cm10')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">5</div><div class="cw" style="flex:1;"><canvas id="cm5" height="58"></canvas><button class="cbtn" onclick="clrC('cm5')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">11</div><div class="cw" style="flex:1;"><canvas id="cm11" height="58"></canvas><button class="cbtn" onclick="clrC('cm11')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">6</div><div class="cw" style="flex:1;"><canvas id="cm6" height="58"></canvas><button class="cbtn" onclick="clrC('cm6')">🗑</button></div></div>
+      <div class="mitem"><div class="mnum">12</div><div class="cw" style="flex:1;"><canvas id="cm12" height="58"></canvas><button class="cbtn" onclick="clrC('cm12')">🗑</button></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">14</span><span class="qtxt">Estamos em <strong>marco</strong>. Tadeu vai viajar daqui a <strong>4 meses</strong>. Em que mes ele vai viajar?</span>
+    <div class="cw"><canvas id="cc14" height="80"></canvas><button class="cbtn" onclick="clrC('cc14')">🗑 Limpar</button></div>
+  </div>
+  <div class="card">
+    <span class="qnum">15</span><span class="qtxt">Ana vai ao medico a cada <strong>3 meses</strong>. Ela foi em <strong>fevereiro</strong>. Em que mes ela deve retornar?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">A</span>Abril</button>
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">B</span>Maio</button>
+      <button class="cbtn2" onclick="pick(this,'g15')"><span class="cltr">C</span>Junho</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAG 7: Dias da Semana -->
+<div class="page mod3" id="p7">
+  <div class="ph"><div class="ph-badge">3</div><div><div class="ph-sub">Modulo 3</div><div class="ph-title">Dias da Semana e Horas</div></div></div>
+  <div class="card">
+    <span class="qnum">16</span><span class="qtxt">Veja o calendario de <strong>junho de 2026</strong> e responda:</span>
+    <div style="overflow-x:auto;margin:10px 0;">
+      <table class="cal" style="min-width:280px;">
+        <tr><th class="cal-w">Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th class="cal-w">Sab</th></tr>
+        <tr><td class="cal-w"></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td class="cal-w">6</td></tr>
+        <tr><td class="cal-w">7</td><td>8</td><td>9</td><td class="cal-h">10</td><td>11</td><td>12</td><td class="cal-w">13</td></tr>
+        <tr><td class="cal-w">14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td class="cal-w">20</td></tr>
+        <tr><td class="cal-w">21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td class="cal-w">27</td></tr>
+        <tr><td class="cal-w">28</td><td>29</td><td>30</td><td></td><td></td><td></td><td class="cal-w"></td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:#888;margin-bottom:8px;">🔵 = hoje (dia 10 &ndash; quarta-feira)</p>
+    <p class="qtxt" style="margin:6px 0 3px;"><strong>A)</strong> Em que dia da semana junho <strong>comeca</strong>?</p>
+    <div class="cw"><canvas id="cc16a" height="70"></canvas><button class="cbtn" onclick="clrC('cc16a')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>B)</strong> Quantos <strong>domingos</strong> tem em junho?</p>
+    <div class="cw"><canvas id="cc16b" height="70"></canvas><button class="cbtn" onclick="clrC('cc16b')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>C)</strong> Se hoje e quarta-feira dia 10, qual e o dia de <strong>amanha</strong>?</p>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g16c')"><span class="cltr">A</span>Terca-feira, dia 9</button>
+      <button class="cbtn2" onclick="pick(this,'g16c')"><span class="cltr">B</span>Quinta-feira, dia 11</button>
+      <button class="cbtn2" onclick="pick(this,'g16c')"><span class="cltr">C</span>Sexta-feira, dia 12</button>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">17</span><span class="qtxt">Complete as frases (hoje = quarta-feira, dia 10):</span>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>A)</strong> Ontem foi ___________, dia ___.</p>
+    <div class="cw"><canvas id="cc17a" height="70"></canvas><button class="cbtn" onclick="clrC('cc17a')">🗑 Limpar</button></div>
+    <p class="qtxt" style="margin:8px 0 3px;"><strong>B)</strong> O dia depois de quinta-feira e ___________.</p>
+    <div class="cw"><canvas id="cc17b" height="70"></canvas><button class="cbtn" onclick="clrC('cc17b')">🗑 Limpar</button></div>
+  </div>
+  <div class="card">
+    <span class="qnum">18</span><span class="qtxt">Uma semana tem quantos dias?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">A</span>5 dias</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">B</span>7 dias</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">C</span>10 dias</button>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="page" id="p8">
+  <div class="final">
+    <div style="font-size:80px;animation:bounce 1.5s infinite alternate;">🏆⭐🎉</div>
+    <h1>Parabens,<br>Matheus!</h1>
+    <p style="font-size:22px;opacity:0.9;">Versao 2 concluida!<br>Voce arrasou! 👏👏👏</p>
+    <div class="chklist">
+      <p>📐 Reta Numerica ✅</p><p>🔢 Antecessor e Sucessor ✅</p>
+      <p>🥇 Numeros Ordinais ✅</p><p>➕ Adicao com Material Dourado ✅</p>
+      <p>➖ Subtracao com Material Dourado ✅</p><p>🧩 Situacoes-Problema ✅</p>
+      <p>🍎 Duzia e Meia Duzia ✅</p><p>📅 Meses do Ano ✅</p>
+      <p>📆 Dias da Semana ✅</p>
+    </div>
+    <button class="btn-start" onclick="goTo(0)" style="background:#FFD60A;">Fazer de novo 🔄</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="nav">
+  <button class="nbtn back" id="btnBack" onclick="prev()">← Voltar</button>
+  <div class="ninfo" id="ninfo"></div>
+  <button class="nbtn" id="btnNext" onclick="next()">Proximo →</button>
+</div>
+
+<script>
+var PAGES=['p0','p1','p2','p3','p4','p5','p6','p7','p8'];
+var NAMES=['Capa','Antecessor','Ordinais','Adicao','Subtracao','Situacoes','Meses','Dias','Fim'];
+var cur=0;
+var CTX={};
+
+function goTo(n){
+  document.getElementById(PAGES[cur]).classList.remove('active');
+  cur=n;
+  var pg=document.getElementById(PAGES[cur]);
+  pg.classList.add('active');
+  pg.scrollTop=0;
+  updateNav();
+  setTimeout(function(){initPage(PAGES[cur]);},150);
+}
+function next(){if(cur<PAGES.length-1)goTo(cur+1);}
+function prev(){if(cur>0)goTo(cur-1);}
+function updateNav(){
+  var nav=document.getElementById('nav');
+  if(cur===0||cur===PAGES.length-1){nav.style.display='none';return;}
+  nav.style.display='flex';
+  document.getElementById('btnBack').disabled=(cur<=1);
+  document.getElementById('btnNext').textContent=(cur===PAGES.length-2)?'Finalizar 🎉':'Proximo →';
+  document.getElementById('ninfo').innerHTML='Pagina '+cur+' de '+(PAGES.length-2)+'<br><small>'+NAMES[cur]+'</small>';
+}
+updateNav();
+
+function initCanvas(id){
+  var el=document.getElementById(id);
+  if(!el||CTX[id])return;
+  var cw=el.closest('.cw')||el.parentElement;
+  el.width=cw.clientWidth||300;
+  var ctx=el.getContext('2d');
+  CTX[id]=ctx;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,el.width,el.height);
+  var drawing=false,lx=0,ly=0;
+  function getColor(){
+    var pg=el.closest('.mod1,.mod2,.mod3');
+    if(!pg)return'#333';
+    if(pg.classList.contains('mod1'))return'#cc7700';
+    if(pg.classList.contains('mod2'))return'#1e8a39';
+    if(pg.classList.contains('mod3'))return'#005fcc';
+    return'#333';
+  }
+  el.addEventListener('pointerdown',function(e){
+    e.preventDefault();drawing=true;el.setPointerCapture(e.pointerId);
+    var r=el.getBoundingClientRect();lx=e.clientX-r.left;ly=e.clientY-r.top;
+  });
+  el.addEventListener('pointermove',function(e){
+    e.preventDefault();if(!drawing)return;
+    var r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    ctx.beginPath();ctx.globalCompositeOperation='source-over';
+    ctx.strokeStyle=getColor();ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.moveTo(lx,ly);ctx.lineTo(x,y);ctx.stroke();
+    lx=x;ly=y;
+  });
+  el.addEventListener('pointerup',function(e){e.preventDefault();drawing=false;});
+  el.addEventListener('pointercancel',function(e){e.preventDefault();drawing=false;});
+}
+
+function initPage(pid){
+  var pg=document.getElementById(pid);
+  if(pg)pg.querySelectorAll('canvas').forEach(function(c){initCanvas(c.id);});
+}
+
+function clrC(id){
+  var el=document.getElementById(id);if(!el)return;
+  var ctx=CTX[id]||el.getContext('2d');CTX[id]=ctx;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,el.width,el.height);
+}
+
+function pick(btn,group){
+  document.querySelectorAll('[onclick*="'+group+'"]').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+}
+function tf(el){el.classList.toggle('sel');}
+
+(function(){
+  var wrap=document.getElementById('trilha1');
+  if(!wrap)return;
+  var nums=[21,22,23,24,25,26,27,28,29,30];
+  nums.forEach(function(n){
+    var hl=(n===25);
+    var s=document.createElement('div');
+    s.style.cssText='width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:bold;flex-shrink:0;background:'+(hl?'#FF9500':'#ffe0a0')+';color:'+(hl?'white':'#cc6600')+';border:2px solid #FF9500;box-shadow:0 2px 4px rgba(0,0,0,0.15);';
+    s.textContent=n;wrap.appendChild(s);
+    if(n<30){var a=document.createElement('div');a.style.cssText='font-size:14px;color:#FF9500;align-self:center;flex-shrink:0;';a.textContent='→';wrap.appendChild(a);}
+  });
+})();
+</script>
+</body>
+</html>
