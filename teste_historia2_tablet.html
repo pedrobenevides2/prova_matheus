@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Teste de Historia 2 - Matheus | pH</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #fdf6ec; font-size: 18px; }
+
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+
+.mod5 { --c: #E65100; --cl: #FFF3E0; --cd: #BF360C; }
+.mod6 { --c: #1565C0; --cl: #E3F2FD; --cd: #0D47A1; }
+.mod8 { --c: #2E7D32; --cl: #E8F5E9; --cd: #1B5E20; }
+
+/* CAPA */
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg, #6D4C41 0%, #A1887F 50%, #D7CCC8 100%); color: white; text-align: center; gap: 20px; padding: 40px 24px 100px; }
+.cover-emoji { font-size: 80px; animation: bounce 1.5s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+.cover h1 { font-size: 36px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.35); }
+.cover .sub { font-size: 21px; opacity: 0.95; }
+.cover .school { font-size: 15px; opacity: 0.75; }
+.btn-start { background: #FFD54F; color: #3E2723; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+
+/* CABECALHO */
+.ph { background: var(--c); color: white; border-radius: 18px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 24px; font-weight: bold; }
+.ph-sub { font-size: 15px; opacity: 0.85; }
+
+/* CARD */
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 34px; height: 34px; font-size: 17px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 21px; color: #222; line-height: 1.6; display: inline; }
+.qtxt strong { color: var(--cd); }
+.qblock { font-size: 21px; color: #222; line-height: 1.6; margin-bottom: 10px; }
+.qblock strong { color: var(--cd); }
+
+/* CANVAS */
+.cw { position: relative; margin-top: 8px; border: 2.5px dashed var(--c); border-radius: 12px; overflow: hidden; background: #ffffff; }
+.cw canvas { display: block; width: 100%; touch-action: none; background: #ffffff; cursor: crosshair; }
+.chint { position: absolute; top: 6px; left: 10px; font-size: 13px; color: #bbb; pointer-events: none; }
+.cbtn { position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.95); border: 1.5px solid #ddd; border-radius: 8px; padding: 4px 10px; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
+
+/* DICA */
+.tip { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; font-size: 20px; color: #333; }
+.tip strong { color: var(--cd); }
+
+/* BOTOES DE ESCOLHA */
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.cbtn2 { display: flex; align-items: center; gap: 12px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 13px 16px; font-size: 20px; font-family: inherit; cursor: pointer; touch-action: manipulation; text-align: left; transition: all 0.15s; width: 100%; }
+.cbtn2.sel { background: var(--cl); border-color: var(--c); font-weight: bold; }
+.cltr { background: var(--c); color: white; border-radius: 50%; width: 36px; height: 36px; min-width: 36px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* VERDADEIRO/FALSO */
+.vf-row { display: flex; gap: 8px; margin: 8px 0; align-items: flex-start; }
+.vf-txt { font-size: 20px; color: #333; flex: 1; line-height: 1.5; padding-top: 4px; }
+.vf-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.vfbtn { border: 2.5px solid #ddd; border-radius: 10px; padding: 8px 16px; font-size: 18px; font-family: inherit; cursor: pointer; background: #f5f5f5; touch-action: manipulation; transition: all 0.15s; }
+.vfbtn.sel-v { background: #d4edda; border-color: #28a745; color: #155724; font-weight: bold; }
+.vfbtn.sel-f { background: #f8d7da; border-color: #dc3545; color: #721c24; font-weight: bold; }
+
+/* DIVISOR */
+.div { border: none; border-top: 2px dashed #e0e0e0; margin: 14px 0; }
+
+/* BOX DE CURIOSIDADE */
+.fact { background: var(--cl); border-radius: 12px; padding: 12px 16px; margin: 10px 0; font-size: 18px; color: #444; border-left: 4px solid var(--c); }
+.fact strong { color: var(--cd); }
+
+/* FINAL */
+.final { min-height: 100vh; background: linear-gradient(145deg, #6D4C41 0%, #A1887F 50%, #D7CCC8 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.final h1 { font-size: 42px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+.chklist { background: rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 22px; text-align: left; font-size: 19px; line-height: 2.2; width: 100%; max-width: 420px; }
+
+/* NAVEGACAO */
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #6D4C41; color: white; border: none; border-radius: 25px; padding: 12px 24px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.back { background: #8E8E93; }
+.nbtn:disabled { background: #C7C7CC; }
+.ninfo { text-align: center; font-size: 15px; color: #555; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div class="cover-emoji">📜🏫🗳️</div>
+    <h1>Meu Teste de<br>Historia!</h1>
+    <p class="sub">Ola, <strong>Matheus</strong>! 👋<br>2&ordm; Semestre — Modulos 5, 6 e 8</p>
+    <p class="school">Colegio pH • 2026 • Versao Tablet</p>
+    <button class="btn-start" onclick="goTo(1)">Vamos Comecar! 🚀</button>
+  </div>
+</div>
+
+<!-- PAGINA 1: MODULO 5 - OBJETOS E MEMORIAS -->
+<div class="page mod5" id="p1">
+  <div class="ph"><div class="ph-badge">📦</div><div><div class="ph-sub">Modulo 5</div><div class="ph-title">Objetos e Memorias</div></div></div>
+
+  <div class="tip">💡 <strong>Lembre-se:</strong> Objetos antigos guardam <strong>historias</strong> e <strong>memorias</strong> da nossa familia!</div>
+
+  <div class="card">
+    <span class="qnum">1</span><span class="qtxt">No filme <strong>Moana (2016)</strong>, a avo passa para ela um colar com a pedra de qual deusa?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g1')"><span class="cltr">A</span>🌊 Maui</button>
+      <button class="cbtn2" onclick="pick(this,'g1')"><span class="cltr">B</span>💎 Te Fiti</button>
+      <button class="cbtn2" onclick="pick(this,'g1')"><span class="cltr">C</span>🌺 Pocahontas</button>
+      <button class="cbtn2" onclick="pick(this,'g1')"><span class="cltr">D</span>🏝️ Polinésia</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">2</span><span class="qtxt">O povo <strong>Maori</strong> e famoso por ser navegador e vive em qual regiao?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g2')"><span class="cltr">A</span>🌍 Europa</button>
+      <button class="cbtn2" onclick="pick(this,'g2')"><span class="cltr">B</span>🌎 America do Sul</button>
+      <button class="cbtn2" onclick="pick(this,'g2')"><span class="cltr">C</span>🌏 Polinésia</button>
+      <button class="cbtn2" onclick="pick(this,'g2')"><span class="cltr">D</span>🏔️ Africa</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">3</span><span class="qtxt">O que o personagem <strong>Francisco</strong> guarda em seu bau?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g3')"><span class="cltr">A</span>📚 Livros e cadernos escolares</button>
+      <button class="cbtn2" onclick="pick(this,'g3')"><span class="cltr">B</span>🧸 Brinquedos, fotos e roupas antigas</button>
+      <button class="cbtn2" onclick="pick(this,'g3')"><span class="cltr">C</span>💰 Dinheiro e documentos</button>
+      <button class="cbtn2" onclick="pick(this,'g3')"><span class="cltr">D</span>🔧 Ferramentas e utensilios</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="qblock"><span class="qnum">4</span>Marque <strong>V</strong> (Verdadeiro) ou <strong>F</strong> (Falso):</p>
+    <div class="vf-row">
+      <span class="vf-txt">Objetos antigos so tem valor se forem caros.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf4a','V')">V</button><button class="vfbtn" onclick="vf(this,'vf4a','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">Uma alianca de casamento pode ter valor sentimental e ser passada de geracao em geracao.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf4b','V')">V</button><button class="vfbtn" onclick="vf(this,'vf4b','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">Podemos conhecer a historia da nossa familia por meio de fotos, cartas e objetos antigos.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf4c','V')">V</button><button class="vfbtn" onclick="vf(this,'vf4c','F')">F</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">5</span><span class="qtxt">No filme <strong>Toy Story 3 (2010)</strong>, qual e o nome do dono dos brinquedos?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">A</span>🤠 Woody</button>
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">B</span>🚀 Buzz Lightyear</button>
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">C</span>👦 Andy</button>
+      <button class="cbtn2" onclick="pick(this,'g5')"><span class="cltr">D</span>🎒 Francisco</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">6</span><span class="qtxt">O jornal <strong>Folha de S.Paulo</strong> de 17 de abril de 1984 registrou o movimento das <strong>Diretas Ja</strong>. Qual era a manchete?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">A</span>⚽ "Brasil campea do mundo!"</button>
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">B</span>📢 "Sao Paulo faz o maior comicio"</button>
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">C</span>🏫 "Nova escola inaugurada"</button>
+      <button class="cbtn2" onclick="pick(this,'g6')"><span class="cltr">D</span>🗳️ "Eleicoes encerradas"</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">7</span><span class="qtxt">O que devemos fazer com <strong>brinquedos e roupas bem conservados</strong> que nao usamos mais?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">A</span>🗑️ Jogar fora</button>
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">B</span>📦 Guardar no bau para sempre</button>
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">C</span>💝 Doar para quem precisa</button>
+      <button class="cbtn2" onclick="pick(this,'g7')"><span class="cltr">D</span>💰 Vender por dinheiro</button>
+    </div>
+    <hr class="div">
+    <p class="qblock" style="margin-top:8px;">Cite <strong>1 objeto</strong> que voce tem em casa que conta uma historia da sua familia:</p>
+    <div class="cw"><span class="chint">✏️ Escreva ou desenhe aqui</span><button class="cbtn" onclick="clr('c7')">🗑️</button><canvas id="c7" height="90"></canvas></div>
+  </div>
+</div>
+
+<!-- PAGINA 2: MODULO 6 - DOCUMENTOS PESSOAIS -->
+<div class="page mod6" id="p2">
+  <div class="ph"><div class="ph-badge">🪪</div><div><div class="ph-sub">Modulo 6</div><div class="ph-title">Documentos Pessoais</div></div></div>
+
+  <div class="tip">💡 <strong>Lembre-se:</strong> Documentos nos <strong>identificam</strong> e nos permitem realizar atividades de <strong>cidadania</strong>!</div>
+
+  <div class="card">
+    <span class="qnum">8</span><span class="qtxt">Qual documento <strong>registra o nascimento</strong> de uma crianca, com nome, filiacao, data e local?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g8')"><span class="cltr">A</span>💉 Carteira de Vacinacao</button>
+      <button class="cbtn2" onclick="pick(this,'g8')"><span class="cltr">B</span>📄 Certidao de Nascimento</button>
+      <button class="cbtn2" onclick="pick(this,'g8')"><span class="cltr">C</span>🪪 Carteira de Identidade (RG)</button>
+      <button class="cbtn2" onclick="pick(this,'g8')"><span class="cltr">D</span>✈️ Passaporte</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">9</span><span class="qtxt">A <strong>Carteira de Identidade (RG)</strong> NAO contem:</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g9')"><span class="cltr">A</span>📸 Fotografia</button>
+      <button class="cbtn2" onclick="pick(this,'g9')"><span class="cltr">B</span>👆 Impressao digital</button>
+      <button class="cbtn2" onclick="pick(this,'g9')"><span class="cltr">C</span>💼 Historico de empregos</button>
+      <button class="cbtn2" onclick="pick(this,'g9')"><span class="cltr">D</span>👨‍👩‍👦 Nome dos pais (filiacao)</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">10</span><span class="qtxt">Para viajar a <strong>outros paises</strong>, qual documento e necessario?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">A</span>🗳️ Titulo de Eleitor</button>
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">B</span>💼 Carteira de Trabalho</button>
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">C</span>✈️ Passaporte</button>
+      <button class="cbtn2" onclick="pick(this,'g10')"><span class="cltr">D</span>📄 Certidao de Nascimento</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">11</span><span class="qtxt">A <strong>Carteira de Trabalho</strong> foi criada na epoca de qual presidente do Brasil?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g11')"><span class="cltr">A</span>👑 Dom Pedro II</button>
+      <button class="cbtn2" onclick="pick(this,'g11')"><span class="cltr">B</span>🇧🇷 Getulio Vargas</button>
+      <button class="cbtn2" onclick="pick(this,'g11')"><span class="cltr">C</span>🚗 Juscelino Kubitschek</button>
+      <button class="cbtn2" onclick="pick(this,'g11')"><span class="cltr">D</span>⛵ Pedro Alvares Cabral</button>
+    </div>
+    <div class="fact">📅 <strong>Curiosidade:</strong> Getulio Vargas viveu de <strong>1882 a 1954</strong>.</div>
+  </div>
+
+  <div class="card">
+    <p class="qblock"><span class="qnum">12</span>Marque <strong>V</strong> (Verdadeiro) ou <strong>F</strong> (Falso):</p>
+    <div class="vf-row">
+      <span class="vf-txt">O voto e obrigatorio para quem tem entre 18 e 70 anos.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf12a','V')">V</button><button class="vfbtn" onclick="vf(this,'vf12a','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">Antigamente, todos os brasileiros podiam votar.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf12b','V')">V</button><button class="vfbtn" onclick="vf(this,'vf12b','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">A Carteira de Motorista pode ser tirada com 18 anos.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf12c','V')">V</button><button class="vfbtn" onclick="vf(this,'vf12c','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">As mulheres conquistaram o direito ao voto ha cerca de 90 anos.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf12d','V')">V</button><button class="vfbtn" onclick="vf(this,'vf12d','F')">F</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">13</span><span class="qtxt">O personagem <strong>Joao Rafael</strong> precisaria de qual documento para viajar para a <strong>China</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g13')"><span class="cltr">A</span>💼 Carteira de Trabalho</button>
+      <button class="cbtn2" onclick="pick(this,'g13')"><span class="cltr">B</span>🪪 Carteira de Identidade</button>
+      <button class="cbtn2" onclick="pick(this,'g13')"><span class="cltr">C</span>✈️ Passaporte</button>
+      <button class="cbtn2" onclick="pick(this,'g13')"><span class="cltr">D</span>🗳️ Titulo de Eleitor</button>
+    </div>
+    <hr class="div">
+    <p class="qblock" style="margin-top:8px;">Escreva o nome de <strong>2 documentos pessoais</strong> e para que cada um serve:</p>
+    <div class="cw"><span class="chint">✏️ Escreva aqui</span><button class="cbtn" onclick="clr('c13')">🗑️</button><canvas id="c13" height="110"></canvas></div>
+  </div>
+</div>
+
+<!-- PAGINA 3: MODULO 8 - ESCOLAS NO PASSADO E NO PRESENTE -->
+<div class="page mod8" id="p3">
+  <div class="ph"><div class="ph-badge">🏫</div><div><div class="ph-sub">Modulo 8</div><div class="ph-title">Escolas: Passado e Presente</div></div></div>
+
+  <div class="tip">💡 <strong>Lembre-se:</strong> As escolas <strong>mudaram muito</strong> ao longo do tempo. Antigamente as regras eram bem diferentes!</div>
+
+  <div class="card">
+    <span class="qnum">14</span><span class="qtxt">A <strong>Palmatoria</strong> era um instrumento usado antigamente nas escolas para:</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g14')"><span class="cltr">A</span>📖 Passar as paginas dos livros</button>
+      <button class="cbtn2" onclick="pick(this,'g14')"><span class="cltr">B</span>🖐️ Bater nas maos dos alunos como punicao</button>
+      <button class="cbtn2" onclick="pick(this,'g14')"><span class="cltr">C</span>🖊️ Escrever no quadro-negro</button>
+      <button class="cbtn2" onclick="pick(this,'g14')"><span class="cltr">D</span>🎵 Marcar o ritmo na aula de musica</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="qblock"><span class="qnum">15</span>Marque <strong>V</strong> (Verdadeiro) ou <strong>F</strong> (Falso):</p>
+    <div class="vf-row">
+      <span class="vf-txt">A Palmatoria foi proibida no Brasil em 1980.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf15a','V')">V</button><button class="vfbtn" onclick="vf(this,'vf15a','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">Em 1904, meninos e meninas estudavam juntos na mesma sala de aula.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf15b','V')">V</button><button class="vfbtn" onclick="vf(this,'vf15b','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">Antigamente, meninas aprendiam bordado e musica nas escolas.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf15c','V')">V</button><button class="vfbtn" onclick="vf(this,'vf15c','F')">F</button></div>
+    </div>
+    <div class="vf-row">
+      <span class="vf-txt">Hoje em dia e justo que meninos e meninas aprendam coisas diferentes na escola.</span>
+      <div class="vf-btns"><button class="vfbtn" onclick="vf(this,'vf15d','V')">V</button><button class="vfbtn" onclick="vf(this,'vf15d','F')">F</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">16</span><span class="qtxt">Como os alunos escreviam nas escolas <strong>antigamente</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">A</span>✏️ Com lapis e borracha</button>
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">B</span>🖊️ Com caneta de pena e tinteiro</button>
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">C</span>💻 Com computador</button>
+      <button class="cbtn2" onclick="pick(this,'g16')"><span class="cltr">D</span>🖍️ Com canetao hidrocor</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">17</span><span class="qtxt">O que era o <strong>mata-borrao</strong>?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">A</span>📝 Um caderno para treinar a escrita</button>
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">B</span>⚙️ Um apontador de mesa com manivela</button>
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">C</span>📄 Uma folha especial para absorver o excesso de tinta</button>
+      <button class="cbtn2" onclick="pick(this,'g17')"><span class="cltr">D</span>📏 Um tipo de regua</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">18</span><span class="qtxt">O livro <strong>"Geografia dos Meninos"</strong>, publicado em 1947, foi escrito por:</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">A</span>🇧🇷 Getulio Vargas</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">B</span>📚 Aroldo de Azevedo</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">C</span>🌊 Moana</button>
+      <button class="cbtn2" onclick="pick(this,'g18')"><span class="cltr">D</span>👦 Andy</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="qnum">19</span><span class="qtxt">A foto da <strong>Escola Caetano de Campos</strong> foi tirada em qual ano?</span>
+    <div class="choices">
+      <button class="cbtn2" onclick="pick(this,'g19')"><span class="cltr">A</span>📸 1847</button>
+      <button class="cbtn2" onclick="pick(this,'g19')"><span class="cltr">B</span>📸 1908</button>
+      <button class="cbtn2" onclick="pick(this,'g19')"><span class="cltr">C</span>📸 1950</button>
+      <button class="cbtn2" onclick="pick(this,'g19')"><span class="cltr">D</span>📸 1980</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="qblock"><span class="qnum">20</span>Desenhe ou escreva <strong>2 diferencas</strong> entre a escola de antigamente e a escola de hoje:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+      <div>
+        <p style="font-size:16px;font-weight:bold;color:var(--cd);text-align:center;margin-bottom:6px;">🏚️ Escola Antiga</p>
+        <div class="cw"><span class="chint">✏️ Escreva</span><button class="cbtn" onclick="clr('c20a')">🗑️</button><canvas id="c20a" height="100"></canvas></div>
+      </div>
+      <div>
+        <p style="font-size:16px;font-weight:bold;color:var(--cd);text-align:center;margin-bottom:6px;">🏫 Escola Hoje</p>
+        <div class="cw"><span class="chint">✏️ Escreva</span><button class="cbtn" onclick="clr('c20b')">🗑️</button><canvas id="c20b" height="100"></canvas></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGINA FINAL -->
+<div class="page" id="p4">
+  <div class="final">
+    <div style="font-size:80px;">🏆</div>
+    <h1>Arrasou,<br>Matheus!</h1>
+    <p style="font-size:22px;opacity:0.9;">Voce terminou o teste de Historia!</p>
+    <div class="chklist">
+      ✅ Modulo 5: Objetos e Memorias<br>
+      ✅ Modulo 6: Documentos Pessoais<br>
+      ✅ Modulo 8: Escolas no Passado e no Presente<br>
+    </div>
+    <p style="font-size:20px;opacity:0.88;">Mostre para o(a) professor(a)! 😊</p>
+    <button class="btn-start" onclick="goTo(0)" style="background:rgba(255,255,255,0.9);color:#3E2723;">🔄 Comecar de Novo</button>
+  </div>
+</div>
+
+<!-- NAVEGACAO -->
+<div class="nav" id="nav">
+  <button class="nbtn back" id="btnBack" onclick="goTo(cur-1)">← Voltar</button>
+  <div class="ninfo" id="navInfo"></div>
+  <button class="nbtn" id="btnNext" onclick="goTo(cur+1)">Proximo →</button>
+</div>
+
+<script>
+var cur = 0;
+var pages = ['p0','p1','p2','p3','p4'];
+var labels = ['Inicio','Modulo 5','Modulo 6','Modulo 8','Fim'];
+
+function goTo(n) {
+  n = Math.max(0, Math.min(pages.length-1, n));
+  document.getElementById(pages[cur]).classList.remove('active');
+  cur = n;
+  document.getElementById(pages[cur]).classList.add('active');
+  document.getElementById(pages[cur]).scrollTop = 0;
+  updateNav();
+}
+
+function updateNav() {
+  var nav = document.getElementById('nav');
+  var info = document.getElementById('navInfo');
+  var back = document.getElementById('btnBack');
+  var next = document.getElementById('btnNext');
+  if (cur === 0) { nav.style.display='none'; return; }
+  nav.style.display='flex';
+  back.disabled = (cur <= 1);
+  next.textContent = cur >= pages.length-2 ? 'Finalizar 🎉' : 'Proximo →';
+  info.textContent = labels[cur] + '\n' + cur + ' de ' + (pages.length-2);
+}
+
+// Multiple choice
+function pick(btn, grp) {
+  var btns = btn.closest('.card').querySelectorAll('.cbtn2');
+  btns.forEach(function(b) { b.classList.remove('sel'); });
+  btn.classList.add('sel');
+}
+
+// Verdadeiro/Falso
+var vfState = {};
+function vf(btn, id, val) {
+  var row = btn.closest('.vf-row');
+  row.querySelectorAll('.vfbtn').forEach(function(b) {
+    b.classList.remove('sel-v','sel-f');
+  });
+  btn.classList.add(val === 'V' ? 'sel-v' : 'sel-f');
+  vfState[id] = val;
+}
+
+// Canvas
+var drawings = {};
+function initCanvas(id) {
+  var canvas = document.getElementById(id);
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var rect, drawing = false;
+  var dpr = window.devicePixelRatio || 1;
+
+  function resize() {
+    rect = canvas.getBoundingClientRect();
+    var w = rect.width, h = parseInt(canvas.getAttribute('height')) || 90;
+    canvas.style.height = h + 'px';
+    var oldData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
+    ctx.putImageData(oldData, 0, 0);
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#222';
+  }
+  resize();
+
+  function getPos(e) {
+    rect = canvas.getBoundingClientRect();
+    var src = e.touches ? e.touches[0] : e;
+    return { x: (src.clientX - rect.left), y: (src.clientY - rect.top) };
+  }
+  function start(e) { e.preventDefault(); drawing = true; var p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+  function move(e) { if (!drawing) return; e.preventDefault(); var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+  function end(e) { drawing = false; }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+
+function clr(id) {
+  var canvas = document.getElementById(id);
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+window.addEventListener('load', function() {
+  ['c7','c13','c20a','c20b'].forEach(initCanvas);
+  updateNav();
+});
+</script>
+</body>
+</html>
