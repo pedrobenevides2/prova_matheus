@@ -6,29 +6,10 @@
   <title>Estudos do Matheus - pH</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{
-      font-family:'Segoe UI',system-ui,sans-serif;
-      min-height:100vh;
-      background:#1a1a2e;
-      color:#fff;
-      overflow-x:hidden;
-    }
-    .bg{
-      position:fixed;inset:0;z-index:0;
-      background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-      overflow:hidden;
-    }
-    .bubble{
-      position:absolute;border-radius:50%;
-      background:rgba(255,255,255,0.04);
-      animation:rise linear infinite;
-    }
-    @keyframes rise{
-      0%{transform:translateY(100vh) scale(0);opacity:0}
-      10%{opacity:1}
-      90%{opacity:0.5}
-      100%{transform:translateY(-20vh) scale(1.2);opacity:0}
-    }
+    body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;background:#1a1a2e;color:#fff;overflow-x:hidden;}
+    .bg{position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);overflow:hidden;}
+    .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,0.04);animation:rise linear infinite;}
+    @keyframes rise{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:0.5}100%{transform:translateY(-20vh) scale(1.2);opacity:0}}
     .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:16px;}
     header{text-align:center;padding:36px 16px 24px;}
     .backpack{font-size:5rem;filter:drop-shadow(0 4px 16px rgba(255,200,0,0.4));animation:bob 3s ease-in-out infinite;}
@@ -74,6 +55,7 @@
     .btn-teclado{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;}
     .btn-video{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#111;width:100%;padding:14px;font-size:0.95rem;}
     .btn-doc{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#111;width:100%;padding:12px;}
+    .card.dim{opacity:.55;pointer-events:none;}
     .embreve{text-align:center;padding:60px 24px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:20px;backdrop-filter:blur(8px);}
     .embreve .big{font-size:4rem;margin-bottom:16px;}
     .embreve h2{font-size:1.8rem;font-weight:800;margin-bottom:8px;}
@@ -84,9 +66,7 @@
   </style>
 </head>
 <body>
-
 <div class="bg" id="bg"></div>
-
 <div class="wrap">
 
   <header>
@@ -98,7 +78,7 @@
 
   <div class="stats">
     <div class="stat-pill"><strong>5</strong><span>Mat&eacute;rias</span></div>
-    <div class="stat-pill"><strong>10</strong><span>Simulados</span></div>
+    <div class="stat-pill"><strong>9</strong><span>Simulados</span></div>
     <div class="stat-pill"><strong>5</strong><span>V&iacute;deos</span></div>
     <div class="stat-pill"><strong>3</strong><span>Materiais</span></div>
   </div>
@@ -110,12 +90,13 @@
     <button class="bim-tab" onclick="showBim('b4',this)">4&ordm; Bimestre</button>
   </div>
 
-  <!-- ====== 1o BIMESTRE ====== -->
+  <!-- ===== 1o BIMESTRE ===== -->
   <div id="b1" class="panel on">
     <div class="grid">
 
-      <div class="card mat" id="c-mat">
-        <div class="card-head" onclick="tog('c-mat')">
+      <!-- Matematica 1B -->
+      <div class="card mat" id="c-mat1">
+        <div class="card-head" onclick="tog('c-mat1')">
           <span class="emoji">&#128290;</span>
           <div class="card-info">
             <div class="card-nome">Matem&aacute;tica</div>
@@ -150,8 +131,9 @@
         </div>
       </div>
 
-      <div class="card cien" id="c-cien">
-        <div class="card-head" onclick="tog('c-cien')">
+      <!-- Ciencias 1B -->
+      <div class="card cien" id="c-cien1">
+        <div class="card-head" onclick="tog('c-cien1')">
           <span class="emoji">&#128300;</span>
           <div class="card-info">
             <div class="card-nome">Ci&ecirc;ncias</div>
@@ -178,15 +160,14 @@
           </div>
           <div class="sec">
             <div class="sec-label">&#128196; Material</div>
-            <a href="material_ciencias_pH.docx" class="btn btn-doc">
-              &#8659; Baixar Material de Estudo
-            </a>
+            <a href="material_ciencias_pH.docx" class="btn btn-doc">&#8659; Baixar Material de Estudo</a>
           </div>
         </div>
       </div>
 
-      <div class="card geo" id="c-geo">
-        <div class="card-head" onclick="tog('c-geo')">
+      <!-- Geografia 1B -->
+      <div class="card geo" id="c-geo1">
+        <div class="card-head" onclick="tog('c-geo1')">
           <span class="emoji">&#127758;</span>
           <div class="card-info">
             <div class="card-nome">Geografia</div>
@@ -214,12 +195,13 @@
         </div>
       </div>
 
-      <div class="card hist" id="c-hist">
-        <div class="card-head" onclick="tog('c-hist')">
+      <!-- Historia 1B — apenas Simulado 1 -->
+      <div class="card hist" id="c-hist1">
+        <div class="card-head" onclick="tog('c-hist1')">
           <span class="emoji">&#128220;</span>
           <div class="card-info">
             <div class="card-nome">Hist&oacute;ria</div>
-            <div class="card-sub">2 simulados &middot; 1 v&iacute;deo</div>
+            <div class="card-sub">1 simulado</div>
           </div>
           <span class="chevron">&#9660;</span>
         </div>
@@ -233,25 +215,13 @@
                 <a href="teste_historia_teclado.html" target="_blank" class="btn btn-teclado">&#9000;&#65039; Teclado</a>
               </div>
             </div>
-            <div class="sim-box">
-              <div class="sim-title">Simulado 2</div>
-              <div class="btn-row">
-                <a href="teste_historia2_tablet.html" target="_blank" class="btn btn-caneta">&#9999;&#65039; Caneta</a>
-                <a href="teste_historia2_teclado.html" target="_blank" class="btn btn-teclado">&#9000;&#65039; Teclado</a>
-              </div>
-            </div>
-          </div>
-          <div class="sec">
-            <div class="sec-label">&#127909; V&iacute;deo de Estudo</div>
-            <a href="Viagem_no_Tempo_com_Pipo%21.mp4" target="_blank" class="btn btn-video">
-              &#9654; Viagem no Tempo com Pipo!
-            </a>
           </div>
         </div>
       </div>
 
-      <div class="card port" id="c-port">
-        <div class="card-head" onclick="tog('c-port')">
+      <!-- Portugues 1B -->
+      <div class="card port" id="c-port1">
+        <div class="card-head" onclick="tog('c-port1')">
           <span class="emoji">&#9998;&#65039;</span>
           <div class="card-info">
             <div class="card-nome">Portugu&ecirc;s</div>
@@ -272,9 +242,7 @@
           </div>
           <div class="sec">
             <div class="sec-label">&#128196; Material</div>
-            <a href="material_portugues_pH.docx" class="btn btn-doc">
-              &#8659; Baixar Material de Estudo
-            </a>
+            <a href="material_portugues_pH.docx" class="btn btn-doc">&#8659; Baixar Material de Estudo</a>
           </div>
         </div>
       </div>
@@ -282,10 +250,11 @@
     </div>
   </div>
 
-  <!-- ====== 2o BIMESTRE ====== -->
+  <!-- ===== 2o BIMESTRE ===== -->
   <div id="b2" class="panel">
     <div class="grid">
 
+      <!-- Portugues 2B -->
       <div class="card port" id="c-port2">
         <div class="card-head" onclick="tog('c-port2')">
           <span class="emoji">&#9998;&#65039;</span>
@@ -314,50 +283,58 @@
           </div>
           <div class="sec">
             <div class="sec-label">&#128196; Material</div>
-            <a href="material_portugues2_pH.docx" class="btn btn-doc">
-              &#8659; Baixar Material de Estudo
+            <a href="material_portugues2_pH.docx" class="btn btn-doc">&#8659; Baixar Material de Estudo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historia 2B -->
+      <div class="card hist" id="c-hist2">
+        <div class="card-head" onclick="tog('c-hist2')">
+          <span class="emoji">&#128220;</span>
+          <div class="card-info">
+            <div class="card-nome">Hist&oacute;ria</div>
+            <div class="card-sub">1 simulado &middot; 1 v&iacute;deo</div>
+          </div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="card-body">
+          <div class="sec">
+            <div class="sec-label">&#128221; Simulados</div>
+            <div class="sim-box">
+              <div class="sim-title">Simulado 1</div>
+              <div class="btn-row">
+                <a href="teste_historia2_tablet.html" target="_blank" class="btn btn-caneta">&#9999;&#65039; Caneta</a>
+                <a href="teste_historia2_teclado.html" target="_blank" class="btn btn-teclado">&#9000;&#65039; Teclado</a>
+              </div>
+            </div>
+          </div>
+          <div class="sec">
+            <div class="sec-label">&#127909; V&iacute;deo de Estudo</div>
+            <a href="Viagem_no_Tempo_com_Pipo%21.mp4" target="_blank" class="btn btn-video">
+              &#9654; Viagem no Tempo com Pipo!
             </a>
           </div>
         </div>
       </div>
 
-      <div class="card mat" style="opacity:.55;pointer-events:none;">
+      <!-- Cards em breve -->
+      <div class="card mat dim">
         <div class="card-head" style="cursor:default;">
           <span class="emoji">&#128290;</span>
-          <div class="card-info">
-            <div class="card-nome">Matem&aacute;tica</div>
-            <div class="card-sub">&#128640; Em breve</div>
-          </div>
+          <div class="card-info"><div class="card-nome">Matem&aacute;tica</div><div class="card-sub">&#128640; Em breve</div></div>
         </div>
       </div>
-
-      <div class="card cien" style="opacity:.55;pointer-events:none;">
+      <div class="card cien dim">
         <div class="card-head" style="cursor:default;">
           <span class="emoji">&#128300;</span>
-          <div class="card-info">
-            <div class="card-nome">Ci&ecirc;ncias</div>
-            <div class="card-sub">&#128640; Em breve</div>
-          </div>
+          <div class="card-info"><div class="card-nome">Ci&ecirc;ncias</div><div class="card-sub">&#128640; Em breve</div></div>
         </div>
       </div>
-
-      <div class="card geo" style="opacity:.55;pointer-events:none;">
+      <div class="card geo dim">
         <div class="card-head" style="cursor:default;">
           <span class="emoji">&#127758;</span>
-          <div class="card-info">
-            <div class="card-nome">Geografia</div>
-            <div class="card-sub">&#128640; Em breve</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card hist" style="opacity:.55;pointer-events:none;">
-        <div class="card-head" style="cursor:default;">
-          <span class="emoji">&#128220;</span>
-          <div class="card-info">
-            <div class="card-nome">Hist&oacute;ria</div>
-            <div class="card-sub">&#128640; Em breve</div>
-          </div>
+          <div class="card-info"><div class="card-nome">Geografia</div><div class="card-sub">&#128640; Em breve</div></div>
         </div>
       </div>
 
@@ -381,7 +358,6 @@
   </div>
 
   <footer>Feito com &#10084;&#65039; para o Matheus &middot; Col&eacute;gio pH</footer>
-
 </div>
 
 <script>
@@ -389,21 +365,13 @@
   var bg=document.getElementById('bg');
   var sizes=[80,120,160,200,260,320];
   for(var i=0;i<18;i++){
-    var d=document.createElement('div');
-    d.className='bubble';
+    var d=document.createElement('div');d.className='bubble';
     var s=sizes[Math.floor(Math.random()*sizes.length)];
-    d.style.cssText='width:'+s+'px;height:'+s+'px;left:'+Math.random()*100+'%;'
-      +'animation-duration:'+(12+Math.random()*18)+'s;'
-      +'animation-delay:'+(Math.random()*12)+'s;';
+    d.style.cssText='width:'+s+'px;height:'+s+'px;left:'+Math.random()*100+'%;animation-duration:'+(12+Math.random()*18)+'s;animation-delay:'+(Math.random()*12)+'s;';
     bg.appendChild(d);
   }
 })();
-
-function tog(id){
-  var c=document.getElementById(id);
-  c.classList.toggle('open');
-}
-
+function tog(id){document.getElementById(id).classList.toggle('open');}
 function showBim(id,btn){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.bim-tab').forEach(function(t){t.classList.remove('on');});
