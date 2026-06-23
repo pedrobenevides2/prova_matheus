@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teste de Portugues 2 - Matheus</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.wrap{width:100%;max-width:820px;padding:16px;}
+.page{display:none;background:#fff;border-radius:18px;box-shadow:0 4px 24px rgba(0,0,0,.13);overflow:hidden;}
+.page.active{display:block;}
+.page-header{padding:28px 32px 20px;color:#fff;}
+.page-header h1{font-size:1.9em;font-weight:800;letter-spacing:-1px;}
+.page-header p{font-size:1.05em;opacity:.92;margin-top:6px;}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:3px 14px;font-size:.85em;font-weight:700;margin-bottom:10px;letter-spacing:.5px;}
+.content{padding:24px 32px 16px;}
+.q-block{margin-bottom:20px;background:#f8f9fc;border-radius:12px;padding:16px 18px;}
+.q-num{font-size:.78em;font-weight:700;letter-spacing:.5px;margin-bottom:5px;text-transform:uppercase;color:#888;}
+.q-text{font-size:1.06em;font-weight:600;color:#222;margin-bottom:10px;line-height:1.5;}
+.opts label{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:9px;margin-bottom:6px;cursor:pointer;background:#fff;border:2px solid #e8eaf0;font-size:.97em;transition:.15s;}
+.opts label:hover{border-color:#aaa;}
+.opts label.sel{border-color:var(--c);background:var(--cl);font-weight:600;}
+.opts label input{display:none;}
+textarea{width:100%;border:2px solid #e0e0e0;border-radius:10px;padding:12px;font-size:1em;font-family:inherit;resize:vertical;min-height:68px;outline:none;transition:.15s;}
+textarea:focus{border-color:var(--c);}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 32px 22px;}
+.btn{padding:11px 26px;border:none;border-radius:30px;font-size:1em;font-weight:700;cursor:pointer;transition:.18s;}
+.btn-prev{background:#e0e0e0;color:#555;}
+.btn-prev:hover{background:#ccc;}
+.btn-next{background:var(--c);color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.18);}
+.btn-next:hover{opacity:.88;}
+.pg-dots{display:flex;gap:8px;}
+.dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.2s;}
+.dot.active{background:var(--c);transform:scale(1.3);}
+.cover-header{background:linear-gradient(135deg,#4a148c,#7B2FBE);padding:44px 32px 36px;text-align:center;color:#fff;}
+.cover-header .icon{font-size:3em;margin-bottom:10px;}
+.cover-header h1{font-size:2.3em;font-weight:900;letter-spacing:-1px;margin-bottom:6px;}
+.cover-header p{font-size:1.1em;opacity:.85;}
+.cover-info{padding:28px 32px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.info-box{background:#f3e8ff;border-radius:12px;padding:14px 18px;border-left:4px solid #7B2FBE;}
+.info-box label{font-size:.76em;font-weight:700;text-transform:uppercase;color:#666;display:block;margin-bottom:5px;}
+.info-box input{border:none;background:transparent;font-size:1.1em;font-weight:600;width:100%;outline:none;color:#222;}
+.cover-mods{padding:0 32px 24px;}
+.cover-mods h3{font-size:.88em;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:10px;letter-spacing:.5px;}
+.mod-chip{display:inline-block;border-radius:20px;padding:4px 14px;font-size:.86em;font-weight:700;color:#fff;margin:3px 3px 3px 0;}
+.cover-nav{padding:0 32px 30px;text-align:center;}
+.btn-start{background:linear-gradient(135deg,#4a148c,#7B2FBE);color:#fff;padding:14px 46px;font-size:1.1em;font-weight:800;border:none;border-radius:30px;cursor:pointer;box-shadow:0 4px 16px rgba(123,47,190,.4);transition:.18s;}
+.btn-start:hover{opacity:.88;transform:translateY(-2px);}
+.mod2{--c:#7B2FBE;--cl:#f3e8ff;}
+.mod3{--c:#2E7D32;--cl:#e8f5e9;}
+.mod4{--c:#E53935;--cl:#ffebee;}
+.mod5{--c:#00897B;--cl:#e0f2f1;}
+.mod6{--c:#1565C0;--cl:#e3f2fd;}
+.mod7{--c:#E65100;--cl:#fff3e0;}
+.final-header{background:linear-gradient(135deg,#4a148c,#7B2FBE);padding:40px 32px;text-align:center;color:#fff;}
+.final-header .trophy{font-size:3.5em;margin-bottom:10px;}
+.final-header h1{font-size:2em;font-weight:800;}
+.final-header p{opacity:.85;margin-top:8px;}
+.final-body{padding:28px 32px 36px;text-align:center;}
+.final-body p{font-size:1.1em;color:#444;line-height:1.7;}
+.btn-restart{background:linear-gradient(135deg,#4a148c,#7B2FBE);color:#fff;padding:14px 40px;font-size:1em;font-weight:700;border:none;border-radius:30px;cursor:pointer;margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="page active" id="cover">
+  <div class="cover-header">
+    <div class="icon">&#128214;</div>
+    <h1>Portugu&ecirc;s &mdash; 2&ordm; Bimestre</h1>
+    <p>Col&eacute;gio pH &mdash; Matheus</p>
+  </div>
+  <div class="cover-info">
+    <div class="info-box"><label>Nome</label><input type="text" placeholder="Digite seu nome"></div>
+    <div class="info-box"><label>Data</label><input type="date"></div>
+  </div>
+  <div class="cover-mods">
+    <h3>Conte&uacute;dos desta prova</h3>
+    <span class="mod-chip" style="background:#7B2FBE;">M&oacute;d. 9: Biografia e Pontua&ccedil;&atilde;o</span>
+    <span class="mod-chip" style="background:#2E7D32;">M&oacute;d. 10: Substantivos M/F</span>
+    <span class="mod-chip" style="background:#E53935;">M&oacute;ds. 11-12: S&iacute;labas e S/SS/&Ccedil;</span>
+    <span class="mod-chip" style="background:#00897B;">M&oacute;d. 13: Singular e Plural</span>
+    <span class="mod-chip" style="background:#1565C0;">M&oacute;d. 13: H/CH/LH/NH</span>
+    <span class="mod-chip" style="background:#E65100;">M&oacute;ds. 15-16: Grau e Pr&oacute;prio/Comum</span>
+  </div>
+  <div class="cover-nav"><button class="btn-start" onclick="goTo('p2')">Come&ccedil;ar o Teste &#10148;</button></div>
+</div>
+
+<div class="page mod2" id="p2">
+  <div class="page-header" style="background:linear-gradient(135deg,#7B2FBE,#9c4dcc);">
+    <span class="badge">M&oacute;dulo 9 &mdash; P&aacute;g. 1/6</span>
+    <h1>&#128219; Biografia e Pontua&ccedil;&atilde;o</h1>
+    <p>Hist&oacute;rias de vida reais e os sinais da escrita!</p>
+  </div>
+  <div class="content">
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 1</div>
+      <div class="q-text">O que &eacute; uma <strong>biografia</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q1" value="a"><span>a) Uma hist&oacute;ria completamente inventada</span></label>
+        <label><input type="radio" name="q1" value="b"><span>b) A hist&oacute;ria da vida de uma pessoa real</span></label>
+        <label><input type="radio" name="q1" value="c"><span>c) Um poema engra&ccedil;ado</span></label>
+        <label><input type="radio" name="q1" value="d"><span>d) Uma receita de comida</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 2</div>
+      <div class="q-text">Uma biografia fala sobre:</div>
+      <div class="opts">
+        <label><input type="radio" name="q2" value="a"><span>a) Animais imagin&aacute;rios</span></label>
+        <label><input type="radio" name="q2" value="b"><span>b) O nascimento, a vida e as conquistas de uma pessoa real</span></label>
+        <label><input type="radio" name="q2" value="c"><span>c) Lugares m&aacute;gicos que n&atilde;o existem</span></label>
+        <label><input type="radio" name="q2" value="d"><span>d) Brincadeiras de crian&ccedil;a</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 3</div>
+      <div class="q-text">Qual sinal termina uma frase de <strong>pergunta</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q3" value="a"><span>a) Ponto final &nbsp; .</span></label>
+        <label><input type="radio" name="q3" value="b"><span>b) V&iacute;rgula &nbsp; ,</span></label>
+        <label><input type="radio" name="q3" value="c"><span>c) Ponto de interroga&ccedil;&atilde;o &nbsp; ?</span></label>
+        <label><input type="radio" name="q3" value="d"><span>d) Ponto de exclama&ccedil;&atilde;o &nbsp; !</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 4</div>
+      <div class="q-text">Qual sinal termina uma frase de <strong>admira&ccedil;&atilde;o ou surpresa</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q4" value="a"><span>a) Ponto final &nbsp; .</span></label>
+        <label><input type="radio" name="q4" value="b"><span>b) Ponto de exclama&ccedil;&atilde;o &nbsp; !</span></label>
+        <label><input type="radio" name="q4" value="c"><span>c) V&iacute;rgula &nbsp; ,</span></label>
+        <label><input type="radio" name="q4" value="d"><span>d) Dois pontos &nbsp; :</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 5</div>
+      <div class="q-text">Escreva 2 sinais de pontua&ccedil;&atilde;o e explique para que cada um serve.</div>
+      <textarea placeholder="Exemplo: O ponto final (.) termina uma frase..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-prev" onclick="goTo('cover')">&larr; Voltar</button>
+    <div class="pg-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <button class="btn btn-next" onclick="goTo('p3')">Pr&oacute;xima &rarr;</button>
+  </div>
+</div>
+
+<div class="page mod3" id="p3">
+  <div class="page-header" style="background:linear-gradient(135deg,#2E7D32,#43a047);">
+    <span class="badge">M&oacute;dulo 10 &mdash; P&aacute;g. 2/6</span>
+    <h1>&#127807; Substantivos Masculinos e Femininos</h1>
+    <p>As palavras t&ecirc;m g&ecirc;nero: masculino ou feminino!</p>
+  </div>
+  <div class="content">
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 6</div>
+      <div class="q-text">&ldquo;A menina&rdquo; &mdash; este substantivo &eacute;:</div>
+      <div class="opts">
+        <label><input type="radio" name="q6" value="a"><span>a) Masculino</span></label>
+        <label><input type="radio" name="q6" value="b"><span>b) Feminino</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 7</div>
+      <div class="q-text">&ldquo;O carro&rdquo; &mdash; este substantivo &eacute;:</div>
+      <div class="opts">
+        <label><input type="radio" name="q7" value="a"><span>a) Masculino</span></label>
+        <label><input type="radio" name="q7" value="b"><span>b) Feminino</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 8</div>
+      <div class="q-text">Qual &eacute; o <strong>feminino</strong> de &ldquo;gato&rdquo;?</div>
+      <div class="opts">
+        <label><input type="radio" name="q8" value="a"><span>a) gatinho</span></label>
+        <label><input type="radio" name="q8" value="b"><span>b) gata</span></label>
+        <label><input type="radio" name="q8" value="c"><span>c) gatos</span></label>
+        <label><input type="radio" name="q8" value="d"><span>d) gatona</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 9</div>
+      <div class="q-text">Qual &eacute; o <strong>masculino</strong> de &ldquo;professora&rdquo;?</div>
+      <div class="opts">
+        <label><input type="radio" name="q9" value="a"><span>a) professorina</span></label>
+        <label><input type="radio" name="q9" value="b"><span>b) professor</span></label>
+        <label><input type="radio" name="q9" value="c"><span>c) professorona</span></label>
+        <label><input type="radio" name="q9" value="d"><span>d) professoras</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 10</div>
+      <div class="q-text">Escreva o <strong>feminino</strong>: menino &rarr; ___ &nbsp;|&nbsp; lobo &rarr; ___ &nbsp;|&nbsp; rei &rarr; ___</div>
+      <textarea placeholder="menino -> ..., lobo -> ..., rei -> ..."></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 11</div>
+      <div class="q-text">Escreva o <strong>masculino</strong>: atriz &rarr; ___ &nbsp;|&nbsp; rainha &rarr; ___ &nbsp;|&nbsp; m&eacute;dica &rarr; ___</div>
+      <textarea placeholder="atriz -> ..., rainha -> ..., medica -> ..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-prev" onclick="goTo('p2')">&larr; Voltar</button>
+    <div class="pg-dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <button class="btn btn-next" onclick="goTo('p4')">Pr&oacute;xima &rarr;</button>
+  </div>
+</div>
+
+<div class="page mod4" id="p4">
+  <div class="page-header" style="background:linear-gradient(135deg,#E53935,#ef5350);">
+    <span class="badge">M&oacute;dulos 11-12 &mdash; P&aacute;g. 3/6</span>
+    <h1>&#9986; S&iacute;labas, S, SS e &Ccedil;</h1>
+    <p>Separar palavras e usar a letra certa!</p>
+  </div>
+  <div class="content">
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 12</div>
+      <div class="q-text">Quantas s&iacute;labas tem <strong>&ldquo;borboleta&rdquo;</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q12" value="a"><span>a) 2 s&iacute;labas</span></label>
+        <label><input type="radio" name="q12" value="b"><span>b) 3 s&iacute;labas</span></label>
+        <label><input type="radio" name="q12" value="c"><span>c) 4 s&iacute;labas (bor-bo-le-ta)</span></label>
+        <label><input type="radio" name="q12" value="d"><span>d) 5 s&iacute;labas</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 13</div>
+      <div class="q-text">Como se separa <strong>&ldquo;escola&rdquo;</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q13" value="a"><span>a) esc - o - la</span></label>
+        <label><input type="radio" name="q13" value="b"><span>b) es - co - la</span></label>
+        <label><input type="radio" name="q13" value="c"><span>c) e - sco - la</span></label>
+        <label><input type="radio" name="q13" value="d"><span>d) esco - la</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 14</div>
+      <div class="q-text">Qual letra faz o som de S em <strong>&ldquo;a&ccedil;&uacute;car&rdquo;</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q14" value="a"><span>a) S</span></label>
+        <label><input type="radio" name="q14" value="b"><span>b) &Ccedil; (cedilha)</span></label>
+        <label><input type="radio" name="q14" value="c"><span>c) SS</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 15</div>
+      <div class="q-text">Qual palavra usa <strong>SS</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q15" value="a"><span>a) casaco</span></label>
+        <label><input type="radio" name="q15" value="b"><span>b) passarinho</span></label>
+        <label><input type="radio" name="q15" value="c"><span>c) peixe</span></label>
+        <label><input type="radio" name="q15" value="d"><span>d) ma&ccedil;&atilde;</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 16</div>
+      <div class="q-text">Separe as s&iacute;labas de <strong>&ldquo;cachorro&rdquo;</strong> e de <strong>&ldquo;maravilha&rdquo;</strong>.</div>
+      <textarea placeholder="cachorro -> ..., maravilha -> ..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-prev" onclick="goTo('p3')">&larr; Voltar</button>
+    <div class="pg-dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <button class="btn btn-next" onclick="goTo('p5')">Pr&oacute;xima &rarr;</button>
+  </div>
+</div>
+
+<div class="page mod5" id="p5">
+  <div class="page-header" style="background:linear-gradient(135deg,#00897B,#26a69a);">
+    <span class="badge">M&oacute;dulo 13 &mdash; P&aacute;g. 4/6</span>
+    <h1>&#128203; Singular e Plural</h1>
+    <p>Um ou muitos? Aprenda a mudar as palavras!</p>
+  </div>
+  <div class="content">
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 17</div>
+      <div class="q-text">O <strong>plural</strong> de &ldquo;flor&rdquo; &eacute;:</div>
+      <div class="opts">
+        <label><input type="radio" name="q17" value="a"><span>a) flors</span></label>
+        <label><input type="radio" name="q17" value="b"><span>b) flores</span></label>
+        <label><input type="radio" name="q17" value="c"><span>c) floras</span></label>
+        <label><input type="radio" name="q17" value="d"><span>d) florinhas</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 18</div>
+      <div class="q-text">O <strong>plural</strong> de &ldquo;p&atilde;o&rdquo; &eacute;:</div>
+      <div class="opts">
+        <label><input type="radio" name="q18" value="a"><span>a) p&atilde;os</span></label>
+        <label><input type="radio" name="q18" value="b"><span>b) p&otilde;es</span></label>
+        <label><input type="radio" name="q18" value="c"><span>c) p&atilde;es</span></label>
+        <label><input type="radio" name="q18" value="d"><span>d) p&atilde;oes</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 19</div>
+      <div class="q-text">O <strong>plural</strong> de &ldquo;animal&rdquo; &eacute;:</div>
+      <div class="opts">
+        <label><input type="radio" name="q19" value="a"><span>a) animals</span></label>
+        <label><input type="radio" name="q19" value="b"><span>b) animales</span></label>
+        <label><input type="radio" name="q19" value="c"><span>c) animais</span></label>
+        <label><input type="radio" name="q19" value="d"><span>d) animaes</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 20</div>
+      <div class="q-text">O <strong>singular</strong> de &ldquo;crian&ccedil;as&rdquo; &eacute;:</div>
+      <div class="opts">
+        <label><input type="radio" name="q20" value="a"><span>a) crian&ccedil;a</span></label>
+        <label><input type="radio" name="q20" value="b"><span>b) crian&ccedil;ada</span></label>
+        <label><input type="radio" name="q20" value="c"><span>c) crian&ccedil;ona</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 21</div>
+      <div class="q-text">Escreva o <strong>plural</strong>: l&aacute;pis &rarr; ___ &nbsp;|&nbsp; &ocirc;nibus &rarr; ___ &nbsp;|&nbsp; mar &rarr; ___</div>
+      <textarea placeholder="lapis -> ..., onibus -> ..., mar -> ..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-prev" onclick="goTo('p4')">&larr; Voltar</button>
+    <div class="pg-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+    <button class="btn btn-next" onclick="goTo('p6')">Pr&oacute;xima &rarr;</button>
+  </div>
+</div>
+
+<div class="page mod6" id="p6">
+  <div class="page-header" style="background:linear-gradient(135deg,#1565C0,#1e88e5);">
+    <span class="badge">M&oacute;dulo 13 &mdash; P&aacute;g. 5/6</span>
+    <h1>&#128292; H Inicial, CH, LH e NH</h1>
+    <p>Qual combina&ccedil;&atilde;o de letras usar?</p>
+  </div>
+  <div class="content">
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 22</div>
+      <div class="q-text">Qual palavra come&ccedil;a com <strong>H</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q22" value="a"><span>a) espelho</span></label>
+        <label><input type="radio" name="q22" value="b"><span>b) homem</span></label>
+        <label><input type="radio" name="q22" value="c"><span>c) nhoque</span></label>
+        <label><input type="radio" name="q22" value="d"><span>d) chocolate</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 23</div>
+      <div class="q-text">Complete: &ldquo;A ___ave abre a porta.&rdquo;</div>
+      <div class="opts">
+        <label><input type="radio" name="q23" value="a"><span>a) CH &rarr; chave &#10003;</span></label>
+        <label><input type="radio" name="q23" value="b"><span>b) LH &rarr; lhave</span></label>
+        <label><input type="radio" name="q23" value="c"><span>c) NH &rarr; nhave</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 24</div>
+      <div class="q-text">Complete: &ldquo;O espe___o est&aacute; na parede.&rdquo;</div>
+      <div class="opts">
+        <label><input type="radio" name="q24" value="a"><span>a) CH &rarr; especho</span></label>
+        <label><input type="radio" name="q24" value="b"><span>b) LH &rarr; espelho &#10003;</span></label>
+        <label><input type="radio" name="q24" value="c"><span>c) NH &rarr; espenho</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 25</div>
+      <div class="q-text">Complete: &ldquo;O ba___o est&aacute; cheio de &aacute;gua quente.&rdquo;</div>
+      <div class="opts">
+        <label><input type="radio" name="q25" value="a"><span>a) CH &rarr; bacho</span></label>
+        <label><input type="radio" name="q25" value="b"><span>b) LH &rarr; balho</span></label>
+        <label><input type="radio" name="q25" value="c"><span>c) NH &rarr; banho &#10003;</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 26</div>
+      <div class="q-text">Qual palavra usa <strong>LH</strong>?</div>
+      <div class="opts">
+        <label><input type="radio" name="q26" value="a"><span>a) cozinha</span></label>
+        <label><input type="radio" name="q26" value="b"><span>b) palha</span></label>
+        <label><input type="radio" name="q26" value="c"><span>c) chocolate</span></label>
+        <label><input type="radio" name="q26" value="d"><span>d) hora</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 27</div>
+      <div class="q-text">Escreva uma palavra com <strong>CH</strong>, uma com <strong>LH</strong> e uma com <strong>NH</strong>.</div>
+      <textarea placeholder="CH: ..., LH: ..., NH: ..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-prev" onclick="goTo('p5')">&larr; Voltar</button>
+    <div class="pg-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+    <button class="btn btn-next" onclick="goTo('p7')">Pr&oacute;xima &rarr;</button>
+  </div>
+</div>
+
+<div class="page mod7" id="p7">
+  <div class="page-header" style="background:linear-gradient(135deg,#E65100,#f57c00);">
+    <span class="badge">M&oacute;dulos 15-16 &mdash; P&aacute;g. 6/6</span>
+    <h1>&#128207; Grau e Substantivo Pr&oacute;prio/Comum</h1>
+    <p>Grande, pequeninho... e nome especial ou geral?</p>
+  </div>
+  <div class="content">
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 28</div>
+      <div class="q-text">&ldquo;Casinha&rdquo; &eacute; um substantivo no grau:</div>
+      <div class="opts">
+        <label><input type="radio" name="q28" value="a"><span>a) Aumentativo &mdash; fica maior</span></label>
+        <label><input type="radio" name="q28" value="b"><span>b) Diminutivo &mdash; fica menor ou mais carinhoso</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 29</div>
+      <div class="q-text">&ldquo;Cach&oacute;rr&atilde;o&rdquo; &eacute; um substantivo no grau:</div>
+      <div class="opts">
+        <label><input type="radio" name="q29" value="a"><span>a) Aumentativo &mdash; fica maior</span></label>
+        <label><input type="radio" name="q29" value="b"><span>b) Diminutivo &mdash; fica menor</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 30</div>
+      <div class="q-text">Qual &eacute; o <strong>diminutivo</strong> de &ldquo;livro&rdquo;?</div>
+      <div class="opts">
+        <label><input type="radio" name="q30" value="a"><span>a) livr&atilde;o</span></label>
+        <label><input type="radio" name="q30" value="b"><span>b) livreco</span></label>
+        <label><input type="radio" name="q30" value="c"><span>c) livrinho</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 31</div>
+      <div class="q-text">&ldquo;S&atilde;o Paulo&rdquo; &eacute; um substantivo:</div>
+      <div class="opts">
+        <label><input type="radio" name="q31" value="a"><span>a) Pr&oacute;prio &mdash; nome espec&iacute;fico, com letra mai&uacute;scula</span></label>
+        <label><input type="radio" name="q31" value="b"><span>b) Comum &mdash; nome geral</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 32</div>
+      <div class="q-text">&ldquo;cidade&rdquo; &eacute; um substantivo:</div>
+      <div class="opts">
+        <label><input type="radio" name="q32" value="a"><span>a) Pr&oacute;prio &mdash; nome espec&iacute;fico</span></label>
+        <label><input type="radio" name="q32" value="b"><span>b) Comum &mdash; nome geral, sem mai&uacute;scula</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 33</div>
+      <div class="q-text">Escreva o grau <strong>aumentativo</strong> de: &ldquo;bola&rdquo; &rarr; ___ &nbsp;|&nbsp; &ldquo;papel&rdquo; &rarr; ___</div>
+      <textarea placeholder="bola -> ..., papel -> ..."></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Quest&atilde;o 34</div>
+      <div class="q-text">Escreva 2 <strong>substantivos pr&oacute;prios</strong> e 2 <strong>substantivos comuns</strong>.</div>
+      <textarea placeholder="Proprios: ..., ... | Comuns: ..., ..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-prev" onclick="goTo('p6')">&larr; Voltar</button>
+    <div class="pg-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+    <button class="btn btn-next" onclick="goTo('final')">Finalizar &#10003;</button>
+  </div>
+</div>
+
+<div class="page" id="final">
+  <div class="final-header">
+    <div class="trophy">&#127942;</div>
+    <h1>Parab&eacute;ns, Matheus!</h1>
+    <p>Voc&ecirc; completou o teste de Portugu&ecirc;s do 2&ordm; Bimestre!</p>
+  </div>
+  <div class="final-body">
+    <p>Voc&ecirc; respondeu todas as <strong>34 quest&otilde;es</strong> sobre:<br>
+    Biografia &bull; Pontua&ccedil;&atilde;o &bull; Substantivos M/F<br>
+    S&iacute;labas &bull; S/SS/&Ccedil; &bull; Singular/Plural<br>
+    H/CH/LH/NH &bull; Grau &bull; Pr&oacute;prio/Comum</p>
+    <p style="margin-top:16px;">Mostre para o seu professor! &#128522;</p>
+    <button class="btn-restart" onclick="goTo('cover')">Recomecar</button>
+  </div>
+</div>
+
+</div>
+<script>
+function goTo(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.opts label').forEach(function(lbl){
+  lbl.addEventListener('click',function(){
+    var n=this.querySelector('input').name;
+    document.querySelectorAll('input[name="'+n+'"]').forEach(function(i){i.closest('label').classList.remove('sel');});
+    this.classList.add('sel');
+  });
+});
+</script>
+</body>
+</html>
