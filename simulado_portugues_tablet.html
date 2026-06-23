@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado de Português – Matheus pH</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:22px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{background:white;border-radius:20px;padding:40px;max-width:800px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+h1{text-align:center;color:#4a4a8a;font-size:1.6em;margin-bottom:10px}
+.prog-text{text-align:center;color:#888;margin-bottom:6px;font-size:.95em}
+.prog-bar{background:#eee;border-radius:10px;height:12px;margin-bottom:25px;overflow:hidden}
+.prog-fill{background:linear-gradient(90deg,#667eea,#764ba2);height:100%;border-radius:10px;transition:width .3s}
+.question{font-size:1.5em;color:#333;line-height:1.5;margin-bottom:22px;padding:18px 20px;background:#f8f9ff;border-radius:12px;border-left:5px solid #667eea}
+.opts{display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+.opt{display:flex;align-items:center;padding:20px 24px;border:3px solid #e0e0e0;border-radius:12px;cursor:pointer;background:white;font-size:1.3em;text-align:left;transition:all .2s;color:#333;width:100%}
+.opt:hover{border-color:#667eea;background:#f0f0ff}
+.opt.sel{border-color:#667eea;background:#e8e8ff;font-weight:bold}
+.letter{width:48px;height:48px;min-width:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2em;margin-right:14px;flex-shrink:0}
+.opt:nth-child(1) .letter{background:#4169E1;color:white}
+.opt:nth-child(2) .letter{background:#32CD32;color:white}
+.opt:nth-child(3) .letter{background:#FF8C00;color:white}
+.opt:nth-child(4) .letter{background:#9932CC;color:white}
+.next-btn{display:block;width:100%;padding:22px;background:linear-gradient(90deg,#667eea,#764ba2);color:white;font-size:1.4em;font-weight:bold;border:none;border-radius:12px;cursor:pointer;transition:opacity .2s}
+.next-btn:disabled{opacity:.4;cursor:not-allowed}
+.next-btn:not(:disabled):hover{opacity:.9}
+.result{text-align:center;display:none}
+.result h2{font-size:2em;color:#4a4a8a;margin-bottom:15px}
+.score-circle{width:170px;height:170px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:20px auto;color:white}
+.score-num{font-size:3.5em;font-weight:bold;line-height:1}
+.score-label{font-size:.85em;margin-top:4px}
+.stars{font-size:2.8em;margin:15px 0}
+.msg{font-size:1.15em;color:#555;margin-bottom:20px}
+.restart-btn{display:inline-block;padding:14px 30px;background:linear-gradient(90deg,#667eea,#764ba2);color:white;font-size:1.1em;font-weight:bold;border:none;border-radius:12px;cursor:pointer}
+.restart-btn:hover{opacity:.9}
+</style>
+</head>
+<body>
+<div class="container">
+<div id="quiz">
+  <h1>📝 Simulado de Português</h1>
+  <div class="prog-text" id="prog-text"></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+  <div class="question" id="q-text"></div>
+  <div class="opts" id="opts"></div>
+  <button class="next-btn" id="next-btn" onclick="next()" disabled>Próxima ▶</button>
+</div>
+<div class="result" id="result">
+  <h2>🎉 Parabéns, Matheus!</h2>
+  <div class="score-circle">
+    <div class="score-num" id="score-num">0</div>
+    <div class="score-label" id="score-label">de 10</div>
+  </div>
+  <div class="stars" id="stars"></div>
+  <div class="msg" id="msg"></div>
+  <button class="restart-btn" onclick="restart()">🔄 Tentar Novamente</button>
+  <br><br>
+  <a href="index.html" style="color:#667eea;font-size:1em">← Voltar ao menu</a>
+</div>
+</div>
+<script>
+const QS=[{"q": "Se a palavra \"macaco\" é um substantivo masculino, qual é a forma feminina para nos referirmos à fêmea desse animal?", "opts": ["Macaquinha", "Macaco fêmea", "Macaca", "Macacão"], "correct": 2}, {"q": "De acordo com as regras de separação de sílabas, como devemos dividir corretamente a palavra \"pressa\"?", "opts": ["press-a", "pres-sa", "p-res-sa", "pre-ssa"], "correct": 1}, {"q": "Qual sinal de pontuação é utilizado no final de uma frase quando estamos fazendo uma pergunta?", "opts": ["Ponto de exclamação (!)", "Ponto final (.)", "Vírgula (,)", "Ponto de interrogação (?)"], "correct": 3}, {"q": "No poema \"As Borboletas\", se estivéssemos falando de apenas um animal, como escreveríamos essa palavra no singular?", "opts": ["Borboletinha", "Borboleta", "Borboletão", "Borboletas"], "correct": 1}, {"q": "Qual é o diminutivo correto da palavra \"peixe\", seguindo o exemplo do texto sobre o desmatamento?", "opts": ["Peixinhos", "Peixinho", "Peixezinho", "Peixão"], "correct": 1}, {"q": "No poema sobre o tempo, qual destas palavras é escrita com a letra H inicial, que não possui som?", "opts": ["Hoje", "Amanhã", "Tempo", "Ontem"], "correct": 0}, {"q": "Observando as palavras \"carro\" e \"rato\", por que a palavra \"carro\" precisa de dois R (RR)?", "opts": ["Para manter o som forte do R entre duas vogais", "Porque toda palavra com R no meio é escrita com RR", "Porque a palavra começa com som de C", "Para indicar que a palavra está no plural"], "correct": 0}, {"q": "Qual das opções abaixo apresenta um substantivo próprio, como os nomes que foram escritos nas pétalas da flor de jasmim?", "opts": ["Flor", "Amigo", "Ricardo", "Jardim"], "correct": 2}, {"q": "Quantas sílabas (pedacinhos sonoros) existem na palavra \"perfeito\"?", "opts": ["4", "3", "1", "2"], "correct": 1}, {"q": "Na palavra \"caranguejo\", o que acontece com a letra U na sílaba GUE?", "opts": ["A letra U tem som de O", "A letra U tem um som muito forte", "A letra U não é pronunciada", "O som é igual ao da palavra \"água\""], "correct": 2}];
+let cur=0,sel=-1,score=0;
+function load(){
+  const q=QS[cur];
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('prog-text').textContent='Pergunta '+(cur+1)+' de '+QS.length;
+  document.getElementById('prog-fill').style.width=(((cur+1)/QS.length)*100)+'%';
+  const opts=document.getElementById('opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach(function(l,i){
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML='<span class="letter">'+l+'</span>'+q.opts[i];
+    b.onclick=function(){pick(i);};
+    opts.appendChild(b);
+  });
+  sel=-1;
+  document.getElementById('next-btn').disabled=true;
+}
+function pick(i){
+  sel=i;
+  document.querySelectorAll('.opt').forEach(function(b,idx){
+    b.classList.toggle('sel',idx===i);
+  });
+  document.getElementById('next-btn').disabled=false;
+}
+function next(){
+  if(sel===QS[cur].correct) score++;
+  cur++;
+  if(cur<QS.length){load();}
+  else{showResult();}
+}
+function showResult(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('result').style.display='block';
+  document.getElementById('score-num').textContent=score;
+  const pct=score/QS.length;
+  let stars='',msg='';
+  if(pct>=.9){stars='⭐⭐⭐⭐⭐';msg='🏆 Incrível! Você arrasou de verdade!';}
+  else if(pct>=.7){stars='⭐⭐⭐⭐';msg='👏 Muito bem! Quase perfeito!';}
+  else if(pct>=.5){stars='⭐⭐⭐';msg='💪 Bom esforço! Continue praticando!';}
+  else if(pct>=.3){stars='⭐⭐';msg='📚 Vamos revisar e tentar de novo?';}
+  else{stars='⭐';msg='😊 Não desista! Estude e tente novamente!';}
+  document.getElementById('stars').textContent=stars;
+  document.getElementById('msg').textContent=msg;
+}
+function restart(){
+  cur=0;sel=-1;score=0;
+  document.getElementById('quiz').style.display='block';
+  document.getElementById('result').style.display='none';
+  load();
+}
+load();
+</script>
+</body>
+</html>
