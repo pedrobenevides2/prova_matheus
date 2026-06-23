@@ -13,7 +13,6 @@
       color:#fff;
       overflow-x:hidden;
     }
-    /* ---- Animated background ---- */
     .bg{
       position:fixed;inset:0;z-index:0;
       background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
@@ -31,142 +30,65 @@
       100%{transform:translateY(-20vh) scale(1.2);opacity:0}
     }
     .wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:16px;}
-
-    /* ---- Header ---- */
     header{text-align:center;padding:36px 16px 24px;}
     .backpack{font-size:5rem;filter:drop-shadow(0 4px 16px rgba(255,200,0,0.4));animation:bob 3s ease-in-out infinite;}
     @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
     header h1{font-size:2.6rem;font-weight:900;background:linear-gradient(90deg,#f7d06e,#ff6b9d,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:12px;}
     header p{font-size:1.1rem;color:rgba(255,255,255,0.65);margin-top:6px;}
-    .tagline{
-      display:inline-block;margin-top:14px;padding:6px 20px;
-      background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);
-      border-radius:999px;font-size:0.9rem;color:rgba(255,255,255,0.85);
-      backdrop-filter:blur(8px);
-    }
-
-    /* ---- Stats ---- */
+    .tagline{display:inline-block;margin-top:14px;padding:6px 20px;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:999px;font-size:0.9rem;color:rgba(255,255,255,0.85);backdrop-filter:blur(8px);}
     .stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:20px 0;}
-    .stat-pill{
-      padding:10px 20px;background:rgba(255,255,255,0.08);
-      border:1.5px solid rgba(255,255,255,0.15);border-radius:999px;
-      text-align:center;backdrop-filter:blur(8px);
-    }
+    .stat-pill{padding:10px 20px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:999px;text-align:center;backdrop-filter:blur(8px);}
     .stat-pill strong{font-size:1.5rem;font-weight:800;display:block;}
     .stat-pill span{font-size:0.75rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.06em;}
-
-    /* ---- Bimestre tabs ---- */
     .bim-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0 20px;}
-    .bim-tab{
-      padding:10px 22px;border-radius:999px;border:2px solid rgba(255,255,255,0.25);
-      background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);
-      font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .2s;
-      backdrop-filter:blur(8px);
-    }
+    .bim-tab{padding:10px 22px;border-radius:999px;border:2px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px);}
     .bim-tab:hover{background:rgba(255,255,255,0.15);color:#fff;}
     .bim-tab.on{background:#fff;color:#302b63;border-color:#fff;box-shadow:0 4px 20px rgba(255,255,255,0.25);}
-
-    /* ---- Subject cards grid ---- */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:32px;}
-
-    .card{
-      background:rgba(255,255,255,0.07);
-      border:1.5px solid rgba(255,255,255,0.12);
-      border-radius:20px;overflow:hidden;
-      backdrop-filter:blur(12px);
-      transition:transform .2s,box-shadow .2s;
-    }
+    .card{background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);border-radius:20px;overflow:hidden;backdrop-filter:blur(12px);transition:transform .2s,box-shadow .2s;}
     .card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.3);}
-
-    .card-head{
-      display:flex;align-items:center;gap:14px;
-      padding:18px 20px;cursor:pointer;user-select:none;
-      border-bottom:1.5px solid rgba(255,255,255,0);
-      transition:border-color .3s;
-    }
+    .card-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none;border-bottom:1.5px solid rgba(255,255,255,0);transition:border-color .3s;}
     .card.open .card-head{border-color:rgba(255,255,255,0.1);}
-
     .emoji{font-size:2.8rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3));flex-shrink:0;}
     .card-info{flex:1;}
     .card-nome{font-size:1.25rem;font-weight:800;}
     .card-sub{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:3px;}
     .chevron{font-size:1.1rem;color:rgba(255,255,255,0.35);transition:transform .3s;flex-shrink:0;}
     .card.open .chevron{transform:rotate(180deg);}
-
-    /* color stripes per subject */
     .mat .card-head{background:linear-gradient(135deg,rgba(108,99,255,.25),rgba(118,75,162,.15));}
     .cien .card-head{background:linear-gradient(135deg,rgba(34,197,94,.2),rgba(16,185,129,.1));}
     .geo .card-head{background:linear-gradient(135deg,rgba(251,146,60,.2),rgba(245,101,101,.1));}
     .hist .card-head{background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(220,38,38,.1));}
     .port .card-head{background:linear-gradient(135deg,rgba(234,179,8,.2),rgba(245,158,11,.1));}
-
-    /* card body */
     .card-body{display:none;padding:18px 20px;}
     .card.open .card-body{display:block;}
-
     .sec{margin-bottom:16px;}
-    .sec-label{
-      font-size:0.7rem;font-weight:800;text-transform:uppercase;
-      letter-spacing:.1em;color:rgba(255,255,255,0.4);margin-bottom:10px;
-    }
-
-    .sim-box{
-      background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
-      border-radius:12px;padding:12px;margin-bottom:8px;
-    }
+    .sec-label{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.4);margin-bottom:10px;}
+    .sim-box{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px;margin-bottom:8px;}
     .sim-title{font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.6);margin-bottom:8px;}
     .btn-row{display:flex;gap:8px;}
-
-    .btn{
-      flex:1;padding:13px 8px;border:none;border-radius:10px;
-      font-size:0.88rem;font-weight:700;cursor:pointer;
-      text-decoration:none;display:flex;align-items:center;
-      justify-content:center;gap:5px;transition:all .15s;
-      line-height:1.2;text-align:center;
-    }
+    .btn{flex:1;padding:13px 8px;border:none;border-radius:10px;font-size:0.88rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;line-height:1.2;text-align:center;}
     .btn:hover{transform:scale(1.03);box-shadow:0 4px 16px rgba(0,0,0,0.3);}
     .btn:active{transform:scale(0.97);}
-
     .btn-caneta{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;}
     .btn-teclado{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;}
-    .btn-video{
-      background:linear-gradient(135deg,#4facfe,#00f2fe);color:#111;
-      width:100%;padding:14px;font-size:0.95rem;
-    }
-    .btn-doc{
-      background:linear-gradient(135deg,#43e97b,#38f9d7);color:#111;
-      width:100%;padding:12px;
-    }
-
-    /* em breve */
-    .embreve{
-      text-align:center;padding:60px 24px;
-      background:rgba(255,255,255,0.05);
-      border:1.5px solid rgba(255,255,255,0.1);
-      border-radius:20px;backdrop-filter:blur(8px);
-    }
+    .btn-video{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#111;width:100%;padding:14px;font-size:0.95rem;}
+    .btn-doc{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#111;width:100%;padding:12px;}
+    .embreve{text-align:center;padding:60px 24px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:20px;backdrop-filter:blur(8px);}
     .embreve .big{font-size:4rem;margin-bottom:16px;}
     .embreve h2{font-size:1.8rem;font-weight:800;margin-bottom:8px;}
     .embreve p{color:rgba(255,255,255,0.6);font-size:1.05rem;}
-
     .panel{display:none;} .panel.on{display:block;}
-
     footer{text-align:center;padding:24px 0 36px;color:rgba(255,255,255,0.3);font-size:0.82rem;}
-
-    @media(max-width:480px){
-      header h1{font-size:1.9rem;}
-      .grid{grid-template-columns:1fr;}
-    }
+    @media(max-width:480px){header h1{font-size:1.9rem;}.grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
 
-<!-- Animated background bubbles -->
 <div class="bg" id="bg"></div>
 
 <div class="wrap">
 
-  <!-- Header -->
   <header>
     <div class="backpack">&#127890;</div>
     <h1>Estudos do Matheus!</h1>
@@ -174,15 +96,13 @@
     <div class="tagline">&#11088; Escolha a mat&eacute;ria e bora estudar!</div>
   </header>
 
-  <!-- Stats -->
   <div class="stats">
     <div class="stat-pill"><strong>5</strong><span>Mat&eacute;rias</span></div>
-    <div class="stat-pill"><strong>9</strong><span>Simulados</span></div>
-    <div class="stat-pill"><strong>4</strong><span>V&iacute;deos</span></div>
-    <div class="stat-pill"><strong>2</strong><span>Materiais</span></div>
+    <div class="stat-pill"><strong>10</strong><span>Simulados</span></div>
+    <div class="stat-pill"><strong>5</strong><span>V&iacute;deos</span></div>
+    <div class="stat-pill"><strong>3</strong><span>Materiais</span></div>
   </div>
 
-  <!-- Bimestre tabs -->
   <div class="bim-tabs">
     <button class="bim-tab on" onclick="showBim('b1',this)">1&ordm; Bimestre</button>
     <button class="bim-tab" onclick="showBim('b2',this)">2&ordm; Bimestre</button>
@@ -190,11 +110,10 @@
     <button class="bim-tab" onclick="showBim('b4',this)">4&ordm; Bimestre</button>
   </div>
 
-  <!-- 1o Bimestre -->
+  <!-- ====== 1o BIMESTRE ====== -->
   <div id="b1" class="panel on">
     <div class="grid">
 
-      <!-- MATEMATICA -->
       <div class="card mat" id="c-mat">
         <div class="card-head" onclick="tog('c-mat')">
           <span class="emoji">&#128290;</span>
@@ -231,7 +150,6 @@
         </div>
       </div>
 
-      <!-- CIENCIAS -->
       <div class="card cien" id="c-cien">
         <div class="card-head" onclick="tog('c-cien')">
           <span class="emoji">&#128300;</span>
@@ -267,7 +185,6 @@
         </div>
       </div>
 
-      <!-- GEOGRAFIA -->
       <div class="card geo" id="c-geo">
         <div class="card-head" onclick="tog('c-geo')">
           <span class="emoji">&#127758;</span>
@@ -297,7 +214,6 @@
         </div>
       </div>
 
-      <!-- HISTORIA -->
       <div class="card hist" id="c-hist">
         <div class="card-head" onclick="tog('c-hist')">
           <span class="emoji">&#128220;</span>
@@ -334,7 +250,6 @@
         </div>
       </div>
 
-      <!-- PORTUGUES -->
       <div class="card port" id="c-port">
         <div class="card-head" onclick="tog('c-port')">
           <span class="emoji">&#9998;&#65039;</span>
@@ -364,17 +279,92 @@
         </div>
       </div>
 
-    </div><!-- /grid -->
-  </div><!-- /b1 -->
-
-  <!-- Bimestres 2, 3, 4 - Em breve -->
-  <div id="b2" class="panel">
-    <div class="embreve">
-      <div class="big">&#128640;</div>
-      <h2>Em breve!</h2>
-      <p>O material do 2&ordm; Bimestre ainda est&aacute; chegando.<br>Continua estudando! &#128170;</p>
     </div>
   </div>
+
+  <!-- ====== 2o BIMESTRE ====== -->
+  <div id="b2" class="panel">
+    <div class="grid">
+
+      <div class="card port" id="c-port2">
+        <div class="card-head" onclick="tog('c-port2')">
+          <span class="emoji">&#9998;&#65039;</span>
+          <div class="card-info">
+            <div class="card-nome">Portugu&ecirc;s</div>
+            <div class="card-sub">1 simulado &middot; 1 v&iacute;deo &middot; material</div>
+          </div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="card-body">
+          <div class="sec">
+            <div class="sec-label">&#128221; Simulados</div>
+            <div class="sim-box">
+              <div class="sim-title">Simulado 1</div>
+              <div class="btn-row">
+                <a href="teste_portugues2_tablet.html" target="_blank" class="btn btn-caneta">&#9999;&#65039; Caneta</a>
+                <a href="teste_portugues2_teclado.html" target="_blank" class="btn btn-teclado">&#9000;&#65039; Teclado</a>
+              </div>
+            </div>
+          </div>
+          <div class="sec">
+            <div class="sec-label">&#127909; V&iacute;deo de Estudo</div>
+            <a href="Trilha_das_Palavras.mp4" target="_blank" class="btn btn-video">
+              &#9654; Trilha das Palavras
+            </a>
+          </div>
+          <div class="sec">
+            <div class="sec-label">&#128196; Material</div>
+            <a href="material_portugues2_pH.docx" class="btn btn-doc">
+              &#8659; Baixar Material de Estudo
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mat" style="opacity:.55;pointer-events:none;">
+        <div class="card-head" style="cursor:default;">
+          <span class="emoji">&#128290;</span>
+          <div class="card-info">
+            <div class="card-nome">Matem&aacute;tica</div>
+            <div class="card-sub">&#128640; Em breve</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card cien" style="opacity:.55;pointer-events:none;">
+        <div class="card-head" style="cursor:default;">
+          <span class="emoji">&#128300;</span>
+          <div class="card-info">
+            <div class="card-nome">Ci&ecirc;ncias</div>
+            <div class="card-sub">&#128640; Em breve</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card geo" style="opacity:.55;pointer-events:none;">
+        <div class="card-head" style="cursor:default;">
+          <span class="emoji">&#127758;</span>
+          <div class="card-info">
+            <div class="card-nome">Geografia</div>
+            <div class="card-sub">&#128640; Em breve</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card hist" style="opacity:.55;pointer-events:none;">
+        <div class="card-head" style="cursor:default;">
+          <span class="emoji">&#128220;</span>
+          <div class="card-info">
+            <div class="card-nome">Hist&oacute;ria</div>
+            <div class="card-sub">&#128640; Em breve</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3o e 4o bimestre -->
   <div id="b3" class="panel">
     <div class="embreve">
       <div class="big">&#127775;</div>
@@ -392,11 +382,10 @@
 
   <footer>Feito com &#10084;&#65039; para o Matheus &middot; Col&eacute;gio pH</footer>
 
-</div><!-- /wrap -->
+</div>
 
 <script>
 (function(){
-  // Animated bubbles
   var bg=document.getElementById('bg');
   var sizes=[80,120,160,200,260,320];
   for(var i=0;i<18;i++){
