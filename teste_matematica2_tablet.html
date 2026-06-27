@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matematica 2 - Matheus pH (Tablet)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #e8f4ff; font-size: 17px; touch-action: manipulation; }
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+.m5 { --c: #0277BD; --cl: #E1F5FE; --cd: #01579B; }
+.m6 { --c: #E65100; --cl: #FFF3E0; --cd: #BF360C; }
+.m7 { --c: #2E7D32; --cl: #E8F5E9; --cd: #1B5E20; }
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg,#0277BD 0%,#2E7D32 100%); color: white; text-align: center; gap: 18px; padding: 40px 24px 100px; }
+.cover-emoji { font-size: 78px; animation: bounce 1.5s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+.cover h1 { font-size: 38px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 20px; opacity: 0.9; }
+.cover .school { font-size: 15px; opacity: 0.7; }
+.btn-start { background: #FFD60A; color: #000; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+.nome-box { background: rgba(255,255,255,0.2); border-radius: 14px; padding: 14px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 10px; }
+.nome-row { display: flex; flex-direction: column; gap: 4px; }
+.nome-lbl { font-size: 15px; opacity: 0.85; }
+.nome-canvas-wrap { background: rgba(255,255,255,0.9); border-radius: 10px; overflow: hidden; }
+.ph { background: var(--c); color: white; border-radius: 16px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 48px; height: 48px; font-size: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 22px; font-weight: bold; }
+.ph-sub { font-size: 15px; opacity: 0.85; }
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 22px; color: #222; line-height: 1.6; display: inline; }
+.qtxt strong { color: var(--cd); }
+.tip { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 11px 14px; margin: 10px 0; font-size: 20px; color: #333; }
+.tip strong { color: var(--cd); }
+table.qt { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 18px; }
+.qt th { background: var(--c); color: white; padding: 9px 6px; text-align: center; }
+.qt td { border: 2px solid #ddd; padding: 7px 6px; text-align: center; vertical-align: middle; }
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.cbtn { display: flex; align-items: center; gap: 10px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 11px 14px; font-size: 20px; font-family: inherit; cursor: pointer; touch-action: manipulation; text-align: left; transition: all 0.15s; width: 100%; }
+.cbtn.sel { background: var(--cl); border-color: var(--c); font-weight: bold; }
+.cltr { background: var(--c); color: white; border-radius: 50%; width: 32px; height: 32px; font-size: 17px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.shapes-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; justify-content: center; }
+.shp { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 12px 10px; text-align: center; min-width: 90px; flex: 1; max-width: 130px; }
+.shp-ico { font-size: 36px; display: block; }
+.shp-lbl { display: block; font-size: 15px; color: var(--cd); font-weight: bold; margin-top: 4px; }
+.num-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin: 10px 0; }
+.nc { background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 8px; padding: 8px 2px; text-align: center; font-size: 20px; font-weight: bold; cursor: pointer; touch-action: manipulation; user-select: none; }
+.nc.par { background: #BBDEFB; border-color: #1565C0; color: #0D47A1; }
+.nc.impar { background: #FFCDD2; border-color: #C62828; color: #B71C1C; }
+.cw { position: relative; border-radius: 12px; overflow: hidden; border: 3px solid var(--c); background: white; margin-top: 10px; }
+canvas { display: block; touch-action: none; cursor: crosshair; }
+.draw-label { background: var(--c); color: white; font-size: 14px; font-weight: bold; padding: 5px 12px; text-align: center; }
+.toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--cl); flex-wrap: wrap; }
+.tc { width: 30px; height: 30px; border-radius: 50%; border: 3px solid rgba(0,0,0,0.2); cursor: pointer; touch-action: manipulation; flex-shrink: 0; transition: transform 0.1s; }
+.tc.active { border-color: #333; transform: scale(1.2); }
+.tc-erase { background: white; border: 3px solid #999; border-radius: 50%; width: 30px; height: 30px; font-size: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; touch-action: manipulation; }
+.tbtn { background: var(--c); color: white; border: none; border-radius: 20px; padding: 5px 12px; font-size: 13px; font-family: inherit; cursor: pointer; touch-action: manipulation; flex-shrink: 0; }
+.cedulas { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; align-items: flex-start; }
+.ced { border-radius: 8px; padding: 8px 12px; font-size: 19px; font-weight: bold; border: 2.5px solid; text-align: center; }
+.ced-2 { background: #FFF9C4; border-color: #F9A825; color: #6D4C00; }
+.ced-5 { background: #E8F5E9; border-color: #2E7D32; color: #1B5E20; }
+.ced-10 { background: #E3F2FD; border-color: #1565C0; color: #01579B; }
+.ced-20 { background: #FCE4EC; border-color: #C62828; color: #880000; }
+.ced-50 { background: #FBE9E7; border-color: #BF360C; color: #7f2000; }
+.final { min-height: 100vh; background: linear-gradient(145deg,#0277BD 0%,#2E7D32 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.final h1 { font-size: 42px; text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+.chk { background: rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 22px; text-align: left; font-size: 19px; line-height: 2.1; width: 100%; max-width: 400px; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #007AFF; color: white; border: none; border-radius: 25px; padding: 12px 22px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.bk { background: #8E8E93; }
+.ninfo { text-align: center; font-size: 13px; color: #555; line-height: 1.4; }
+.bi2tag { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+.ans-line { display: inline-block; border: none; border-bottom: 2.5px solid var(--c); background: transparent; font-size: 22px; font-family: inherit; color: var(--cd); outline: none; padding: 2px 6px; min-width: 60px; text-align: center; vertical-align: middle; }
+table.qt td input { border: none; border-bottom: 2px solid var(--c); width: 90%; font-size: 18px; font-family: inherit; text-align: center; outline: none; background: transparent; color: var(--cd); }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div class="bi2tag">2 BIMESTRE</div>
+    <div class="cover-emoji">📐🔷💰</div>
+    <h1>Meu Teste de<br>Matematica!</h1>
+    <p class="sub">Ola, <strong>Matheus</strong>! Use a caneta! ✏️</p>
+    <p class="school">Colegio pH &bull; 2&ordm; Bimestre 2026</p>
+    <div class="nome-box">
+      <div class="nome-row"><span class="nome-lbl">Meu nome:</span><div class="nome-canvas-wrap"><canvas id="cvNome" height="44"></canvas></div></div>
+      <div class="nome-row"><span class="nome-lbl">Data:</span><div class="nome-canvas-wrap"><canvas id="cvData" height="44"></canvas></div></div>
+    </div>
+    <button class="btn-start" onclick="goTo(1)">Vamos Comecar! 🎉</button>
+  </div>
+</div>
+
+<!-- PAG 1: FIGURAS ESPACIAIS -->
+<div class="page m5" id="p1">
+  <div class="ph"><div class="ph-badge">5</div><div><div class="ph-sub">Modulo 5 &bull; Formas em Todo Lugar</div><div class="ph-title">📦 Figuras Geometricas Espaciais</div></div></div>
+  <div class="card">
+    <span class="qnum">1</span><span class="qtxt">Escreva o nome de cada figura geometrica espacial:</span>
+    <div class="shapes-row" style="margin-top:12px">
+      <div class="shp"><span class="shp-ico">📦</span><span class="shp-lbl">Bloco retangular?<br>Cubo?</span></div>
+      <div class="shp"><span class="shp-ico">🟡</span><span class="shp-lbl">Cubo?<br>Piramide?</span></div>
+      <div class="shp"><span class="shp-ico">🔺</span><span class="shp-lbl">Piramide?<br>Cone?</span></div>
+      <div class="shp"><span class="shp-ico">🎯</span><span class="shp-lbl">Cone?</span></div>
+      <div class="shp"><span class="shp-ico">🥫</span><span class="shp-lbl">Cilindro?</span></div>
+      <div class="shp"><span class="shp-ico">⚽</span><span class="shp-lbl">Esfera?</span></div>
+    </div>
+    <div class="tip">✏️ Escreva o nome correto de cada figura no espaco abaixo:</div>
+    <div class="cw"><div class="draw-label">✏️ ESCREVA OS NOMES AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv1a"></div><div class="tc" style="background:#1565C0" onclick="setCor('#1565C0',this)" data-cv="cv1a"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv1a">⬜</div><button class="tbtn" onclick="clearCv('cv1a')">Limpar</button></div><canvas id="cv1a" height="100"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">2</span><span class="qtxt">Complete o quadro. Escreva SIM ou NAO e o numero de vertices:</span>
+    <table class="qt" style="margin-top:10px">
+      <tr><th>Figura</th><th>Forma arredondada?</th><th>Qtd. vertices</th></tr>
+      <tr><td>Esfera</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+      <tr><td>Cubo</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+      <tr><td>Cone</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+      <tr><td>Cilindro</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+      <tr><td>Piramide</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <span class="qnum">3</span><span class="qtxt">A pacoca tem o mesmo formato de qual figura geometrica? Marque X:</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">A</span> Piramide</button>
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">B</span> Esfera</button>
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">C</span> Cilindro</button>
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">D</span> Cubo</button>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">4</span><span class="qtxt">Adivinha: "Tenho 8 vertices e 6 faces quadradas. Que figura sou eu?"</span>
+    <div class="cw"><div class="draw-label">✏️ ESCREVA A RESPOSTA</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv1b"></div><div class="tc" style="background:#01579B" onclick="setCor('#01579B',this)" data-cv="cv1b"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv1b">⬜</div><button class="tbtn" onclick="clearCv('cv1b')">Limpar</button></div><canvas id="cv1b" height="80"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">5</span><span class="qtxt">✏️ <strong>CAIXA DE DESENHO</strong> — Desenhe uma figura geometrica espacial que voce ve no dia a dia e escreva o nome dela:</span>
+    <div class="cw"><div class="draw-label">✏️ CAIXA DE DESENHO — Desenhe e escreva o nome!</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv1c"></div><div class="tc" style="background:#01579B" onclick="setCor('#01579B',this)" data-cv="cv1c"></div><div class="tc" style="background:#E65100" onclick="setCor('#E65100',this)" data-cv="cv1c"></div><div class="tc" style="background:#2E7D32" onclick="setCor('#2E7D32',this)" data-cv="cv1c"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv1c">⬜</div><button class="tbtn" onclick="clearCv('cv1c')">Limpar</button></div><canvas id="cv1c" height="160"></canvas></div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(0)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 1 de 6<br>📦 Figuras Espaciais</div>
+    <button class="nbtn" onclick="goTo(2)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 2: FIGURAS PLANAS -->
+<div class="page m5" id="p2">
+  <div class="ph"><div class="ph-badge">5</div><div><div class="ph-sub">Modulo 5 &bull; Formas em Todo Lugar</div><div class="ph-title">🔷 Figuras Geometricas Planas</div></div></div>
+  <div class="card">
+    <span class="qnum">6</span><span class="qtxt">Escreva o nome de cada figura geometrica plana:</span>
+    <div class="shapes-row" style="margin-top:12px">
+      <div class="shp"><span class="shp-ico">⬜</span><span class="shp-lbl">4 lados iguais</span></div>
+      <div class="shp"><span class="shp-ico">🟦</span><span class="shp-lbl">2 pares de lados</span></div>
+      <div class="shp"><span class="shp-ico">🔺</span><span class="shp-lbl">3 lados</span></div>
+      <div class="shp"><span class="shp-ico">⭕</span><span class="shp-lbl">Sem lados</span></div>
+    </div>
+    <div class="cw"><div class="draw-label">✏️ ESCREVA OS NOMES AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv2a"></div><div class="tc" style="background:#01579B" onclick="setCor('#01579B',this)" data-cv="cv2a"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv2a">⬜</div><button class="tbtn" onclick="clearCv('cv2a')">Limpar</button></div><canvas id="cv2a" height="80"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">7</span><span class="qtxt">Complete as frases:</span>
+    <div style="margin-top:12px;line-height:2.6;font-size:21px;">
+      O quadrado tem <input class="ans-line" type="text" size="3"> lados iguais e <input class="ans-line" type="text" size="3"> vertices.<br>
+      O triangulo tem <input class="ans-line" type="text" size="3"> lados e <input class="ans-line" type="text" size="3"> vertices.<br>
+      O circulo tem <input class="ans-line" type="text" size="3"> lados e <input class="ans-line" type="text" size="3"> vertices.
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">8</span><span class="qtxt">Qual figura plana NAO tem vertices? Marque X:</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">A</span> Quadrado</button>
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">B</span> Triangulo</button>
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">C</span> Circulo</button>
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">D</span> Retangulo</button>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">9</span><span class="qtxt">Classifique: escreva <strong>E</strong> para ESPACIAL ou <strong>P</strong> para PLANA:</span>
+    <table class="qt" style="margin-top:10px">
+      <tr><th>Figura</th><th>E ou P?</th><th>Figura</th><th>E ou P?</th></tr>
+      <tr><td>Esfera</td><td><input type="text" size="2"></td><td>Quadrado</td><td><input type="text" size="2"></td></tr>
+      <tr><td>Cubo</td><td><input type="text" size="2"></td><td>Circulo</td><td><input type="text" size="2"></td></tr>
+      <tr><td>Piramide</td><td><input type="text" size="2"></td><td>Triangulo</td><td><input type="text" size="2"></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <span class="qnum">10</span><span class="qtxt">✏️ <strong>CAIXA DE DESENHO</strong> — Desenhe um quadrado e um triangulo. Escreva quantos vertices cada um tem:</span>
+    <div class="cw"><div class="draw-label">✏️ CAIXA DE DESENHO — Desenhe aqui!</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv2b"></div><div class="tc" style="background:#01579B" onclick="setCor('#01579B',this)" data-cv="cv2b"></div><div class="tc" style="background:#E65100" onclick="setCor('#E65100',this)" data-cv="cv2b"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv2b">⬜</div><button class="tbtn" onclick="clearCv('cv2b')">Limpar</button></div><canvas id="cv2b" height="160"></canvas></div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(1)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 2 de 6<br>🔷 Figuras Planas</div>
+    <button class="nbtn" onclick="goTo(3)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 3: CENTENA E MATERIAL DOURADO -->
+<div class="page m6" id="p3">
+  <div class="ph"><div class="ph-badge">6</div><div><div class="ph-sub">Modulo 6 &bull; Resolver Problemas</div><div class="ph-title">🏆 Centena e Material Dourado</div></div></div>
+  <div class="tip">💡 <strong>Lembre-se:</strong> 1 cubinho = 1 unidade &bull; 1 barra = 10 unidades &bull; 1 placa = 100 unidades (1 centena)</div>
+  <div class="card">
+    <span class="qnum">11</span><span class="qtxt">Complete sobre o material dourado:</span>
+    <div style="margin-top:12px;line-height:2.6;font-size:21px;">
+      1 placa tem <input class="ans-line" type="text" size="4"> barras.<br>
+      1 placa representa <input class="ans-line" type="text" size="4"> dezenas.<br>
+      1 placa tem <input class="ans-line" type="text" size="4"> cubinhos = <input class="ans-line" type="text" size="4"> unidades.<br>
+      Uma CENTENA = <input class="ans-line" type="text" size="4"> unidades.
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">12</span><span class="qtxt">Escreva o numero e complete o quadro D | U:</span>
+    <table class="qt" style="margin-top:10px">
+      <tr><th>Pecas</th><th>Numero</th><th>D</th><th>U</th></tr>
+      <tr><td>5 barras + 3 cubinhos</td><td><input type="text" size="4"></td><td><input type="text" size="3"></td><td><input type="text" size="3"></td></tr>
+      <tr><td>7 barras + 8 cubinhos</td><td><input type="text" size="4"></td><td><input type="text" size="3"></td><td><input type="text" size="3"></td></tr>
+      <tr><td>10 barras</td><td><input type="text" size="4"></td><td><input type="text" size="3"></td><td><input type="text" size="3"></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <span class="qnum">13</span><span class="qtxt">✏️ <strong>CAIXA DE DESENHO</strong> — Represente o numero 76 desenhando barras e cubinhos do material dourado:</span>
+    <div class="cw"><div class="draw-label">✏️ CAIXA DE DESENHO — Numero 76 (use | para dezenas e . para unidades)</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv3a"></div><div class="tc" style="background:#BF360C" onclick="setCor('#BF360C',this)" data-cv="cv3a"></div><div class="tc" style="background:#1565C0" onclick="setCor('#1565C0',this)" data-cv="cv3a"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv3a">⬜</div><button class="tbtn" onclick="clearCv('cv3a')">Limpar</button></div><canvas id="cv3a" height="160"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">14</span><span class="qtxt">Complete a reta numerica com os numeros que faltam:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:20px;">
+      60, <input class="ans-line" type="text" size="3">, 62, <input class="ans-line" type="text" size="3">, 64, <input class="ans-line" type="text" size="3">, 66<br>
+      88, <input class="ans-line" type="text" size="3">, <input class="ans-line" type="text" size="3">, 91, <input class="ans-line" type="text" size="3">, 93
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">15</span><span class="qtxt">Escreva o antecessor e o sucessor:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:21px;">
+      <input class="ans-line" type="text" size="3"> — <strong>47</strong> — <input class="ans-line" type="text" size="3"><br>
+      <input class="ans-line" type="text" size="3"> — <strong>99</strong> — <input class="ans-line" type="text" size="3"><br>
+      <input class="ans-line" type="text" size="3"> — <strong>80</strong> — <input class="ans-line" type="text" size="3">
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">16</span><span class="qtxt">Compare usando &gt; ou &lt;:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:22px;">
+      67 <input class="ans-line" type="text" size="2"> 76 &nbsp;&nbsp; 100 <input class="ans-line" type="text" size="2"> 99<br>
+      88 <input class="ans-line" type="text" size="2"> 88 &nbsp;&nbsp; 54 <input class="ans-line" type="text" size="2"> 45
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(2)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 3 de 6<br>🏆 Centena</div>
+    <button class="nbtn" onclick="goTo(4)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 4: PARES/IMPARES E PROBLEMAS -->
+<div class="page m6" id="p4">
+  <div class="ph"><div class="ph-badge">6</div><div><div class="ph-sub">Modulo 6 &bull; Resolver Problemas</div><div class="ph-title">🔢 Pares, Impares e Problemas</div></div></div>
+  <div class="tip">💡 <strong>PARES</strong> terminam em 0,2,4,6,8 &bull; <strong>IMPARES</strong> terminam em 1,3,5,7,9</div>
+  <div class="card">
+    <span class="qnum">17</span><span class="qtxt">Toque nos numeros: 1x = AZUL (par) &bull; 2x = VERMELHO (impar) &bull; 3x = apagar</span>
+    <div class="num-grid">
+      <div class="nc" onclick="toggleNum(this)">12</div>
+      <div class="nc" onclick="toggleNum(this)">35</div>
+      <div class="nc" onclick="toggleNum(this)">48</div>
+      <div class="nc" onclick="toggleNum(this)">71</div>
+      <div class="nc" onclick="toggleNum(this)">90</div>
+      <div class="nc" onclick="toggleNum(this)">23</div>
+      <div class="nc" onclick="toggleNum(this)">56</div>
+      <div class="nc" onclick="toggleNum(this)">67</div>
+      <div class="nc" onclick="toggleNum(this)">84</div>
+      <div class="nc" onclick="toggleNum(this)">99</div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">18</span><span class="qtxt"><strong>Problema:</strong> Na turma da Beatriz ha 34 meninos e 28 meninas. Quantos alunos ha ao todo?</span>
+    <div class="cw"><div class="draw-label">✏️ RESOLVA AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv4a"></div><div class="tc" style="background:#BF360C" onclick="setCor('#BF360C',this)" data-cv="cv4a"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv4a">⬜</div><button class="tbtn" onclick="clearCv('cv4a')">Limpar</button></div><canvas id="cv4a" height="120"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">19</span><span class="qtxt">✏️ <strong>CAIXA DE DESENHO</strong> — Monte a conta no quadro de ordens (D e U):</span>
+    <div class="cw"><div class="draw-label">✏️ CAIXA DE DESENHO — D | U</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv4b"></div><div class="tc" style="background:#BF360C" onclick="setCor('#BF360C',this)" data-cv="cv4b"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv4b">⬜</div><button class="tbtn" onclick="clearCv('cv4b')">Limpar</button></div><canvas id="cv4b" height="160"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">20</span><span class="qtxt"><strong>Problema:</strong> Pedro tinha 75 figurinhas. Ele deu 37 para o irmao. Quantas Pedro ficou?</span>
+    <div class="cw"><div class="draw-label">✏️ RESOLVA AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv4c"></div><div class="tc" style="background:#BF360C" onclick="setCor('#BF360C',this)" data-cv="cv4c"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv4c">⬜</div><button class="tbtn" onclick="clearCv('cv4c')">Limpar</button></div><canvas id="cv4c" height="120"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">21</span><span class="qtxt">Uma escola comprou 48 livros de matematica e 36 de portugues. Quantos livros ao todo? Marque X:</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q21')"><span class="cltr">A</span> 74 livros</button>
+      <button class="cbtn" onclick="sel(this,'q21')"><span class="cltr">B</span> 84 livros</button>
+      <button class="cbtn" onclick="sel(this,'q21')"><span class="cltr">C</span> 12 livros</button>
+      <button class="cbtn" onclick="sel(this,'q21')"><span class="cltr">D</span> 94 livros</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(3)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 4 de 6<br>🔢 Pares e Problemas</div>
+    <button class="nbtn" onclick="goTo(5)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 5: CEDULAS E MOEDAS -->
+<div class="page m7" id="p5">
+  <div class="ph"><div class="ph-badge">7</div><div><div class="ph-sub">Modulo 7 &bull; Dinheiro</div><div class="ph-title">💰 Cedulas e Moedas do Real</div></div></div>
+  <div class="card">
+    <span class="qnum">22</span><span class="qtxt">Escreva o valor de cada cedula:</span>
+    <div class="cedulas" style="margin-top:12px">
+      <div style="text-align:center"><div class="ced ced-2">R$2</div></div>
+      <div style="text-align:center"><div class="ced ced-5">R$5</div></div>
+      <div style="text-align:center"><div class="ced ced-10">R$10</div></div>
+      <div style="text-align:center"><div class="ced ced-20">R$20</div></div>
+      <div style="text-align:center"><div class="ced ced-50">R$50</div></div>
+    </div>
+    <div class="cw"><div class="draw-label">✏️ ESCREVA OS VALORES DAS CEDULAS</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv5a"></div><div class="tc" style="background:#1B5E20" onclick="setCor('#1B5E20',this)" data-cv="cv5a"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv5a">⬜</div><button class="tbtn" onclick="clearCv('cv5a')">Limpar</button></div><canvas id="cv5a" height="80"></canvas></div>
+    <div class="tip">💡 Temos tambem moedas de 5¢, 10¢, 25¢, 50¢ e R$1,00!</div>
+  </div>
+  <div class="card">
+    <span class="qnum">23</span><span class="qtxt">Quanto dinheiro ha ao total? Complete:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:20px;">
+      <span class="ced ced-10">R$10</span> + <span class="ced ced-10">R$10</span> + <span class="ced ced-5">R$5</span> = R$ <input class="ans-line" type="text" size="4"><br><br>
+      <span class="ced ced-20">R$20</span> + <span class="ced ced-5">R$5</span> + <span class="ced ced-2">R$2</span> = R$ <input class="ans-line" type="text" size="4"><br><br>
+      <span class="ced ced-50">R$50</span> + <span class="ced ced-20">R$20</span> = R$ <input class="ans-line" type="text" size="4">
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">24</span><span class="qtxt">Como pagar exatamente R$13,00? Marque X:</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q24')"><span class="cltr">A</span> Uma cedula de R$10 e uma de R$5 (= R$15)</button>
+      <button class="cbtn" onclick="sel(this,'q24')"><span class="cltr">B</span> Uma de R$10, uma de R$2 e uma moeda de R$1 (= R$13)</button>
+      <button class="cbtn" onclick="sel(this,'q24')"><span class="cltr">C</span> Duas cedulas de R$5 e uma de R$1 (= R$11)</button>
+      <button class="cbtn" onclick="sel(this,'q24')"><span class="cltr">D</span> Uma cedula de R$20 (= R$20)</button>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">25</span><span class="qtxt">Maria comprou um pao por R$8,00 e pagou com R$10,00. Quanto de troco? Marque X:</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q25')"><span class="cltr">A</span> R$8,00</button>
+      <button class="cbtn" onclick="sel(this,'q25')"><span class="cltr">B</span> R$18,00</button>
+      <button class="cbtn" onclick="sel(this,'q25')"><span class="cltr">C</span> R$2,00</button>
+      <button class="cbtn" onclick="sel(this,'q25')"><span class="cltr">D</span> R$4,00</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(4)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 5 de 6<br>💰 Cedulas e Moedas</div>
+    <button class="nbtn" onclick="goTo(6)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 6: COMPRAS E PROBLEMAS -->
+<div class="page m7" id="p6">
+  <div class="ph"><div class="ph-badge">7</div><div><div class="ph-sub">Modulo 7 &bull; Dinheiro</div><div class="ph-title">🛒 Fazer Compras e Problemas</div></div></div>
+  <div class="card">
+    <span class="qnum">26</span><span class="qtxt"><strong>Problema:</strong> Lucas foi a loja. Um carrinho custa R$25,00 e uma bola custa R$18,00. Ele comprou os dois. Quanto gastou ao todo?</span>
+    <div class="cw"><div class="draw-label">✏️ RESOLVA AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv6a"></div><div class="tc" style="background:#1B5E20" onclick="setCor('#1B5E20',this)" data-cv="cv6a"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv6a">⬜</div><button class="tbtn" onclick="clearCv('cv6a')">Limpar</button></div><canvas id="cv6a" height="120"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">27</span><span class="qtxt">✏️ <strong>CAIXA DE DESENHO</strong> — Monte a conta da questao 26 no quadro de ordens (D e U):</span>
+    <div class="cw"><div class="draw-label">✏️ CAIXA DE DESENHO — Monte a conta!</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv6b"></div><div class="tc" style="background:#1B5E20" onclick="setCor('#1B5E20',this)" data-cv="cv6b"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv6b">⬜</div><button class="tbtn" onclick="clearCv('cv6b')">Limpar</button></div><canvas id="cv6b" height="160"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">28</span><span class="qtxt">Lucas pagou com R$50,00. Quanto de troco ele recebeu? (Use o resultado da questao 26)</span>
+    <div class="cw"><div class="draw-label">✏️ CALCULE O TROCO AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv6c"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv6c">⬜</div><button class="tbtn" onclick="clearCv('cv6c')">Limpar</button></div><canvas id="cv6c" height="100"></canvas></div>
+  </div>
+  <div class="card">
+    <span class="qnum">29</span><span class="qtxt">Ana quer comprar um livro de R$32,00. Ela tem duas cedulas de R$10 e uma de R$20. Ela tem dinheiro? Marque X:</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q29')"><span class="cltr">A</span> Nao, ela tem apenas R$30,00</button>
+      <button class="cbtn" onclick="sel(this,'q29')"><span class="cltr">B</span> Sim, ela tem R$40,00 (mais do que R$32,00)</button>
+      <button class="cbtn" onclick="sel(this,'q29')"><span class="cltr">C</span> Nao, ela tem R$22,00</button>
+      <button class="cbtn" onclick="sel(this,'q29')"><span class="cltr">D</span> Sim, ela tem exatamente R$32,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">30</span><span class="qtxt"><strong>Problema final:</strong> 56 sucos de laranja + 27 de uva = quantos sucos? Caixa recebeu R$100 e a conta foi R$83. Qual o troco?</span>
+    <div class="cw"><div class="draw-label">✏️ RESOLVA OS DOIS AQUI</div><div class="toolbar"><div class="tc active" style="background:#222" onclick="setCor('#222',this)" data-cv="cv6d"></div><div class="tc" style="background:#1B5E20" onclick="setCor('#1B5E20',this)" data-cv="cv6d"></div><div class="tc-erase" onclick="setCor('erase',this)" data-cv="cv6d">⬜</div><button class="tbtn" onclick="clearCv('cv6d')">Limpar</button></div><canvas id="cv6d" height="160"></canvas></div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(5)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 6 de 6<br>🛒 Compras</div>
+    <button class="nbtn" onclick="goTo(7)">Finalizar 🎉</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="page" id="p7">
+  <div class="final">
+    <div style="font-size:80px">🎉🏆⭐</div>
+    <h1>Parabens, Matheus!</h1>
+    <p>Voce completou o teste de<br>Matematica do 2 Bimestre!</p>
+    <div class="chk">
+      ✅ Modulo 5 — Figuras Geometricas<br>
+      ✅ Modulo 6 — Centena e Problemas<br>
+      ✅ Modulo 7 — Dinheiro e Compras<br>
+      📐 Figuras espaciais e planas<br>
+      🏆 Centena e material dourado<br>
+      🔢 Numeros pares e impares<br>
+      💰 Cedulas, moedas e compras
+    </div>
+    <p style="font-size:18px;opacity:0.85">Colegio pH &bull; 2 Bimestre 2026</p>
+    <button class="btn-start" onclick="goTo(0)">&#8592; Recomecar</button>
+  </div>
+</div>
+
+<script>
+var CTX = {};
+var COR = {};
+var globalCor = '#222';
+
+function getCtx(id) {
+  if (CTX[id]) return CTX[id];
+  var el = document.getElementById(id);
+  if (!el) return null;
+  var wrap = el.parentElement;
+  el.width = wrap.clientWidth || 320;
+  var ctx = el.getContext('2d');
+  CTX[id] = ctx;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, el.width, el.height);
+  var drawing = false, lx = 0, ly = 0;
+  el.addEventListener('pointerdown', function(e) {
+    e.preventDefault(); drawing = true;
+    el.setPointerCapture(e.pointerId);
+    var r = el.getBoundingClientRect();
+    lx = e.clientX - r.left; ly = e.clientY - r.top;
+  });
+  el.addEventListener('pointermove', function(e) {
+    e.preventDefault(); if (!drawing) return;
+    var r = el.getBoundingClientRect();
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    ctx.beginPath();
+    var c = COR[id] || '#222';
+    if (c === 'erase') {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.lineWidth = 18;
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = c;
+      ctx.lineWidth = 3;
+    }
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
+    if (c === 'erase') ctx.globalCompositeOperation = 'source-over';
+    lx = x; ly = y;
+  });
+  el.addEventListener('pointerup', function(e) { e.preventDefault(); drawing = false; });
+  el.addEventListener('pointercancel', function(e) { e.preventDefault(); drawing = false; });
+  return ctx;
+}
+
+function setCor(cor, btn) {
+  var cvId = btn.getAttribute('data-cv');
+  COR[cvId] = cor;
+  var toolbar = btn.closest('.toolbar');
+  toolbar.querySelectorAll('.tc,.tc-erase').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+function clearCv(id) {
+  var ctx = getCtx(id);
+  if (!ctx) return;
+  var el = document.getElementById(id);
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, el.width, el.height);
+}
+
+function initPage(pid) {
+  var pg = document.getElementById(pid);
+  if (!pg) return;
+  pg.querySelectorAll('canvas').forEach(function(el) {
+    if (!CTX[el.id]) getCtx(el.id);
+  });
+}
+
+function goTo(n) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var t = document.getElementById('p' + n);
+  if (t) { t.classList.add('active'); t.scrollTop = 0; }
+  setTimeout(function() { initPage('p' + n); }, 150);
+}
+
+function sel(btn, grp) {
+  var par = btn.closest('.choices');
+  par.querySelectorAll('.cbtn').forEach(function(b) { b.classList.remove('sel'); });
+  btn.classList.add('sel');
+}
+
+var nstate = {};
+function toggleNum(el) {
+  var id = el.textContent;
+  var s = (nstate[id] || 0);
+  s = (s + 1) % 3;
+  nstate[id] = s;
+  el.className = 'nc' + (s === 1 ? ' par' : s === 2 ? ' impar' : '');
+}
+
+setTimeout(function() { goTo(0); initPage('p0'); }, 150);
+</script>
+</body>
+</html>
