@@ -398,10 +398,8 @@ table.qt { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 18
     <div style="font-size:80px">🎉🏆⭐</div>
     <h1>Parabens, Matheus!</h1>
     <p>Voce completou o teste de<br>Matematica do 2 Bimestre!</p>
+    <div id="scoreDiv" style="background:rgba(255,255,255,0.15);border-radius:16px;padding:16px 22px;width:100%;max-width:420px;margin:0 auto;font-size:18px;line-height:2;text-align:left;"></div>
     <div class="chk">
-      ✅ Modulo 5 — Figuras Geometricas<br>
-      ✅ Modulo 6 — Centena e Problemas<br>
-      ✅ Modulo 7 — Dinheiro e Compras<br>
       📐 Figuras espaciais e planas<br>
       🏆 Centena e material dourado<br>
       🔢 Numeros pares e impares<br>
@@ -413,16 +411,53 @@ table.qt { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 18
 </div>
 
 <script>
+var selected = {};
+var correct = { q3:'D', q8:'C', q21:'B', q24:'B', q25:'C', q29:'B' };
+var qLabel = {
+  q3:'Q3 - Figura da pacoca',
+  q8:'Q8 - Figura sem vertices',
+  q21:'Q21 - Livros ao todo',
+  q24:'Q24 - Como pagar R$13',
+  q25:'Q25 - Troco do pao',
+  q29:'Q29 - Ana tem dinheiro?'
+};
+
 function goTo(n) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   var t = document.getElementById('p' + n);
   if (t) { t.classList.add('active'); t.scrollTop = 0; }
+  if (n === 7) calcScore();
 }
+
 function sel(btn, grp) {
   var par = btn.closest('.choices');
   par.querySelectorAll('.cbtn').forEach(function(b) { b.classList.remove('sel'); });
   btn.classList.add('sel');
+  var ltr = btn.querySelector('.cltr');
+  if (ltr) selected[grp] = ltr.textContent.trim();
 }
+
+function calcScore() {
+  var div = document.getElementById('scoreDiv');
+  if (!div) return;
+  var qs = Object.keys(correct);
+  var acertos = 0;
+  var html = '<div style="font-size:20px;font-weight:bold;margin-bottom:10px;">📊 Resultado — Multipla Escolha:</div>';
+  qs.forEach(function(q) {
+    var resp = selected[q] || '—';
+    var ok = resp === correct[q];
+    if (ok) acertos++;
+    html += (ok ? '✅' : '❌') + ' ' + qLabel[q] + ' — <strong>Voce: ' + resp + '</strong>' + (ok ? '' : ' (certo: ' + correct[q] + ')') + '<br>';
+  });
+  html += '<div style="margin-top:12px;font-size:22px;font-weight:bold;">';
+  html += '🏆 ' + acertos + ' de ' + qs.length + ' certas!';
+  html += '</div>';
+  if (acertos === qs.length) html += '<div style="font-size:18px;margin-top:6px;">Perfeito! 🌟 Voce acertou tudo!</div>';
+  else if (acertos >= 4) html += '<div style="font-size:18px;margin-top:6px;">Muito bem! Continue assim! 💪</div>';
+  else html += '<div style="font-size:18px;margin-top:6px;">Continue estudando! Voce consegue! 📚</div>';
+  div.innerHTML = html;
+}
+
 var nstate = {};
 function toggleNum(el) {
   var id = el.textContent;

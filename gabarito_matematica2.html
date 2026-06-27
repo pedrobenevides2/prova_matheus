@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GABARITO — Matematica 2 — pH</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive; background: #fff8e1; font-size: 17px; touch-action: manipulation; }
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+.m5 { --c: #0277BD; --cl: #E1F5FE; --cd: #01579B; }
+.m6 { --c: #E65100; --cl: #FFF3E0; --cd: #BF360C; }
+.m7 { --c: #2E7D32; --cl: #E8F5E9; --cd: #1B5E20; }
+.gab-banner { background: #F57F17; color: white; text-align: center; padding: 10px; font-size: 17px; font-weight: bold; letter-spacing: 2px; position: sticky; top: 0; z-index: 100; border-radius: 0 0 10px 10px; margin: -16px -16px 14px; }
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg,#F57F17 0%,#E65100 100%); color: white; text-align: center; gap: 18px; padding: 40px 24px 100px; }
+.cover h1 { font-size: 38px; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 20px; opacity: 0.9; }
+.cover .gab-label { font-size: 15px; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 6px 18px; letter-spacing: 2px; font-weight: bold; }
+.ph { background: var(--c); color: white; border-radius: 16px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 48px; height: 48px; font-size: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 22px; font-weight: bold; }
+.ph-sub { font-size: 15px; opacity: 0.85; }
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 22px; color: #222; line-height: 1.6; display: inline; }
+.qtxt strong { color: var(--cd); }
+.tip { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 11px 14px; margin: 10px 0; font-size: 20px; color: #333; }
+table.qt { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 18px; }
+.qt th { background: var(--c); color: white; padding: 9px 6px; text-align: center; }
+.qt td { border: 2px solid #ddd; padding: 7px 6px; text-align: center; vertical-align: middle; }
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.cbtn { display: flex; align-items: center; gap: 10px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 11px 14px; font-size: 20px; font-family: inherit; text-align: left; width: 100%; }
+.cbtn.correct { background: #E8F5E9; border-color: #2E7D32; font-weight: bold; }
+.cbtn.wrong { background: #FFEBEE; border-color: #EF9A9A; opacity: 0.6; }
+.cltr { border-radius: 50%; width: 32px; height: 32px; font-size: 17px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cltr-ok { background: #2E7D32; color: white; }
+.cltr-no { background: #bbb; color: white; }
+.shapes-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; justify-content: center; }
+.shp { background: var(--cl); border: 2px solid var(--c); border-radius: 12px; padding: 12px 10px; text-align: center; min-width: 90px; flex: 1; max-width: 130px; }
+.shp-ico { font-size: 36px; display: block; }
+.shp-lbl { display: block; font-size: 15px; color: var(--cd); font-weight: bold; margin-top: 4px; }
+.ans-box { background: #E8F5E9; border: 2px solid #2E7D32; border-radius: 10px; padding: 10px 14px; margin: 10px 0; font-size: 20px; color: #1B5E20; font-weight: bold; }
+.ans-inline { display: inline-block; background: #E8F5E9; border: 2px solid #2E7D32; border-radius: 8px; padding: 2px 10px; font-size: 22px; font-weight: bold; color: #1B5E20; vertical-align: middle; min-width: 50px; text-align: center; }
+.num-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin: 10px 0; }
+.nc { border-radius: 8px; padding: 8px 2px; text-align: center; font-size: 20px; font-weight: bold; border: 2.5px solid #ddd; }
+.nc.par { background: #BBDEFB; border-color: #1565C0; color: #0D47A1; }
+.nc.impar { background: #FFCDD2; border-color: #C62828; color: #B71C1C; }
+.cedulas { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; align-items: flex-start; }
+.ced { border-radius: 8px; padding: 8px 12px; font-size: 19px; font-weight: bold; border: 2.5px solid; text-align: center; }
+.ced-2 { background: #FFF9C4; border-color: #F9A825; color: #6D4C00; }
+.ced-5 { background: #E8F5E9; border-color: #2E7D32; color: #1B5E20; }
+.ced-10 { background: #E3F2FD; border-color: #1565C0; color: #01579B; }
+.ced-20 { background: #FCE4EC; border-color: #C62828; color: #880000; }
+.ced-50 { background: #FBE9E7; border-color: #BF360C; color: #7f2000; }
+.res-box { background: #FFF8E1; border: 2px dashed #F9A825; border-radius: 12px; padding: 12px 14px; margin: 10px 0; font-size: 19px; color: #333; }
+.res-box strong { color: #E65100; font-size: 21px; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #F57F17; color: white; border: none; border-radius: 25px; padding: 12px 22px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.bk { background: #8E8E93; }
+.ninfo { text-align: center; font-size: 13px; color: #555; }
+.btn-start { background: #FFD60A; color: #000; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+.final { min-height: 100vh; background: linear-gradient(145deg,#F57F17 0%,#E65100 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.score-item { font-size: 19px; line-height: 1.9; text-align: left; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div style="font-size:70px">📋✅</div>
+    <h1>Gabarito de Matematica</h1>
+    <p class="sub">2&ordm; Bimestre 2026</p>
+    <p class="gab-label">📢 USO DO PROFESSOR / PAIS</p>
+    <p style="font-size:16px;opacity:0.85;max-width:320px">Navegue pelas paginas para conferir as respostas corretas junto com o Matheus.</p>
+    <p style="font-size:15px;opacity:0.75">Colegio pH &bull; Matheus</p>
+    <button class="btn-start" onclick="goTo(1)">Ver Respostas &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 1: FIGURAS ESPACIAIS -->
+<div class="page m5" id="p1">
+  <div class="gab-banner">📋 GABARITO — FIGURAS ESPACIAIS</div>
+  <div class="ph"><div class="ph-badge">5</div><div><div class="ph-sub">Modulo 5</div><div class="ph-title">📦 Figuras Geometricas Espaciais</div></div></div>
+  <div class="card">
+    <span class="qnum">1</span><span class="qtxt">Nome de cada figura:</span>
+    <div class="shapes-row" style="margin-top:12px">
+      <div class="shp"><span class="shp-ico">📦</span><span class="shp-lbl">Bloco retangular</span></div>
+      <div class="shp"><span class="shp-ico">🟡</span><span class="shp-lbl">Cubo</span></div>
+      <div class="shp"><span class="shp-ico">🔺</span><span class="shp-lbl">Piramide</span></div>
+      <div class="shp"><span class="shp-ico">🎯</span><span class="shp-lbl">Cone</span></div>
+      <div class="shp"><span class="shp-ico">🥫</span><span class="shp-lbl">Cilindro</span></div>
+      <div class="shp"><span class="shp-ico">⚽</span><span class="shp-lbl">Esfera</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">2</span><span class="qtxt">Complete o quadro:</span>
+    <table class="qt" style="margin-top:10px">
+      <tr><th>Figura</th><th>Forma arredondada?</th><th>Qtd. vertices</th></tr>
+      <tr><td>Esfera</td><td class="ans-inline">SIM</td><td class="ans-inline">0</td></tr>
+      <tr><td>Cubo</td><td class="ans-inline">NAO</td><td class="ans-inline">8</td></tr>
+      <tr><td>Cone</td><td class="ans-inline">SIM</td><td class="ans-inline">1</td></tr>
+      <tr><td>Cilindro</td><td class="ans-inline">SIM</td><td class="ans-inline">0</td></tr>
+      <tr><td>Piramide</td><td class="ans-inline">NAO</td><td class="ans-inline">5</td></tr>
+    </table>
+    <div class="tip">💡 Esfera e cilindro tem superficie curva mas cilindro tem 2 faces planas circulares!</div>
+  </div>
+  <div class="card">
+    <span class="qnum">3</span><span class="qtxt">A pacoca tem o mesmo formato de qual figura?</span>
+    <div class="choices">
+      <div class="cbtn wrong"><span class="cltr cltr-no">A</span> Piramide</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">B</span> Esfera</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">C</span> Cilindro</div>
+      <div class="cbtn correct"><span class="cltr cltr-ok">D</span> ✅ Cubo</div>
+    </div>
+    <div class="tip">💡 A pacoca quadrada tem 6 faces iguais — e exatamente o formato de um cubo!</div>
+  </div>
+  <div class="card">
+    <span class="qnum">4</span><span class="qtxt">Adivinha: "Tenho 8 vertices e 6 faces quadradas..."</span>
+    <div class="ans-box">✅ Resposta: <strong>CUBO</strong></div>
+  </div>
+  <div class="card">
+    <span class="qnum">5</span><span class="qtxt">Caixa de Desenho — Figura do dia a dia:</span>
+    <div class="res-box">Exemplos aceitos: caixa de sapato = <strong>bloco retangular</strong>; lata de leite = <strong>cilindro</strong>; bola = <strong>esfera</strong>; sorvete casquinha = <strong>cone</strong></div>
+  </div>
+  <div class="nav"><button class="nbtn bk" onclick="goTo(0)">&#8592; Capa</button><div class="ninfo">Pag 1/6<br>Figuras Espaciais</div><button class="nbtn" onclick="goTo(2)">Proxima &#8594;</button></div>
+</div>
+
+<!-- PAG 2: FIGURAS PLANAS -->
+<div class="page m5" id="p2">
+  <div class="gab-banner">📋 GABARITO — FIGURAS PLANAS</div>
+  <div class="ph"><div class="ph-badge">5</div><div><div class="ph-sub">Modulo 5</div><div class="ph-title">🔷 Figuras Geometricas Planas</div></div></div>
+  <div class="card">
+    <span class="qnum">6</span><span class="qtxt">Nome de cada figura plana:</span>
+    <div class="shapes-row" style="margin-top:12px">
+      <div class="shp"><span class="shp-ico">⬜</span><span class="shp-lbl">Quadrado</span></div>
+      <div class="shp"><span class="shp-ico">🟦</span><span class="shp-lbl">Retangulo</span></div>
+      <div class="shp"><span class="shp-ico">🔺</span><span class="shp-lbl">Triangulo</span></div>
+      <div class="shp"><span class="shp-ico">⭕</span><span class="shp-lbl">Circulo</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">7</span><span class="qtxt">Complete as frases:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:21px;">
+      O quadrado tem <span class="ans-inline">4</span> lados iguais e <span class="ans-inline">4</span> vertices.<br>
+      O triangulo tem <span class="ans-inline">3</span> lados e <span class="ans-inline">3</span> vertices.<br>
+      O circulo tem <span class="ans-inline">0</span> lados e <span class="ans-inline">0</span> vertices.
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">8</span><span class="qtxt">Qual figura plana NAO tem vertices?</span>
+    <div class="choices">
+      <div class="cbtn wrong"><span class="cltr cltr-no">A</span> Quadrado</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">B</span> Triangulo</div>
+      <div class="cbtn correct"><span class="cltr cltr-ok">C</span> ✅ Circulo</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">D</span> Retangulo</div>
+    </div>
+    <div class="tip">💡 O circulo e completamente redondo — nao tem cantos (vertices) nem lados retos!</div>
+  </div>
+  <div class="card">
+    <span class="qnum">9</span><span class="qtxt">Classifique E ou P:</span>
+    <table class="qt" style="margin-top:10px">
+      <tr><th>Figura</th><th>E ou P?</th><th>Figura</th><th>E ou P?</th></tr>
+      <tr><td>Esfera</td><td><span class="ans-inline">E</span></td><td>Quadrado</td><td><span class="ans-inline">P</span></td></tr>
+      <tr><td>Cubo</td><td><span class="ans-inline">E</span></td><td>Circulo</td><td><span class="ans-inline">P</span></td></tr>
+      <tr><td>Piramide</td><td><span class="ans-inline">E</span></td><td>Triangulo</td><td><span class="ans-inline">P</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <span class="qnum">10</span><span class="qtxt">Caixa de Desenho — Quadrado e triangulo:</span>
+    <div class="res-box">Quadrado: 4 vertices &bull; Triangulo: 3 vertices<br>✅ Aceitar qualquer desenho correto das figuras com o numero de vertices indicado</div>
+  </div>
+  <div class="nav"><button class="nbtn bk" onclick="goTo(1)">&#8592; Voltar</button><div class="ninfo">Pag 2/6<br>Figuras Planas</div><button class="nbtn" onclick="goTo(3)">Proxima &#8594;</button></div>
+</div>
+
+<!-- PAG 3: CENTENA E MATERIAL DOURADO -->
+<div class="page m6" id="p3">
+  <div class="gab-banner">📋 GABARITO — CENTENA E MATERIAL DOURADO</div>
+  <div class="ph"><div class="ph-badge">6</div><div><div class="ph-sub">Modulo 6</div><div class="ph-title">🏆 Centena e Material Dourado</div></div></div>
+  <div class="card">
+    <span class="qnum">11</span><span class="qtxt">Complete sobre o material dourado:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:21px;">
+      1 placa tem <span class="ans-inline">10</span> barras.<br>
+      1 placa representa <span class="ans-inline">10</span> dezenas.<br>
+      1 placa tem <span class="ans-inline">100</span> cubinhos = <span class="ans-inline">100</span> unidades.<br>
+      Uma CENTENA = <span class="ans-inline">100</span> unidades.
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">12</span><span class="qtxt">Escreva o numero e complete o quadro D | U:</span>
+    <table class="qt" style="margin-top:10px">
+      <tr><th>Pecas</th><th>Numero</th><th>D</th><th>U</th></tr>
+      <tr><td>5 barras + 3 cubinhos</td><td><span class="ans-inline">53</span></td><td><span class="ans-inline">5</span></td><td><span class="ans-inline">3</span></td></tr>
+      <tr><td>7 barras + 8 cubinhos</td><td><span class="ans-inline">78</span></td><td><span class="ans-inline">7</span></td><td><span class="ans-inline">8</span></td></tr>
+      <tr><td>10 barras</td><td><span class="ans-inline">100</span></td><td><span class="ans-inline">10</span></td><td><span class="ans-inline">0</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <span class="qnum">13</span><span class="qtxt">Caixa de Desenho — Numero 76 com barras e cubinhos:</span>
+    <div class="res-box">✅ <strong>76 = 7 barras (dezenas) + 6 cubinhos (unidades)</strong><br>Aceitar: 7 tracos verticais para dezenas e 6 pontos/quadradinhos para unidades</div>
+  </div>
+  <div class="card">
+    <span class="qnum">14</span><span class="qtxt">Complete a reta numerica:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:20px;">
+      60, <span class="ans-inline">61</span>, 62, <span class="ans-inline">63</span>, 64, <span class="ans-inline">65</span>, 66<br>
+      88, <span class="ans-inline">89</span>, <span class="ans-inline">90</span>, 91, <span class="ans-inline">92</span>, 93
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">15</span><span class="qtxt">Antecessor e sucessor:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:21px;">
+      <span class="ans-inline">46</span> — <strong>47</strong> — <span class="ans-inline">48</span><br>
+      <span class="ans-inline">98</span> — <strong>99</strong> — <span class="ans-inline">100</span><br>
+      <span class="ans-inline">79</span> — <strong>80</strong> — <span class="ans-inline">81</span>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">16</span><span class="qtxt">Compare com &gt; ou &lt;:</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:22px;">
+      67 <span class="ans-inline">&lt;</span> 76 &nbsp;&nbsp; 100 <span class="ans-inline">&gt;</span> 99<br>
+      88 <span class="ans-inline">=</span> 88 &nbsp;&nbsp; 54 <span class="ans-inline">&gt;</span> 45
+    </div>
+    <div class="tip">💡 88 = 88 e valido! Tambem aceitar "=" para numeros iguais.</div>
+  </div>
+  <div class="nav"><button class="nbtn bk" onclick="goTo(2)">&#8592; Voltar</button><div class="ninfo">Pag 3/6<br>Centena</div><button class="nbtn" onclick="goTo(4)">Proxima &#8594;</button></div>
+</div>
+
+<!-- PAG 4: PARES/IMPARES E PROBLEMAS -->
+<div class="page m6" id="p4">
+  <div class="gab-banner">📋 GABARITO — PARES, IMPARES E PROBLEMAS</div>
+  <div class="ph"><div class="ph-badge">6</div><div><div class="ph-sub">Modulo 6</div><div class="ph-title">🔢 Pares, Impares e Problemas</div></div></div>
+  <div class="card">
+    <span class="qnum">17</span><span class="qtxt">AZUL = par &bull; VERMELHO = impar:</span>
+    <div class="num-grid">
+      <div class="nc par">12</div>
+      <div class="nc impar">35</div>
+      <div class="nc par">48</div>
+      <div class="nc impar">71</div>
+      <div class="nc par">90</div>
+      <div class="nc impar">23</div>
+      <div class="nc par">56</div>
+      <div class="nc impar">67</div>
+      <div class="nc par">84</div>
+      <div class="nc impar">99</div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">18</span><span class="qtxt">Problema: 34 meninos + 28 meninas. Quantos ao todo?</span>
+    <div class="res-box">
+      34 + 28 = ?<br>
+      D: 3+2 = 5 &nbsp; U: 4+8 = 12 → reagrupar: escrevo 2, guardo 1 dezena<br>
+      D: 5+1 = 6 &nbsp; U: 2<br>
+      <strong>✅ Resposta: 62 alunos</strong>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">19</span><span class="qtxt">Caixa de Desenho — Conta da Q18 no quadro D|U:</span>
+    <div class="res-box">
+      &nbsp;&nbsp;D | U<br>
+      &nbsp;&nbsp;3 | 4<br>
+      + 2 | 8<br>
+      ─────<br>
+      &nbsp;&nbsp;6 | 2<br>
+      <strong>✅ = 62</strong>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">20</span><span class="qtxt">Problema: Pedro tinha 75 figurinhas, deu 37. Quantas ficou?</span>
+    <div class="res-box">
+      75 - 37 = ?<br>
+      U: 5-7 nao da → pego 1 dezena: 15-7 = 8<br>
+      D: 7-1-3 = 3<br>
+      <strong>✅ Resposta: 38 figurinhas</strong>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">21</span><span class="qtxt">48 livros de mat + 36 de port = quantos livros?</span>
+    <div class="choices">
+      <div class="cbtn wrong"><span class="cltr cltr-no">A</span> 74 livros</div>
+      <div class="cbtn correct"><span class="cltr cltr-ok">B</span> ✅ 84 livros (48+36=84)</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">C</span> 12 livros</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">D</span> 94 livros</div>
+    </div>
+    <div class="tip">💡 48+36: U: 8+6=14 (escrevo 4, guardo 1) / D: 4+3+1=8 → 84 ✅</div>
+  </div>
+  <div class="nav"><button class="nbtn bk" onclick="goTo(3)">&#8592; Voltar</button><div class="ninfo">Pag 4/6<br>Pares e Problemas</div><button class="nbtn" onclick="goTo(5)">Proxima &#8594;</button></div>
+</div>
+
+<!-- PAG 5: CEDULAS E MOEDAS -->
+<div class="page m7" id="p5">
+  <div class="gab-banner">📋 GABARITO — CEDULAS E MOEDAS</div>
+  <div class="ph"><div class="ph-badge">7</div><div><div class="ph-sub">Modulo 7</div><div class="ph-title">💰 Cedulas e Moedas do Real</div></div></div>
+  <div class="card">
+    <span class="qnum">22</span><span class="qtxt">Valor de cada cedula:</span>
+    <div class="cedulas" style="margin-top:12px">
+      <div class="ced ced-2">R$2,00</div>
+      <div class="ced ced-5">R$5,00</div>
+      <div class="ced ced-10">R$10,00</div>
+      <div class="ced ced-20">R$20,00</div>
+      <div class="ced ced-50">R$50,00</div>
+    </div>
+    <div class="tip">💡 Lembrete: tambem existem moedas de 5¢, 10¢, 25¢, 50¢ e R$1,00</div>
+  </div>
+  <div class="card">
+    <span class="qnum">23</span><span class="qtxt">Quanto dinheiro ao total?</span>
+    <div style="margin-top:12px;line-height:2.8;font-size:20px;">
+      <span class="ced ced-10">R$10</span> + <span class="ced ced-10">R$10</span> + <span class="ced ced-5">R$5</span> = R$ <span class="ans-inline">25,00</span><br><br>
+      <span class="ced ced-20">R$20</span> + <span class="ced ced-5">R$5</span> + <span class="ced ced-2">R$2</span> = R$ <span class="ans-inline">27,00</span><br><br>
+      <span class="ced ced-50">R$50</span> + <span class="ced ced-20">R$20</span> = R$ <span class="ans-inline">70,00</span>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">24</span><span class="qtxt">Como pagar exatamente R$13,00?</span>
+    <div class="choices">
+      <div class="cbtn wrong"><span class="cltr cltr-no">A</span> R$10 + R$5 = R$15 (errado)</div>
+      <div class="cbtn correct"><span class="cltr cltr-ok">B</span> ✅ R$10 + R$2 + R$1 = R$13,00</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">C</span> R$5+R$5+R$1 = R$11 (errado)</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">D</span> R$20 (errado)</div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">25</span><span class="qtxt">Maria comprou pao por R$8, pagou R$10. Troco?</span>
+    <div class="choices">
+      <div class="cbtn wrong"><span class="cltr cltr-no">A</span> R$8,00</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">B</span> R$18,00</div>
+      <div class="cbtn correct"><span class="cltr cltr-ok">C</span> ✅ R$2,00 (10-8=2)</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">D</span> R$4,00</div>
+    </div>
+    <div class="tip">💡 Troco = valor pago - preco = R$10 - R$8 = R$2,00</div>
+  </div>
+  <div class="nav"><button class="nbtn bk" onclick="goTo(4)">&#8592; Voltar</button><div class="ninfo">Pag 5/6<br>Cedulas e Moedas</div><button class="nbtn" onclick="goTo(6)">Proxima &#8594;</button></div>
+</div>
+
+<!-- PAG 6: COMPRAS E PROBLEMAS -->
+<div class="page m7" id="p6">
+  <div class="gab-banner">📋 GABARITO — COMPRAS E PROBLEMAS</div>
+  <div class="ph"><div class="ph-badge">7</div><div><div class="ph-sub">Modulo 7</div><div class="ph-title">🛒 Fazer Compras e Problemas</div></div></div>
+  <div class="card">
+    <span class="qnum">26</span><span class="qtxt">Lucas: carrinho R$25 + bola R$18. Quanto gastou ao todo?</span>
+    <div class="res-box">
+      25 + 18 = ?<br>
+      U: 5+8=13 (escrevo 3, guardo 1) / D: 2+1+1=4<br>
+      <strong>✅ Resposta: R$43,00</strong>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">27</span><span class="qtxt">Caixa de Desenho — Conta da Q26 no quadro D|U:</span>
+    <div class="res-box">
+      &nbsp;&nbsp;D | U<br>
+      &nbsp;&nbsp;2 | 5<br>
+      + 1 | 8<br>
+      ─────<br>
+      &nbsp;&nbsp;4 | 3<br>
+      <strong>✅ = R$43,00</strong>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">28</span><span class="qtxt">Lucas pagou com R$50. Quanto de troco? (Use Q26 = R$43)</span>
+    <div class="res-box">
+      Troco = R$50 - R$43 = ?<br>
+      U: 0-3 nao da → pego 1 dezena: 10-3=7<br>
+      D: 5-1-4=0 &nbsp; C: 0<br>
+      <strong>✅ Resposta: R$7,00 de troco</strong>
+    </div>
+  </div>
+  <div class="card">
+    <span class="qnum">29</span><span class="qtxt">Ana quer livro de R$32. Tem R$10+R$10+R$20. Ela tem dinheiro?</span>
+    <div class="choices">
+      <div class="cbtn wrong"><span class="cltr cltr-no">A</span> Nao, ela tem R$30</div>
+      <div class="cbtn correct"><span class="cltr cltr-ok">B</span> ✅ Sim, ela tem R$40 (R$10+R$10+R$20=R$40 &gt; R$32)</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">C</span> Nao, ela tem R$22</div>
+      <div class="cbtn wrong"><span class="cltr cltr-no">D</span> Sim, ela tem exatamente R$32</div>
+    </div>
+    <div class="tip">💡 R$10+R$10+R$20 = R$40. Como R$40 &gt; R$32, ela TEM dinheiro suficiente!</div>
+  </div>
+  <div class="card">
+    <span class="qnum">30</span><span class="qtxt">56 sucos laranja + 27 uva = ? / Conta R$83, pagou R$100. Troco?</span>
+    <div class="res-box">
+      <strong>Parte 1 — Sucos:</strong> 56+27 = 83 sucos<br>
+      U: 6+7=13 (escrevo 3, guardo 1) / D: 5+2+1=8 → 83 ✅<br><br>
+      <strong>Parte 2 — Troco:</strong> R$100 - R$83 = R$17,00<br>
+      U: 0-3 nao da → pego dezena: 10-3=7 / D: 9-1-8=0 / C: 1-0=0 → mas reagrupando: 10-8=2... <br>
+      Mais facil: 83+17=100 ✅ &nbsp; <strong>Troco = R$17,00</strong>
+    </div>
+  </div>
+  <div class="nav"><button class="nbtn bk" onclick="goTo(5)">&#8592; Voltar</button><div class="ninfo">Pag 6/6<br>Compras</div><button class="nbtn" onclick="goTo(7)">Resumo &#8594;</button></div>
+</div>
+
+<!-- FINAL -->
+<div class="page" id="p7">
+  <div class="final">
+    <div style="font-size:70px">📋✅</div>
+    <h1>Gabarito Completo!</h1>
+    <div style="background:rgba(255,255,255,0.2);border-radius:16px;padding:16px 22px;width:100%;max-width:420px;font-size:18px;line-height:2;text-align:left">
+      <div style="font-size:20px;font-weight:bold;margin-bottom:8px">📊 Resumo das respostas corretas:</div>
+      <strong>Q3:</strong> D — Cubo<br>
+      <strong>Q8:</strong> C — Circulo<br>
+      <strong>Q21:</strong> B — 84 livros<br>
+      <strong>Q24:</strong> B — R$10+R$2+R$1<br>
+      <strong>Q25:</strong> C — R$2,00<br>
+      <strong>Q29:</strong> B — Sim, R$40,00<br>
+      <br>
+      <div style="font-size:16px;opacity:0.85">Para questoes de escrita e desenho,<br>conferir nas paginas anteriores. ✍️</div>
+    </div>
+    <button class="btn-start" onclick="goTo(0)">&#8592; Recomecar</button>
+  </div>
+</div>
+
+<script>
+function goTo(n) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var t = document.getElementById('p' + n);
+  if (t) { t.classList.add('active'); t.scrollTop = 0; }
+}
+setTimeout(function() { goTo(0); }, 100);
+</script>
+</body>
+</html>
