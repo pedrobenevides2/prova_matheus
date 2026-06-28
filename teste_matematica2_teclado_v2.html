@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado Dinheiro 2 — Matheus pH</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: 'Times New Roman', Times, serif; background: #e8f5e9; font-size: 17px; touch-action: manipulation; }
+.page { display: none; position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 16px 90px; }
+.page.active { display: block; }
+.m7 { --c: #2E7D32; --cl: #E8F5E9; --cd: #1B5E20; }
+.mt { --c: #B71C1C; --cl: #FFEBEE; --cd: #7f0000; }
+.mc { --c: #1565C0; --cl: #E3F2FD; --cd: #003c8f; }
+.cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(145deg,#1B5E20 0%,#1565C0 100%); color: white; text-align: center; gap: 18px; padding: 40px 24px 100px; }
+.cover-emoji { font-size: 80px; animation: bounce 1.5s infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+.cover h1 { font-size: 38px; line-height: 1.2; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+.cover .sub { font-size: 20px; opacity: 0.9; }
+.btn-start { background: #FFD60A; color: #000; border: none; border-radius: 30px; padding: 16px 44px; font-size: 22px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25); touch-action: manipulation; }
+.nome-box { background: rgba(255,255,255,0.2); border-radius: 14px; padding: 14px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 10px; }
+.nome-row { display: flex; flex-direction: column; gap: 4px; }
+.nome-lbl { font-size: 15px; opacity: 0.85; }
+.nome-inp { background: rgba(255,255,255,0.9); border: none; border-radius: 8px; padding: 8px 10px; font-size: 18px; font-family: inherit; color: #000; }
+.ph { background: var(--c); color: white; border-radius: 16px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.ph-badge { background: rgba(255,255,255,0.3); border-radius: 50%; width: 48px; height: 48px; font-size: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ph-title { font-size: 22px; font-weight: bold; }
+.ph-sub { font-size: 15px; opacity: 0.85; }
+.formula { border-radius: 16px; padding: 13px 18px; margin-bottom: 14px; font-size: 22px; font-weight: bold; text-align: center; border: 3px solid var(--c); background: var(--cl); color: var(--cd); }
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.09); border-left: 5px solid var(--c); }
+.qnum { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: white; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; font-weight: bold; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+.qtxt { font-size: 22px; color: #222; line-height: 1.6; }
+.kw-t { color: #B71C1C; font-weight: bold; font-size: 24px; }
+.kw-g { color: #1B5E20; font-weight: bold; font-size: 24px; }
+.choices { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.cbtn { display: flex; align-items: center; gap: 10px; background: #f5f5f5; border: 2.5px solid #ddd; border-radius: 12px; padding: 11px 14px; font-size: 20px; font-family: inherit; cursor: pointer; touch-action: manipulation; text-align: left; transition: all 0.15s; width: 100%; }
+.cbtn.sel { background: var(--cl); border-color: var(--c); font-weight: bold; }
+.cltr { background: var(--c); color: white; border-radius: 50%; width: 32px; height: 32px; font-size: 17px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cedulas { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; align-items: center; }
+.ced { border-radius: 8px; padding: 10px 16px; font-size: 22px; font-weight: bold; border: 3px solid; text-align: center; }
+.ced-2  { background: #FFF9C4; border-color: #F9A825; color: #6D4C00; }
+.ced-5  { background: #E8F5E9; border-color: #2E7D32; color: #1B5E20; }
+.ced-10 { background: #E3F2FD; border-color: #1565C0; color: #01579B; }
+.ced-20 { background: #FCE4EC; border-color: #C62828; color: #880000; }
+.ced-50 { background: #FBE9E7; border-color: #BF360C; color: #7f2000; }
+.moeda  { background: #F5F5F5; border: 3px solid #9E9E9E; color: #424242; border-radius: 50%; width: 48px; height: 48px; font-size: 14px; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
+.ans { width: 100%; border: none; border-bottom: 2.5px solid var(--c); background: transparent; font-size: 22px; font-family: inherit; color: var(--cd); outline: none; padding: 6px; margin-top: 10px; }
+.ans-line { display: inline-block; border: none; border-bottom: 2.5px solid var(--c); background: transparent; font-size: 22px; font-family: inherit; color: var(--cd); outline: none; padding: 2px 6px; min-width: 70px; text-align: center; vertical-align: middle; }
+.draw-box { background: var(--cl); border: 2px dashed var(--c); border-radius: 12px; padding: 10px; margin: 10px 0; }
+.draw-title { font-size: 15px; font-weight: bold; color: var(--cd); margin-bottom: 6px; }
+.draw-inner { width: 100%; resize: none; border: none; background: white; border-radius: 8px; font-size: 20px; font-family: inherit; padding: 8px; color: #333; }
+.op { font-size: 26px; font-weight: bold; color: var(--cd); margin: 0 8px; vertical-align: middle; }
+.final { min-height: 100vh; background: linear-gradient(145deg,#1B5E20 0%,#1565C0 100%); color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px 24px 100px; }
+.final h1 { font-size: 40px; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -3px 14px rgba(0,0,0,0.1); z-index: 999; }
+.nbtn { background: #007AFF; color: white; border: none; border-radius: 25px; padding: 12px 22px; font-size: 17px; font-family: inherit; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+.nbtn.bk { background: #8E8E93; }
+.ninfo { text-align: center; font-size: 13px; color: #555; line-height: 1.4; }
+.sim2tag { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page active" id="p0">
+  <div class="cover">
+    <div class="sim2tag">SIMULADO 2</div>
+    <div class="cover-emoji">💰🪙💵</div>
+    <h1>Simulado de<br>Dinheiro!</h1>
+    <p class="sub">So sobre dinheiro, Matheus! 💪</p>
+    <p style="font-size:16px;opacity:0.8">Colegio pH &bull; 2&ordm; Bimestre 2026</p>
+    <div class="nome-box">
+      <div class="nome-row"><span class="nome-lbl">Meu nome:</span><input class="nome-inp" type="text" placeholder="Escreva aqui..."></div>
+      <div class="nome-row"><span class="nome-lbl">Data:</span><input class="nome-inp" type="text" placeholder="__/__/____"></div>
+    </div>
+    <button class="btn-start" onclick="goTo(1)">Vamos la! 💰</button>
+  </div>
+</div>
+
+<!-- PAG 1: RECONHECER VALORES -->
+<div class="page m7" id="p1">
+  <div class="ph"><div class="ph-badge">💰</div><div><div class="ph-sub">Modulo 7 &bull; Dinheiro</div><div class="ph-title">Reconhecer Cedulas e Moedas</div></div></div>
+  <div class="formula">💡 R$2=amarelo &bull; R$5=verde &bull; R$10=azul &bull; R$20=vermelho &bull; R$50=laranja</div>
+  <div class="card">
+    <div class="qnum">1</div><span class="qtxt">Qual e o valor desta cedula?</span>
+    <div class="cedulas" style="margin-top:10px"><div class="ced ced-10" style="font-size:28px">?</div></div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q1')"><span class="cltr">A</span> R$5,00</button>
+      <button class="cbtn" onclick="sel(this,'q1')"><span class="cltr">B</span> R$10,00</button>
+      <button class="cbtn" onclick="sel(this,'q1')"><span class="cltr">C</span> R$20,00</button>
+      <button class="cbtn" onclick="sel(this,'q1')"><span class="cltr">D</span> R$2,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">2</div><span class="qtxt">Qual e o valor desta cedula?</span>
+    <div class="cedulas" style="margin-top:10px"><div class="ced ced-20" style="font-size:28px">?</div></div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q2')"><span class="cltr">A</span> R$50,00</button>
+      <button class="cbtn" onclick="sel(this,'q2')"><span class="cltr">B</span> R$5,00</button>
+      <button class="cbtn" onclick="sel(this,'q2')"><span class="cltr">C</span> R$20,00</button>
+      <button class="cbtn" onclick="sel(this,'q2')"><span class="cltr">D</span> R$10,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">3</div><span class="qtxt">Quanto dinheiro ha no total?</span>
+    <div class="cedulas" style="margin-top:10px">
+      <div class="ced ced-10">R$10</div><span class="op">+</span>
+      <div class="ced ced-10">R$10</div><span class="op">+</span>
+      <div class="ced ced-5">R$5</div><span class="op">=</span>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">A</span> R$15,00</button>
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">B</span> R$25,00</button>
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">C</span> R$30,00</button>
+      <button class="cbtn" onclick="sel(this,'q3')"><span class="cltr">D</span> R$20,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">4</div><span class="qtxt">Quanto dinheiro ha no total?</span>
+    <div class="cedulas" style="margin-top:10px">
+      <div class="ced ced-50">R$50</div><span class="op">+</span>
+      <div class="ced ced-20">R$20</div><span class="op">=</span>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q4')"><span class="cltr">A</span> R$30,00</button>
+      <button class="cbtn" onclick="sel(this,'q4')"><span class="cltr">B</span> R$60,00</button>
+      <button class="cbtn" onclick="sel(this,'q4')"><span class="cltr">C</span> R$70,00</button>
+      <button class="cbtn" onclick="sel(this,'q4')"><span class="cltr">D</span> R$80,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">5</div><span class="qtxt">Como fazer <strong>R$17,00</strong> com cedulas?</span>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q5')"><span class="cltr">A</span> R$10 + R$5 + R$2 = R$17 ✅</button>
+      <button class="cbtn" onclick="sel(this,'q5')"><span class="cltr">B</span> R$20 sozinho</button>
+      <button class="cbtn" onclick="sel(this,'q5')"><span class="cltr">C</span> R$10 + R$10 = R$20</button>
+      <button class="cbtn" onclick="sel(this,'q5')"><span class="cltr">D</span> R$5 + R$5 + R$5 = R$15</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(0)">&#8592; Capa</button>
+    <div class="ninfo">Pagina 1 de 4<br>💰 Valores</div>
+    <button class="nbtn" onclick="goTo(2)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 2: TROCO -->
+<div class="page mt" id="p2">
+  <div class="ph"><div class="ph-badge">🔴</div><div><div class="ph-sub">Palavra-chave: TROCO</div><div class="ph-title">🔴 Troco = Subtracao (−)</div></div></div>
+  <div class="formula" style="background:#FFEBEE;border-color:#B71C1C;color:#7f0000;font-size:24px">🔴 <span class="kw-t">TROCO</span> = valor pago &minus; preco &nbsp;|&nbsp; SUBTRAIR!</div>
+  <div class="card">
+    <div class="qnum">6</div>
+    <div class="qtxt">Sorvete custa <strong>R$6</strong>. Paguei <strong>R$10</strong>. Qual e o <span class="kw-t">TROCO</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q6')"><span class="cltr">A</span> R$16,00</button>
+      <button class="cbtn" onclick="sel(this,'q6')"><span class="cltr">B</span> R$6,00</button>
+      <button class="cbtn" onclick="sel(this,'q6')"><span class="cltr">C</span> R$4,00</button>
+      <button class="cbtn" onclick="sel(this,'q6')"><span class="cltr">D</span> R$8,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">7</div>
+    <div class="qtxt">Biscoito custa <strong>R$3</strong>. Paguei <strong>R$5</strong>. <span class="kw-t">TROCO</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q7')"><span class="cltr">A</span> R$8,00</button>
+      <button class="cbtn" onclick="sel(this,'q7')"><span class="cltr">B</span> R$3,00</button>
+      <button class="cbtn" onclick="sel(this,'q7')"><span class="cltr">C</span> R$2,00</button>
+      <button class="cbtn" onclick="sel(this,'q7')"><span class="cltr">D</span> R$1,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">8</div>
+    <div class="qtxt">Brinquedo custa <strong>R$23</strong>. Paguei <strong>R$30</strong>. <span class="kw-t">TROCO</span>?</div>
+    <div class="draw-box">
+      <div class="draw-title">✏️ Calcule aqui:</div>
+      <textarea class="draw-inner" rows="2" placeholder="R$30 - R$23 = R$__"></textarea>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">A</span> R$53,00</button>
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">B</span> R$7,00</button>
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">C</span> R$13,00</button>
+      <button class="cbtn" onclick="sel(this,'q8')"><span class="cltr">D</span> R$3,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">9</div>
+    <div class="qtxt">Lanche custa <strong>R$14</strong>. Paguei <strong>R$20</strong>. <span class="kw-t">TROCO</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q9')"><span class="cltr">A</span> R$34,00</button>
+      <button class="cbtn" onclick="sel(this,'q9')"><span class="cltr">B</span> R$4,00</button>
+      <button class="cbtn" onclick="sel(this,'q9')"><span class="cltr">C</span> R$6,00</button>
+      <button class="cbtn" onclick="sel(this,'q9')"><span class="cltr">D</span> R$10,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">10</div>
+    <div class="qtxt">Revista custa <strong>R$8</strong>. Paguei <strong>R$50</strong>. <span class="kw-t">TROCO</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q10')"><span class="cltr">A</span> R$58,00</button>
+      <button class="cbtn" onclick="sel(this,'q10')"><span class="cltr">B</span> R$38,00</button>
+      <button class="cbtn" onclick="sel(this,'q10')"><span class="cltr">C</span> R$42,00</button>
+      <button class="cbtn" onclick="sel(this,'q10')"><span class="cltr">D</span> R$48,00</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(1)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 2 de 4<br>🔴 Troco</div>
+    <button class="nbtn" onclick="goTo(3)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 3: COMPRAS (ADICAO) -->
+<div class="page mc" id="p3">
+  <div class="ph"><div class="ph-badge">🟢</div><div><div class="ph-sub">Palavra-chave: GASTOU / COMPROU</div><div class="ph-title">🟢 Compras = Adicao (+)</div></div></div>
+  <div class="formula" style="background:#E3F2FD;border-color:#1565C0;color:#003c8f;font-size:24px">🟢 <span class="kw-g">GASTEI</span> = preco 1 + preco 2 &nbsp;|&nbsp; SOMAR!</div>
+  <div class="card">
+    <div class="qnum">11</div>
+    <div class="qtxt">Maca <strong>R$4</strong> + Suco <strong>R$5</strong>. Quanto <span class="kw-g">gastou</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q11')"><span class="cltr">A</span> R$1,00</button>
+      <button class="cbtn" onclick="sel(this,'q11')"><span class="cltr">B</span> R$9,00</button>
+      <button class="cbtn" onclick="sel(this,'q11')"><span class="cltr">C</span> R$20,00</button>
+      <button class="cbtn" onclick="sel(this,'q11')"><span class="cltr">D</span> R$45,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">12</div>
+    <div class="qtxt">Camiseta <strong>R$25</strong> + Tenis <strong>R$35</strong>. Total <span class="kw-g">gasto</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q12')"><span class="cltr">A</span> R$10,00</button>
+      <button class="cbtn" onclick="sel(this,'q12')"><span class="cltr">B</span> R$50,00</button>
+      <button class="cbtn" onclick="sel(this,'q12')"><span class="cltr">C</span> R$60,00</button>
+      <button class="cbtn" onclick="sel(this,'q12')"><span class="cltr">D</span> R$70,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">13</div>
+    <div class="qtxt">Pipoca <strong>R$6</strong> + Refri <strong>R$4</strong> + Agua <strong>R$2</strong>. Total <span class="kw-g">gasto</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q13')"><span class="cltr">A</span> R$10,00</button>
+      <button class="cbtn" onclick="sel(this,'q13')"><span class="cltr">B</span> R$12,00</button>
+      <button class="cbtn" onclick="sel(this,'q13')"><span class="cltr">C</span> R$16,00</button>
+      <button class="cbtn" onclick="sel(this,'q13')"><span class="cltr">D</span> R$8,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">14</div>
+    <div class="qtxt">Pedro tem <strong>R$30</strong>. Quer <span class="kw-g">comprar</span>: livro <strong>R$18</strong> + lapis <strong>R$9</strong>. Ele tem dinheiro?</div>
+    <div class="draw-box">
+      <div class="draw-title">✏️ Calcule: R$18 + R$9 = R$__</div>
+      <textarea class="draw-inner" rows="2" placeholder="Calcule aqui..."></textarea>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q14')"><span class="cltr">A</span> Nao — gasta R$37 e so tem R$30</button>
+      <button class="cbtn" onclick="sel(this,'q14')"><span class="cltr">B</span> Sim — gasta R$27 e tem R$30</button>
+      <button class="cbtn" onclick="sel(this,'q14')"><span class="cltr">C</span> Nao — gasta R$17 mas nao tem</button>
+      <button class="cbtn" onclick="sel(this,'q14')"><span class="cltr">D</span> Sim — gasta R$47</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">15</div>
+    <div class="qtxt">Calcule: <strong>R$15 + R$8</strong> = ?</div>
+    <div class="draw-box">
+      <div class="draw-title">✏️ Monte a conta aqui (D | U):</div>
+      <textarea class="draw-inner" rows="3" placeholder="  D | U&#10;  1 | 5&#10;+ 0 | 8&#10;_____&#10;  ? | ?"></textarea>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q15')"><span class="cltr">A</span> R$22,00</button>
+      <button class="cbtn" onclick="sel(this,'q15')"><span class="cltr">B</span> R$23,00</button>
+      <button class="cbtn" onclick="sel(this,'q15')"><span class="cltr">C</span> R$7,00</button>
+      <button class="cbtn" onclick="sel(this,'q15')"><span class="cltr">D</span> R$25,00</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(2)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 3 de 4<br>🟢 Compras</div>
+    <button class="nbtn" onclick="goTo(4)">Proxima &#8594;</button>
+  </div>
+</div>
+
+<!-- PAG 4: MISTURADO -->
+<div class="page m7" id="p4">
+  <div class="ph"><div class="ph-badge">🎯</div><div><div class="ph-sub">Atencao as palavras!</div><div class="ph-title">🎯 Misturado: Troco + Compras</div></div></div>
+  <div class="formula">🔴 <span class="kw-t">TROCO</span> = paguei &minus; preco &nbsp;&nbsp; 🟢 <span class="kw-g">GASTO</span> = preco + preco</div>
+  <div class="card">
+    <div class="qnum">16</div>
+    <div class="qtxt">Ana <span class="kw-g">comprou</span> lanche <strong>R$12</strong> + suco <strong>R$8</strong>. Pagou <strong>R$25</strong>. Qual o <span class="kw-t">TROCO</span>?</div>
+    <div class="draw-box">
+      <div class="draw-title">✏️ Passo 1: R$12+R$8 = R$__ &nbsp; Passo 2: R$25 - R$__ = R$__</div>
+      <textarea class="draw-inner" rows="2" placeholder="Calcule os dois passos..."></textarea>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q16')"><span class="cltr">A</span> R$5,00</button>
+      <button class="cbtn" onclick="sel(this,'q16')"><span class="cltr">B</span> R$20,00</button>
+      <button class="cbtn" onclick="sel(this,'q16')"><span class="cltr">C</span> R$15,00</button>
+      <button class="cbtn" onclick="sel(this,'q16')"><span class="cltr">D</span> R$3,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">17</div>
+    <div class="qtxt">Bala custa <strong>R$2</strong>. <span class="kw-g">Comprei</span> 3 balas. Quanto <span class="kw-g">gastei</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q17')"><span class="cltr">A</span> R$5,00</button>
+      <button class="cbtn" onclick="sel(this,'q17')"><span class="cltr">B</span> R$6,00</button>
+      <button class="cbtn" onclick="sel(this,'q17')"><span class="cltr">C</span> R$8,00</button>
+      <button class="cbtn" onclick="sel(this,'q17')"><span class="cltr">D</span> R$2,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">18</div>
+    <div class="qtxt">Livro <span class="kw-g">custa</span> <strong>R$42</strong>. Paguei <strong>R$50</strong>. <span class="kw-t">TROCO</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q18')"><span class="cltr">A</span> R$92,00</button>
+      <button class="cbtn" onclick="sel(this,'q18')"><span class="cltr">B</span> R$2,00</button>
+      <button class="cbtn" onclick="sel(this,'q18')"><span class="cltr">C</span> R$8,00</button>
+      <button class="cbtn" onclick="sel(this,'q18')"><span class="cltr">D</span> R$12,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">19</div>
+    <div class="qtxt">Lucas tem <strong>R$50</strong>. <span class="kw-g">Comprou</span> carrinho <strong>R$32</strong>. Quanto <span class="kw-t">sobrou</span>?</div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q19')"><span class="cltr">A</span> R$82,00</button>
+      <button class="cbtn" onclick="sel(this,'q19')"><span class="cltr">B</span> R$32,00</button>
+      <button class="cbtn" onclick="sel(this,'q19')"><span class="cltr">C</span> R$18,00</button>
+      <button class="cbtn" onclick="sel(this,'q19')"><span class="cltr">D</span> R$28,00</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="qnum">20</div>
+    <div class="qtxt">Maria <span class="kw-g">gastou</span> <strong>R$15</strong> na padaria e <strong>R$22</strong> no mercado. Pagou com <strong>R$50</strong>. <span class="kw-t">TROCO</span>?</div>
+    <div class="draw-box">
+      <div class="draw-title">✏️ Passo 1: R$15+R$22 = R$__ &nbsp; Passo 2: R$50 - R$__ = R$__</div>
+      <textarea class="draw-inner" rows="3" placeholder="Calcule aqui..."></textarea>
+    </div>
+    <div class="choices">
+      <button class="cbtn" onclick="sel(this,'q20')"><span class="cltr">A</span> R$87,00</button>
+      <button class="cbtn" onclick="sel(this,'q20')"><span class="cltr">B</span> R$13,00</button>
+      <button class="cbtn" onclick="sel(this,'q20')"><span class="cltr">C</span> R$37,00</button>
+      <button class="cbtn" onclick="sel(this,'q20')"><span class="cltr">D</span> R$7,00</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nbtn bk" onclick="goTo(3)">&#8592; Voltar</button>
+    <div class="ninfo">Pagina 4 de 4<br>🎯 Misturado</div>
+    <button class="nbtn" onclick="goTo(5)">Finalizar 🎉</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="page" id="p5">
+  <div class="final">
+    <div style="font-size:80px">🎉💰⭐</div>
+    <h1>Parabens, Matheus!</h1>
+    <p style="font-size:20px">Voce terminou o Simulado de Dinheiro!</p>
+    <div id="scoreDiv" style="background:rgba(255,255,255,0.15);border-radius:16px;padding:16px 22px;width:100%;max-width:430px;font-size:18px;line-height:2;text-align:left;"></div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:14px 20px;max-width:380px;text-align:left;font-size:18px;line-height:2;">
+      🔴 <strong>TROCO</strong> = paguei &minus; preco<br>
+      🟢 <strong>GASTO</strong> = preco + preco<br>
+      💰 R$10 azul &bull; R$20 vermelho &bull; R$50 laranja
+    </div>
+    <button class="btn-start" onclick="goTo(0)">&#8592; Recomecar</button>
+  </div>
+</div>
+
+<script>
+var selected = {};
+var correct = {
+  q1:'B', q2:'C', q3:'B', q4:'C', q5:'A',
+  q6:'C', q7:'C', q8:'B', q9:'C', q10:'C',
+  q11:'B', q12:'C', q13:'B', q14:'B', q15:'B',
+  q16:'A', q17:'B', q18:'C', q19:'C', q20:'B'
+};
+var qLabel = {
+  q1:'Q1 - Cedula azul', q2:'Q2 - Cedula vermelha', q3:'Q3 - R$10+R$10+R$5',
+  q4:'Q4 - R$50+R$20', q5:'Q5 - Como fazer R$17',
+  q6:'Q6 - Troco sorvete', q7:'Q7 - Troco biscoito', q8:'Q8 - Troco brinquedo',
+  q9:'Q9 - Troco lanche', q10:'Q10 - Troco revista',
+  q11:'Q11 - Gasto maca+suco', q12:'Q12 - Gasto camiseta+tenis',
+  q13:'Q13 - Gasto pipoca+refri+agua', q14:'Q14 - Pedro tem dinheiro?',
+  q15:'Q15 - R$15+R$8', q16:'Q16 - Troco Ana', q17:'Q17 - 3 balas',
+  q18:'Q18 - Troco livro', q19:'Q19 - Lucas sobrou', q20:'Q20 - Maria troco'
+};
+
+function goTo(n) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var t = document.getElementById('p' + n);
+  if (t) { t.classList.add('active'); t.scrollTop = 0; }
+  if (n === 5) calcScore();
+}
+
+function sel(btn, grp) {
+  var par = btn.closest('.choices');
+  par.querySelectorAll('.cbtn').forEach(function(b) { b.classList.remove('sel'); });
+  btn.classList.add('sel');
+  var ltr = btn.querySelector('.cltr');
+  if (ltr) selected[grp] = ltr.textContent.trim();
+}
+
+function calcScore() {
+  var div = document.getElementById('scoreDiv');
+  if (!div) return;
+  var qs = Object.keys(correct);
+  var acertos = 0;
+  var html = '<div style="font-size:19px;font-weight:bold;margin-bottom:8px">📊 Resultado:</div>';
+  qs.forEach(function(q) {
+    var resp = selected[q] || '—';
+    var ok = resp === correct[q];
+    if (ok) acertos++;
+    html += (ok ? '✅' : '❌') + ' ' + qLabel[q] + (ok ? '' : ' <em>(certo: ' + correct[q] + ')</em>') + '<br>';
+  });
+  var pct = Math.round(acertos/qs.length*100);
+  html += '<div style="margin-top:10px;font-size:22px;font-weight:bold">🏆 ' + acertos + '/' + qs.length + ' — ' + pct + '%</div>';
+  if (acertos === qs.length) html += '<div>Perfeito! Incrivel! 🌟</div>';
+  else if (pct >= 75) html += '<div>Muito bem! Voce ja entendeu! 💪</div>';
+  else if (pct >= 50) html += '<div>Bom esforco! Revise o TROCO! 📚</div>';
+  else html += '<div>Lembre: TROCO = paguei - preco! Vamos rever! 💰</div>';
+  div.innerHTML = html;
+}
+
+setTimeout(function() { goTo(0); }, 100);
+</script>
+</body>
+</html>
