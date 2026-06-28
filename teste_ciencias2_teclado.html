@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste de Ciências 2º Bimestre — Matheus</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Times New Roman', Times, serif; background: #f0f7f0; }
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+.header-p1 { background: linear-gradient(135deg, #2E7D32, #00897B); color: white; padding: 30px 20px 20px; text-align: center; }
+.header-p2 { background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; padding: 20px; text-align: center; }
+.header-p3 { background: linear-gradient(135deg, #00897B, #004D40); color: white; padding: 20px; text-align: center; }
+.header-p4 { background: linear-gradient(135deg, #E65100, #BF360C); color: white; padding: 20px; text-align: center; }
+.header-p5 { background: linear-gradient(135deg, #3949AB, #1A237E); color: white; padding: 20px; text-align: center; }
+.header-p6 { background: linear-gradient(135deg, #2E7D32, #3949AB); color: white; padding: 20px; text-align: center; }
+.header-p1 h1 { font-size: 2.2em; font-weight: bold; }
+h1.pt { font-size: 1.5em; font-weight: bold; }
+h2.ps { font-size: 1em; font-weight: normal; margin-top: 4px; opacity: 0.85; }
+.pn { font-size: 0.85em; opacity: 0.7; margin-top: 4px; }
+.hi { font-size: 2.8em; margin-bottom: 8px; }
+.content { padding: 20px; max-width: 800px; margin: 0 auto; }
+.field-row { display: flex; gap: 16px; margin: 16px 0; }
+.field-box { flex: 1; }
+.field-box label { font-size: 0.9em; font-weight: bold; color: #2E7D32; display: block; margin-bottom: 4px; }
+.questao { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); border-left: 5px solid #2E7D32; }
+.questao.teal { border-left-color: #00897B; }
+.questao.orange { border-left-color: #E65100; }
+.questao.indigo { border-left-color: #3949AB; }
+.qn { display: inline-block; background: #2E7D32; color: white; border-radius: 50%; width: 28px; height: 28px; text-align: center; line-height: 28px; font-weight: bold; font-size: 0.9em; margin-right: 8px; flex-shrink: 0; }
+.qn.t { background: #00897B; }
+.qn.o { background: #E65100; }
+.qn.i { background: #3949AB; }
+.qh { display: flex; align-items: flex-start; margin-bottom: 10px; }
+.qt { font-size: 1em; line-height: 1.5; flex: 1; }
+.alt { display: flex; align-items: flex-start; gap: 10px; margin: 6px 0; cursor: pointer; }
+.alt input { margin-top: 3px; width: 18px; height: 18px; cursor: pointer; accent-color: #2E7D32; }
+.ra { width: 100%; border: 2px solid #ccc; border-radius: 8px; padding: 8px; font-size: 1em; font-family: inherit; resize: vertical; margin-top: 6px; }
+.ra:focus { outline: none; border-color: #2E7D32; }
+.tabela { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.tabela th { background: #2E7D32; color: white; padding: 10px; text-align: center; font-size: 0.95em; }
+.tabela th.t { background: #00897B; }
+.tabela th.o { background: #E65100; }
+.tabela th.i { background: #3949AB; }
+.tabela td { border: 1px solid #ddd; padding: 8px; vertical-align: middle; }
+.tabela tr:nth-child(even) td { background: #f9f9f9; }
+.info-box { background: #E8F5E9; border-left: 4px solid #2E7D32; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; font-size: 0.95em; line-height: 1.7; }
+.info-box.t { background: #E0F2F1; border-left-color: #00897B; }
+.info-box.o { background: #FBE9E7; border-left-color: #E65100; }
+.info-box.i { background: #E8EAF6; border-left-color: #3949AB; }
+.draw-box { border: 3px dashed #2E7D32; border-radius: 12px; background: white; margin-top: 10px; padding: 10px; }
+.draw-box.t { border-color: #00897B; }
+.draw-box.o { border-color: #E65100; }
+.draw-box.i { border-color: #3949AB; }
+.draw-lbl { font-size: 0.85em; color: #888; margin-bottom: 6px; font-style: italic; }
+.draw-ta { width: 100%; border: none; resize: none; font-family: inherit; font-size: 0.95em; background: transparent; }
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: white; border-top: 3px solid #2E7D32; position: sticky; bottom: 0; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
+.btn { padding: 10px 24px; border: none; border-radius: 25px; font-size: 1em; font-weight: bold; cursor: pointer; font-family: inherit; }
+.btn-back { background: #e0e0e0; color: #555; }
+.btn-next { background: #2E7D32; color: white; }
+.btn-next:hover { background: #1B5E20; }
+</style>
+</head>
+<body>
+
+<!-- P1: CAPA -->
+<div class="page active" id="p1">
+  <div class="header-p1">
+    <div class="hi">🔬</div>
+    <h1>Ciências — 2º Bimestre</h1>
+    <p style="margin-top:6px; opacity:0.9;">Teste de Estudo — Matheus</p>
+  </div>
+  <div class="content">
+    <div class="info-box" style="text-align:center;">
+      🌎 Mod. 5: Componentes dos Ambientes &nbsp;|&nbsp; 🐾 Mod. 6: Conhecendo os Animais<br>
+      🌿 Mod. 7: Conhecendo as Plantas &nbsp;|&nbsp; 🌸 Mod. 8: Partes das Plantas
+    </div>
+    <div class="field-row">
+      <div class="field-box"><label>✏️ Meu nome:</label><textarea class="ra" rows="2" placeholder="Escreva seu nome..."></textarea></div>
+      <div class="field-box"><label>📅 Data:</label><textarea class="ra" rows="2" placeholder="Escreva a data..."></textarea></div>
+    </div>
+    <div class="questao">
+      <div class="qh"><span class="qn">1</span><span class="qt">Para começar: escreva <strong>2 seres vivos</strong> e <strong>2 elementos não vivos</strong> que você encontra no seu dia a dia!</span></div>
+      <p style="font-weight:bold;color:#2E7D32;margin:6px 0 3px;">🐾 Seres vivos:</p>
+      <textarea class="ra" rows="2" placeholder="Ex: cachorro, planta..."></textarea>
+      <p style="font-weight:bold;color:#00897B;margin:10px 0 3px;">🪨 Elementos não vivos:</p>
+      <textarea class="ra" rows="2" placeholder="Ex: pedra, casa..."></textarea>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-back" disabled>◀ Anterior</button>
+    <span style="font-size:0.85em;color:#777;">Página 1 de 6</span>
+    <button class="btn btn-next" onclick="ir('p2')">Próxima ▶</button>
+  </div>
+</div>
+
+<!-- P2: MÓDULO 5 -->
+<div class="page" id="p2">
+  <div class="header-p2">
+    <h1 class="pt">🌎 Módulo 5 — Componentes dos Ambientes</h1>
+    <h2 class="ps">Seres Vivos e Elementos Não Vivos</h2>
+    <div class="pn">Página 2 de 6</div>
+  </div>
+  <div class="content">
+    <div class="info-box">
+      Os ambientes são formados por <strong>seres vivos</strong> e <strong>elementos não vivos</strong>.<br>
+      Os seres vivos têm <strong>ciclo de vida</strong>: nascer → crescer → reproduzir → morrer.<br>
+      Elementos não vivos podem ser <strong>naturais</strong> (água, ar, solo, luz do sol) ou <strong>construídos</strong> (casa, rua).
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">2</span><span class="qt">Marque a alternativa <strong>correta</strong> sobre os seres vivos:</span></div>
+      <label class="alt"><input type="radio" name="q2"> A) Os seres vivos não precisam de água para sobreviver.</label>
+      <label class="alt"><input type="radio" name="q2"> B) Os seres vivos nascem, crescem, podem se reproduzir e morrem.</label>
+      <label class="alt"><input type="radio" name="q2"> C) As pedras e as rochas são exemplos de seres vivos.</label>
+      <label class="alt"><input type="radio" name="q2"> D) Os elementos não vivos também têm ciclo de vida.</label>
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">3</span><span class="qt">Classifique cada elemento escrevendo: <strong>SV</strong> (ser vivo), <strong>EN</strong> (não vivo natural) ou <strong>EC</strong> (não vivo construído):</span></div>
+      <table class="tabela">
+        <thead><tr><th>Elemento</th><th class="t">SV, EN ou EC?</th></tr></thead>
+        <tbody>
+          <tr><td>🌳 Árvore</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>💧 Água</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🏠 Casa</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐕 Cachorro</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🪨 Rocha</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🚗 Carro</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">4</span><span class="qt">Numere as etapas do <strong>ciclo de vida</strong> de um gato em ordem (1 a 4):</span></div>
+      <table class="tabela">
+        <thead><tr><th>Etapa</th><th>Ordem (1–4)</th></tr></thead>
+        <tbody>
+          <tr><td>😴 Morrer</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐣 Nascer</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐱 Reproduzir</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐈 Crescer</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">5</span><span class="qt">Quais são os <strong>4 elementos naturais não vivos</strong> essenciais para os seres vivos? Complete:</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">
+        <div>1. <textarea class="ra" style="height:36px;width:150px;display:inline-block;"></textarea></div>
+        <div>2. <textarea class="ra" style="height:36px;width:150px;display:inline-block;"></textarea></div>
+        <div>3. <textarea class="ra" style="height:36px;width:150px;display:inline-block;"></textarea></div>
+        <div>4. <textarea class="ra" style="height:36px;width:150px;display:inline-block;"></textarea></div>
+      </div>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">6</span><span class="qt">✏️ <strong>Descreva ou desenhe</strong> um ambiente mostrando pelo menos 1 ser vivo e 1 elemento não vivo. Nomeie cada um.</span></div>
+      <div class="draw-box">
+        <div class="draw-lbl">🎨 Meu ambiente — descreva o que você desenharia</div>
+        <textarea class="draw-ta" rows="5" placeholder="Que ambiente é? Que seres vivos tem? Que elementos não vivos tem?"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-back" onclick="ir('p1')">◀ Anterior</button>
+    <span style="font-size:0.85em;color:#777;">Página 2 de 6</span>
+    <button class="btn btn-next" onclick="ir('p3')">Próxima ▶</button>
+  </div>
+</div>
+
+<!-- P3: MÓDULO 6 ANIMAIS -->
+<div class="page" id="p3">
+  <div class="header-p3">
+    <h1 class="pt">🐾 Módulo 6 — Conhecendo os Animais</h1>
+    <h2 class="ps">Características, Ambientes, Locomoção e Corpo</h2>
+    <div class="pn">Página 3 de 6</div>
+  </div>
+  <div class="content">
+    <div class="info-box t">
+      Os animais: são seres vivos, têm ciclo de vida, <strong>não produzem o próprio alimento</strong> e a maioria se <strong>locomove</strong>.<br>
+      <strong>Terrestres</strong>: vivem na terra ou voam. <strong>Aquáticos</strong>: vivem na água.<br>
+      Coberturas: pelos, penas, escamas, carapaça, espinhos.
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">7</span><span class="qt">Marque a alternativa <strong>INCORRETA</strong> sobre os animais:</span></div>
+      <label class="alt"><input type="radio" name="q7"> A) A maioria dos animais é capaz de se locomover.</label>
+      <label class="alt"><input type="radio" name="q7"> B) Os animais não se reproduzem.</label>
+      <label class="alt"><input type="radio" name="q7"> C) Os animais têm ciclo de vida.</label>
+      <label class="alt"><input type="radio" name="q7"> D) Os animais se alimentam de outros seres vivos.</label>
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">8</span><span class="qt">Classifique em <strong>TERRESTRE</strong> ou <strong>AQUÁTICO</strong>:</span></div>
+      <table class="tabela">
+        <thead><tr><th class="t">Animal</th><th class="t">Terrestre ou Aquático?</th></tr></thead>
+        <tbody>
+          <tr><td>🦈 Tubarão</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🦁 Leão</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐬 Golfinho</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🦅 Águia</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐠 Peixe-palhaço</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐘 Elefante</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">9</span><span class="qt">Complete: como cada animal se <strong>locomove</strong>? <em>(voando, nadando, rastejando, andando, saltando)</em></span></div>
+      <table class="tabela">
+        <thead><tr><th>Animal</th><th>Locomoção</th></tr></thead>
+        <tbody>
+          <tr><td>🐍 Cobra</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🦋 Borboleta</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐟 Peixe</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🦘 Canguru</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐎 Cavalo</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">10</span><span class="qt">Ligue o animal à sua <strong>cobertura corporal</strong> escrevendo a letra:</span></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
+        <div style="flex:1;min-width:140px;">
+          <b style="color:#00897B;">Animais:</b><br>
+          1. Águia<br>2. Peixe<br>3. Cachorro<br>4. Caranguejo
+        </div>
+        <div style="flex:1;min-width:140px;">
+          <b style="color:#00897B;">Cobertura:</b><br>
+          A. Escamas<br>B. Pelos<br>C. Penas<br>D. Carapaça
+        </div>
+        <div style="flex:1;min-width:120px;">
+          <b style="color:#00897B;">Respostas:</b><br>
+          1→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          2→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          3→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          4→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">11</span><span class="qt">✏️ <strong>Descreva</strong> um animal aquático e um terrestre: nome, locomoção e cobertura do corpo.</span></div>
+      <div class="draw-box t" style="margin-bottom:10px;">
+        <div class="draw-lbl">🌊 Animal aquático:</div>
+        <textarea class="draw-ta" rows="3" placeholder="Nome: ___________ | Locomoção: ___________ | Cobertura: ___________"></textarea>
+      </div>
+      <div class="draw-box">
+        <div class="draw-lbl">🌍 Animal terrestre:</div>
+        <textarea class="draw-ta" rows="3" placeholder="Nome: ___________ | Locomoção: ___________ | Cobertura: ___________"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-back" onclick="ir('p2')">◀ Anterior</button>
+    <span style="font-size:0.85em;color:#777;">Página 3 de 6</span>
+    <button class="btn btn-next" onclick="ir('p4')">Próxima ▶</button>
+  </div>
+</div>
+
+<!-- P4: MÓDULO 6 ALIMENTAÇÃO -->
+<div class="page" id="p4">
+  <div class="header-p4">
+    <h1 class="pt">🍖 Módulo 6 — Alimentação dos Animais</h1>
+    <h2 class="ps">Herbívoros, Carnívoros e Onívoros</h2>
+    <div class="pn">Página 4 de 6</div>
+  </div>
+  <div class="content">
+    <div class="info-box o">
+      🌿 <strong>Herbívoro</strong>: come só plantas. Ex: vaca, coelho, girafa.<br>
+      🥩 <strong>Carnívoro</strong>: come só animais. Ex: leão, aranha, jacaré.<br>
+      🍽️ <strong>Onívoro</strong>: come plantas E animais. Ex: ser humano, macaco, porco.
+    </div>
+
+    <div class="questao orange">
+      <div class="qh"><span class="qn o">12</span><span class="qt">Classifique: <strong>HERBÍVORO</strong>, <strong>CARNÍVORO</strong> ou <strong>ONÍVORO</strong>:</span></div>
+      <table class="tabela">
+        <thead><tr><th class="o">Animal</th><th class="o">Classificação</th></tr></thead>
+        <tbody>
+          <tr><td>🦁 Leão</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐄 Vaca</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐵 Macaco</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🦒 Girafa</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐊 Jacaré</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🐷 Porco</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao orange">
+      <div class="qh"><span class="qn o">13</span><span class="qt">Um animal com <strong>dentes grandes e afiados</strong> provavelmente é:</span></div>
+      <label class="alt"><input type="radio" name="q13"> A) Herbívoro, porque come folhas macias.</label>
+      <label class="alt"><input type="radio" name="q13"> B) Carnívoro, porque precisa rasgar a carne das presas.</label>
+      <label class="alt"><input type="radio" name="q13"> C) Onívoro, porque come frutas com casca grossa.</label>
+      <label class="alt"><input type="radio" name="q13"> D) Herbívoro, porque seus dentes ajudam a roer raízes.</label>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">14</span><span class="qt">Marque <strong>V (verdadeiro)</strong> ou <strong>F (falso)</strong>:</span></div>
+      <table class="tabela">
+        <thead><tr><th>Afirmação</th><th style="width:70px;">V ou F</th></tr></thead>
+        <tbody>
+          <tr><td>Os animais produzem o próprio alimento como as plantas.</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>Os herbívoros se alimentam somente de plantas.</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>O ser humano é um exemplo de animal onívoro.</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>O bico do beija-flor é longo para alcançar o néctar das flores.</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>A aranha é um animal herbívoro.</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao orange">
+      <div class="qh"><span class="qn o">15</span><span class="qt">Qual é o animal descrito? • Ambiente: terrestre • Locomoção: voo • Alimentação: frutas e sangue • Cobertura: pelos</span></div>
+      <textarea class="ra" rows="2" placeholder="O animal descrito é: ___________"></textarea>
+    </div>
+
+    <div class="questao orange">
+      <div class="qh"><span class="qn o">16</span><span class="qt">✏️ Escreva sobre seu animal favorito: nome, se é herbívoro/carnívoro/onívoro, onde vive e como se locomove.</span></div>
+      <div class="draw-box o">
+        <div class="draw-lbl">🎨 Meu animal favorito</div>
+        <textarea class="draw-ta" rows="5" placeholder="Nome: ___________&#10;Come: ___________&#10;Vive: ___________&#10;Locomove-se: ___________"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-back" onclick="ir('p3')">◀ Anterior</button>
+    <span style="font-size:0.85em;color:#777;">Página 4 de 6</span>
+    <button class="btn btn-next" onclick="ir('p5')">Próxima ▶</button>
+  </div>
+</div>
+
+<!-- P5: MÓDULO 7 PLANTAS -->
+<div class="page" id="p5">
+  <div class="header-p5">
+    <h1 class="pt">🌿 Módulo 7 — Conhecendo as Plantas</h1>
+    <h2 class="ps">Características, Variedade e Ciclo de Vida</h2>
+    <div class="pn">Página 5 de 6</div>
+  </div>
+  <div class="content">
+    <div class="info-box i">
+      As plantas: têm ciclo de vida, <strong>não se locomovem</strong> e <strong>produzem o próprio alimento</strong>.<br>
+      <strong>Aquáticas</strong>: vitória-régia. <strong>Terrestres</strong>: ipê, cacto.<br>
+      Por tamanho: rasteiras (grama) → arbustos (azaleia) → árvores (sequoia).
+    </div>
+
+    <div class="questao indigo">
+      <div class="qh"><span class="qn i">17</span><span class="qt">Marque a alternativa <strong>correta</strong> sobre as plantas:</span></div>
+      <label class="alt"><input type="radio" name="q17"> A) As plantas se alimentam de outros animais, como os carnívoros.</label>
+      <label class="alt"><input type="radio" name="q17"> B) As plantas produzem o próprio alimento e não se locomovem.</label>
+      <label class="alt"><input type="radio" name="q17"> C) As plantas não têm ciclo de vida.</label>
+      <label class="alt"><input type="radio" name="q17"> D) As plantas só vivem em ambientes terrestres.</label>
+    </div>
+
+    <div class="questao indigo">
+      <div class="qh"><span class="qn i">18</span><span class="qt">Classifique as plantas por <strong>tamanho</strong> (rasteira, arbusto ou árvore) e <strong>ambiente</strong> (aquática ou terrestre):</span></div>
+      <table class="tabela">
+        <thead><tr><th class="i">Planta</th><th class="i">Tamanho</th><th class="i">Ambiente</th></tr></thead>
+        <tbody>
+          <tr><td>🌊 Vitória-régia</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🌾 Grama</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🌳 Ipê-amarelo</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🌸 Azaleia</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">19</span><span class="qt">Compare plantas e animais. Escreva <strong>S (sim)</strong> ou <strong>N (não)</strong>:</span></div>
+      <table class="tabela">
+        <thead><tr><th>Característica</th><th>Plantas</th><th>Animais</th></tr></thead>
+        <tbody>
+          <tr><td>Têm ciclo de vida</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>Produzem o próprio alimento</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>Se locomovem</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>São seres vivos</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao indigo">
+      <div class="qh"><span class="qn i">20</span><span class="qt">Numere as etapas do ciclo de vida de uma planta em ordem (1 a 5):</span></div>
+      <table class="tabela">
+        <thead><tr><th class="i">Etapa</th><th class="i">Ordem</th></tr></thead>
+        <tbody>
+          <tr><td>🌺 Reprodução (flores e frutos)</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🌱 Germinação</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🍑 Fruto com semente</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🌿 Crescimento</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+          <tr><td>🍂 Morte</td><td><textarea class="ra" rows="1" style="height:36px;"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="questao indigo">
+      <div class="qh"><span class="qn i">21</span><span class="qt">✏️ <strong>Descreva</strong> as etapas do ciclo de vida de uma planta, desde a semente até a fase adulta:</span></div>
+      <div class="draw-box i">
+        <div class="draw-lbl">🌱 Ciclo de vida de uma planta</div>
+        <textarea class="draw-ta" rows="6" placeholder="1ª etapa: ___________ 2ª etapa: ___________ 3ª etapa: ___________ 4ª etapa: ___________ 5ª etapa: ___________"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-back" onclick="ir('p4')">◀ Anterior</button>
+    <span style="font-size:0.85em;color:#777;">Página 5 de 6</span>
+    <button class="btn btn-next" onclick="ir('p6')">Próxima ▶</button>
+  </div>
+</div>
+
+<!-- P6: MÓDULO 8 PARTES DAS PLANTAS -->
+<div class="page" id="p6">
+  <div class="header-p6">
+    <h1 class="pt">🌸 Módulo 8 — Partes das Plantas</h1>
+    <h2 class="ps">Raiz, Caule, Folha, Flor, Fruto e Semente</h2>
+    <div class="pn">Página 6 de 6</div>
+  </div>
+  <div class="content">
+    <div class="info-box">
+      🌱 <strong>Raiz</strong>: fixa a planta e absorve água e nutrientes.<br>
+      🌿 <strong>Caule</strong>: transporta água e nutrientes; sustentação.<br>
+      🍃 <strong>Folha</strong>: respiração, transpiração e produção de alimento.<br>
+      🌸 <strong>Flor</strong>: reprodução — gera frutos e sementes.<br>
+      🍎 <strong>Fruto</strong>: protege e nutre as sementes.<br>
+      🫘 <strong>Semente</strong>: germinação → nova planta.
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">22</span><span class="qt">Ligue cada parte da planta à sua função escrevendo a letra:</span></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
+        <div style="flex:1;min-width:140px;">
+          <b style="color:#2E7D32;">Partes:</b><br>
+          1. 🌱 Raiz<br>2. 🌿 Caule<br>3. 🍃 Folha<br>4. 🌸 Flor<br>5. 🍎 Fruto
+        </div>
+        <div style="flex:1;min-width:160px;">
+          <b style="color:#2E7D32;">Funções:</b><br>
+          A. Produz o alimento da planta<br>
+          B. Protege e nutre a semente<br>
+          C. Reprodução do vegetal<br>
+          D. Absorve água e nutrientes<br>
+          E. Transporta água e nutrientes
+        </div>
+        <div style="flex:1;min-width:110px;">
+          <b style="color:#2E7D32;">Respostas:</b><br>
+          1→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          2→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          3→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          4→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea><br>
+          5→<textarea class="ra" style="height:30px;width:55px;display:inline-block;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">23</span><span class="qt">Marque a alternativa que indica uma <strong>função do caule</strong>:</span></div>
+      <label class="alt"><input type="radio" name="q23"> A) Absorver água e nutrientes do solo.</label>
+      <label class="alt"><input type="radio" name="q23"> B) Produzir o alimento da planta.</label>
+      <label class="alt"><input type="radio" name="q23"> C) Transportar água e nutrientes para toda a planta.</label>
+      <label class="alt"><input type="radio" name="q23"> D) Proteger a planta de predadores.</label>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">24</span><span class="qt">Complete as frases com: <em>raiz, caule, folha, flor, fruto, semente, germinação</em></span></div>
+      <p style="margin:8px 0 3px;">a) A cenoura é uma ______________ que contém muitos nutrientes.</p>
+      <textarea class="ra" rows="1" style="height:36px;" placeholder="Parte da planta..."></textarea>
+      <p style="margin:10px 0 3px;">b) A flor é responsável pela ______________ da planta.</p>
+      <textarea class="ra" rows="1" style="height:36px;" placeholder="Função..."></textarea>
+      <p style="margin:10px 0 3px;">c) O processo pelo qual a semente se transforma em nova planta chama-se ______________.</p>
+      <textarea class="ra" rows="1" style="height:36px;" placeholder="Nome do processo..."></textarea>
+      <p style="margin:10px 0 3px;">d) O ______________ sustenta a planta e transporta os nutrientes para todas as partes.</p>
+      <textarea class="ra" rows="1" style="height:36px;" placeholder="Parte da planta..."></textarea>
+    </div>
+
+    <div class="questao teal">
+      <div class="qh"><span class="qn t">25</span><span class="qt">O macaco come banana. A banana é qual parte da planta?</span></div>
+      <label class="alt"><input type="radio" name="q25"> A) Uma raiz.</label>
+      <label class="alt"><input type="radio" name="q25"> B) Um fruto.</label>
+      <label class="alt"><input type="radio" name="q25"> C) Uma folha.</label>
+      <label class="alt"><input type="radio" name="q25"> D) Uma semente.</label>
+    </div>
+
+    <div class="questao">
+      <div class="qh"><span class="qn">26</span><span class="qt">✏️ <strong>Descreva uma planta completa</strong>, identificando cada uma das suas 6 partes e as funções delas.</span></div>
+      <div class="draw-box">
+        <div class="draw-lbl">🌳 Minha planta completa — identifique as 6 partes</div>
+        <textarea class="draw-ta" rows="7" placeholder="🌱 Raiz: ___________&#10;🌿 Caule: ___________&#10;🍃 Folha: ___________&#10;🌸 Flor: ___________&#10;🍎 Fruto: ___________&#10;🫘 Semente: ___________"></textarea>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px;background:linear-gradient(135deg,#E8F5E9,#E0F2F1);border-radius:12px;margin-top:16px;">
+      <p style="font-size:1.3em;font-weight:bold;color:#2E7D32;">🎉 Parabéns, Matheus! Teste concluído! 🔬</p>
+      <p style="color:#555;margin-top:6px;">Revise suas respostas com calma. Muito bem! 🌟</p>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn btn-back" onclick="ir('p5')">◀ Anterior</button>
+    <span style="font-size:0.85em;color:#777;">Página 6 de 6 ✓</span>
+    <button class="btn btn-next" style="background:#888;cursor:default;" disabled>Fim ✓</button>
+  </div>
+</div>
+
+<script>
+function ir(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
